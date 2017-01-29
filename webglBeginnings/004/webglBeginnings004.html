@@ -1,0 +1,47 @@
+<!doctype HTML>
+
+<html>
+<head>
+  <title>IC3 Dimensions | WebGL Beginnings 004</title>
+  <link rel="stylesheet" href="css/webglBeginnings004.css">
+</head>
+<body>
+  <canvas id="canvas" width="400" height="300"></canvas>
+  <script id="shader-vs" type="x-shader/x-vertex">
+    // attribute to receive position data from buffer
+    attribute vec2 a_position;
+    uniform vec2 u_resolution;
+    varying vec4 v_color;
+
+    void main() {
+      // convert the position from pixels to 0.0 to 1.0
+      vec2 zeroToOne = a_position / u_resolution;
+
+      // convert from 0->1 to 0->2
+      vec2 zeroToTwo = zeroToOne * 2.0;
+
+      // convert from 0->2 to -1->+1 (clipspace)
+      vec2 clipSpace = zeroToTwo - 1.0;
+
+      vec2 clipSpaceFlipped = clipSpace * vec2(1.0, -1.0);
+
+      // output position data
+      gl_Position = vec4(clipSpaceFlipped, 0.0, 1.0);
+
+      // go from -1->+1 (clipspace) to 0->+1 (colorspace)
+      v_color = vec4(clipSpace * 0.5 + 0.5, 0.0, 1.0);
+    }
+  </script>
+  <script id="shader-fs" type="x-shader/x-fragment">
+    // need to set default precision
+    precision mediump float;
+    varying vec4 v_color;
+
+    void main() {
+      // output static color
+      gl_FragColor = v_color.zxyw;
+    }
+  </script>
+  <script src="js/webglBeginnings004.js"></script>
+</body>
+</html>
