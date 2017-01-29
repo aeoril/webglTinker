@@ -56,12 +56,7 @@
     return Math.floor(Math.random() * range);
   }
 
-  function setRectangle (gl, x, y, width, height) {
-    var x1 = x;
-    var x2 = x + width;
-    var y1 = y;
-    var y2 = y + height;
-
+  function setRectangle (gl, x1, y1, x2, y2) {
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
       x1, y1,
       x2, y1,
@@ -119,8 +114,15 @@
 
       var ii;
 
+      var width;
+      var height;
+
       resizeCanvasToDisplaySize(gl);
+
       gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+
+      width = gl.canvas.width;
+      height = gl.canvas.height;
 
       gl.clearColor(0, 0, 0, 0);
       gl.clear(gl.COLOR_BUFFER_BIT);
@@ -143,7 +145,7 @@
 
       for (ii = 0; ii < 50; ++ii) {
         setRectangle(
-          gl, randomInt(300), randomInt(300), randomInt(300), randomInt(300));
+          gl, randomInt(width), randomInt(height), randomInt(width), randomInt(height));
         gl.uniform4f(
           colorUniformLocation, Math.random(), Math.random(), Math.random(), 1);
         gl.drawArrays(gl.TRIANGLES, drawArraysOffset, count);
