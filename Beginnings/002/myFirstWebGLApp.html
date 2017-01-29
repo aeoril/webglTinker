@@ -1,0 +1,40 @@
+<!doctype HTML>
+
+<html>
+<head>
+  <title>IC3 Dimensions | My First WebGL App</title>
+  <link rel="stylesheet" href="css/myFirstWebGLApp.css">
+</head>
+<body>
+  <canvas id="canvas" width="400" height="300"></canvas>
+  <script id="shader-vs" type="x-shader/x-vertex">
+    // attribute to receive position data from buffer
+    attribute vec2 a_position;
+    uniform vec2 u_resolution;
+
+    void main() {
+      // convert the position from pixels to 0.0 to 1.0
+      vec2 zeroToOne = a_position / u_resolution;
+
+      // convert from 0->1 to 0->2
+      vec2 zeroToTwo = zeroToOne * 2.0;
+
+      // convert from 0->2 to -1->+1 (clipspace)
+      vec2 clipSpace = zeroToTwo - 1.0;
+
+      // output position data
+      gl_Position = vec4(clipSpace, 0.0, 1.0);
+    }
+  </script>
+  <script id="shader-fs" type="x-shader/x-fragment">
+    // need to set default precision
+    precision mediump float;
+
+    void main() {
+      // output static color
+      gl_FragColor = vec4(1.0, 0.0, 0.5, 1.0); // reddish-purple
+    }
+  </script>
+  <script src="js/myFirstWebGLApp.js"></script>
+</body>
+</html>
