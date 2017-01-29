@@ -54,6 +54,18 @@
     }
   }
 
+  function initWebGL (canvasElem) {
+    var gl = null;
+
+    gl = canvasElem.getContext('webgl') || canvasElem.getContext('experimental-webgl');
+
+    if (!gl) {
+      throw new Error('canvasElem.getContext("webgl") returned ' + gl + ' - webgl may not be supported');
+    }
+
+    return gl;
+  }
+
   window.addEventListener('load', function () {
     var vertexShaderSource;
     var fragmentShaderSource;
@@ -107,11 +119,8 @@
     }
 
     canvasElem = document.getElementById('canvas');
-    gl = canvasElem.getContext('webgl');
 
-    if (!gl) {
-      throw new Error('canvasElem.getContext("webgl") returned null - webgl may not be supported');
-    }
+    gl = initWebGL(canvasElem);
 
     vertexShaderSource = document.getElementById('shader-vs').text;
     fragmentShaderSource = document.getElementById('shader-fs').text;

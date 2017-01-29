@@ -40,18 +40,30 @@
     return program;
   }
 
-  function resizeCanvasToDisplaySize (canvas) {
+  function resizeCanvasToDisplaySize (gl) {
     var realToCSSPixels = window.devicePixelRatio;
 
-    var displayWidth  = Math.floor(canvas.clientWidth * realToCSSPixels);
-    var displayHeight = Math.floor(canvas.clientHeight * realToCSSPixels);
+    var displayWidth  = Math.floor(gl.canvas.clientWidth * realToCSSPixels);
+    var displayHeight = Math.floor(gl.canvas.clientHeight * realToCSSPixels);
 
-    if (canvas.width !== displayWidth ||
-        canvas.height !== displayHeight) {
+    if (gl.canvas.width !== displayWidth ||
+        gl.canvas.height !== displayHeight) {
 
-      canvas.width = displayWidth;
-      canvas.height = displayHeight;
+      gl.canvas.width = displayWidth;
+      gl.canvas.height = displayHeight;
     }
+  }
+
+  function initWebGL (canvasElem) {
+    var gl = null;
+
+    gl = canvasElem.getContext('webgl') || canvasElem.getContext('experimental-webgl');
+
+    if (!gl) {
+      throw new Error('canvasElem.getContext("webgl") returned ' + gl + ' - webgl may not be supported');
+    }
+
+    return gl;
   }
 
   window.addEventListener('load', function () {
@@ -64,8 +76,9 @@
     var program;
 
     var positionAttributeLocation;
-    var positionBuffer;
+    var resolutionUniformLocation;
 
+    var positionBuffer;
     var positions;
 
     var canvasElem;
@@ -83,7 +96,7 @@
       var drawArraysOffset = 0;
       var count = 3;
 
-      resizeCanvasToDisplaySize(gl.canvas);
+      resizeCanvasToDisplaySize(gl);
       gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 
       gl.clearColor(0, 0, 0, 0);
@@ -103,15 +116,14 @@
       gl.vertexAttribPointer(
         positionAttributeLocation, size, type, normalize, stride, offset);
 
+      gl.uniform2f(resolutionUniformLocation, gl.canvas.width, gl.canvas.height);
+
       gl.drawArrays(primitiveType, drawArraysOffset, count);
     }
 
     canvasElem = document.getElementById('canvas');
-    gl = canvasElem.getContext('webgl');
 
-    if (!gl) {
-      throw new Error('canvasElem.getContext("webgl") returned null - webgl may not be supported');
-    }
+    gl = initWebGL(canvasElem);
 
     vertexShaderSource = document.getElementById('shader-vs').text;
     fragmentShaderSource = document.getElementById('shader-fs').text;
@@ -122,6 +134,7 @@
     program = createProgram(gl, vertexShader, fragmentShader);
 
     positionAttributeLocation = gl.getAttribLocation(program, 'a_position');
+    resolutionUniformLocation = gl.getUniformLocation(program, 'u_resolution');
 
     positionBuffer = gl.createBuffer();
 
@@ -129,9 +142,9 @@
 
     // Single triangle vertices in (x, y) clipspace coordinates
     positions = [
-      0.0, 0.0,
-      0.0, 0.5,
-      0.7, 0.0
+      10.0, 20.0,
+      80.0, 20.0,
+      10.0, 30.0
     ];
 
     // copy strongly typed positions array to GPU
