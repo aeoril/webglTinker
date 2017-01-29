@@ -150,6 +150,8 @@
     // copy strongly typed positions array to GPU
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
 
+    window.addEventListener('resize', render, false);
+    
     render();
 
   }, false);
