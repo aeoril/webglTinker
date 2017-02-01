@@ -4,40 +4,49 @@
 
   function XHRs (urlObjs, finish, progress, error, abort) {
 
-    var responsesObj = {};
+    var responsesObj = { badStatus: false };
+
+    function log (evt, that) {
+      console.log('XHRs Event log: type: ' + evt.type); console.log(that || this); console.log(evt);
+    }
 
     function XHR (url, load, progress, error, abort) {
 
       var oReq = new XMLHttpRequest();
 
-      if (load) {
-        oReq.addEventListener('load', load, false);
-      }
-      if (progress) {
-        oReq.addEventListener('progress', progress, false);
-      }
-      if (error) {
-        oReq.addEventListener('error', error, false);
-      }
-      if (abort) {
-        oReq.addEventListener('abort', abort, false);
-      }
+      load = load || log;
+      progress = progress || log;
+      error = error || log;
+      abort = abort || log;
+
+      oReq.addEventListener('load', load, false);
+      oReq.addEventListener('progress', progress, false);
+      oReq.addEventListener('error', error, false);
+      oReq.addEventListener('abort', abort, false);
+
       oReq.open('GET', url);
       oReq.send();
     }
 
-    function load (that, key, responsesObj) {
+    function load (evt, that, key, responsesObj) {
+
+      log(evt, that);
+
+      if (that.status !== 200) {
+        console.log('XHRs: load event for key ' + key + ' returned bad status: ' + that.status);
+        responsesObj.badStatus = true;
+      }
 
       responsesObj[key] = that.responseText;
 
-      if (Object.keys(responsesObj).length === urlObjs.length) {
+      if (Object.keys(responsesObj).length - 1 === urlObjs.length) {
         finish(responsesObj);
       }
     }
 
     urlObjs.forEach(function (urlObj) {
-      XHR(urlObj.url, function () {
-        load(this, urlObj.key, responsesObj);
+      XHR(urlObj.url, function (evt) {
+        load(evt, this, urlObj.key, responsesObj);
       }, progress, error, abort);
     });
   }
@@ -196,12 +205,13 @@
 
     function finish (responsesObj) {
 
+      if (responsesObj.badStatus) {
+        throw new Error('1 or more XHR loads had a bad status');
+      }
+
       canvasElem = document.getElementById('canvas');
 
       gl = initWebGL(canvasElem);
-
-//      vertexShaderSource = document.getElementById('shader-vs').text;
-//      fragmentShaderSource = document.getElementById('shader-fs').text;
 
       vertexShader = createShader(gl, gl.VERTEX_SHADER, responsesObj.VSSource);
       fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, responsesObj.FSSource);
