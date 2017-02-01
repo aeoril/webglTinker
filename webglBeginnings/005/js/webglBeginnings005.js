@@ -2,7 +2,9 @@
 
   'use strict';
 
-  function loadShaders (VSUrl, FSUrl, finish, progress, error, abort) {
+  function XHRs (urlObjs, finish, progress, error, abort) {
+
+    var responsesObj = {};
 
     function XHR (url, load, progress, error, abort) {
 
@@ -24,15 +26,20 @@
       oReq.send();
     }
 
-    if (finish) {
-      XHR(VSUrl, function () {
-        var VSSource = this.responseText;
-        XHR(FSUrl, function () {
-          var FSSource = this.responseText;
-          finish(VSSource, FSSource);
-        }, progress, error, abort);
-      }, progress, error, abort);
+    function load (that, key, responsesObj) {
+
+      responsesObj[key] = that.responseText;
+
+      if (Object.keys(responsesObj).length === urlObjs.length) {
+        finish(responsesObj);
+      }
     }
+
+    urlObjs.forEach(function (urlObj) {
+      XHR(urlObj.url, function () {
+        load(this, urlObj.key, responsesObj);
+      }, progress, error, abort);
+    });
   }
 
   function initWebGL (canvasElem) {
@@ -135,6 +142,11 @@
     var canvasElem;
     var gl;
 
+    var urlObjs = [
+      {key: 'VSSource', url: 'glsl/webglBeginningsVS005.glsl'},
+      {key: 'FSSource', url: 'glsl/webglBeginningsFS005.glsl'}
+    ];
+
     function render () {
 
       var size = 2;
@@ -182,7 +194,7 @@
       gl.drawArrays(gl.TRIANGLES, drawArraysOffset, count);
     }
 
-    function finish (VSSource, FSSource) {
+    function finish (responsesObj) {
 
       canvasElem = document.getElementById('canvas');
 
@@ -191,8 +203,8 @@
 //      vertexShaderSource = document.getElementById('shader-vs').text;
 //      fragmentShaderSource = document.getElementById('shader-fs').text;
 
-      vertexShader = createShader(gl, gl.VERTEX_SHADER, VSSource);
-      fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, FSSource);
+      vertexShader = createShader(gl, gl.VERTEX_SHADER, responsesObj.VSSource);
+      fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, responsesObj.FSSource);
 
       program = createProgram(gl, vertexShader, fragmentShader);
 
@@ -209,7 +221,7 @@
       render();
     }
 
-    loadShaders('glsl/webglBeginningsVS005.glsl',
-     'glsl/webglBeginningsFS005.glsl', finish);
+    XHRs(urlObjs, finish);
+
   }, false);
 }());
