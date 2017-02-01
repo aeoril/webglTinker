@@ -152,8 +152,8 @@
     var gl;
 
     var urlObjs = [
-      {key: 'VSSource', url: 'glsl/webglBeginningsVS005.glsl'},
-      {key: 'FSSource', url: 'glsl/webglBeginningsFS005.glsl'}
+      {key: 'VSSource', url: 'glsl/webglBeginnings005_vs.glsl'},
+      {key: 'FSSource', url: 'glsl/webglBeginnings005_fs.glsl'}
     ];
 
     function render () {
