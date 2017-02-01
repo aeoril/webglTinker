@@ -109,12 +109,12 @@
     var width = gl.canvas.width;
     var height = gl.canvas.height;
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
-      width * 0.0, height * 0.0,
-      width * 0.0, height * 1.0,
-      width * 1.0, height * 0.0,
-      width * 1.0, height * 0.0,
-      width * 1.0, height * 1.0,
-      width * 0.0, height * 1.0
+      width * 0.2, height * 0.2,
+      width * 0.2, height * 0.8,
+      width * 0.8, height * 0.2,
+      width * 0.8, height * 0.2,
+      width * 0.8, height * 0.8,
+      width * 0.2, height * 0.8
     ]), gl.STATIC_DRAW);
   }
 
