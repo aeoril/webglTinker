@@ -2,38 +2,38 @@
 
   'use strict';
 
-  function XHRs (urlObjs, finish, progress, error, abort) {
+  function textGets (urlObjs, finish, progress, error, abort) {
 
     var responsesObj = { badStatus: false };
 
     function log (evt, that) {
-      console.log('XHRs Event log: type: ' + evt.type); console.log(that || this); console.log(evt);
+      console.log('textGets Event log: type: ' + evt.type); console.log(that || this); console.log(evt);
     }
 
-    function XHR (url, load, progress, error, abort) {
+    function get (url, load, progress, error, abort) {
 
-      var oReq = new XMLHttpRequest();
+      var xhr = new XMLHttpRequest();
 
       load = load || log;
       progress = progress || log;
       error = error || log;
       abort = abort || log;
 
-      oReq.addEventListener('load', load, false);
-      oReq.addEventListener('progress', progress, false);
-      oReq.addEventListener('error', error, false);
-      oReq.addEventListener('abort', abort, false);
+      xhr.addEventListener('load', load, false);
+      xhr.addEventListener('progress', progress, false);
+      xhr.addEventListener('error', error, false);
+      xhr.addEventListener('abort', abort, false);
 
-      oReq.open('GET', url);
-      oReq.send();
+      xhr.open('GET', url);
+      xhr.send();
     }
 
     function load (evt, that, key, responsesObj) {
 
       log(evt, that);
 
-      if (that.status !== 200) {
-        console.log('XHRs: load event for key ' + key + ' returned bad status: ' + that.status);
+      if (that.status !== 200 || !that.responseText) {
+        console.log('textGets: load event for key ' + key + ' returned bad status or empty response text');
         responsesObj.badStatus = true;
       }
 
@@ -45,7 +45,7 @@
     }
 
     urlObjs.forEach(function (urlObj) {
-      XHR(urlObj.url, function (evt) {
+      get(urlObj.url, function (evt) {
         load(evt, this, urlObj.key, responsesObj);
       }, progress, error, abort);
     });
@@ -206,7 +206,7 @@
     function finish (responsesObj) {
 
       if (responsesObj.badStatus) {
-        throw new Error('1 or more XHR loads had a bad status');
+        throw new Error('1 or more get loads had a bad status');
       }
 
       canvasElem = document.getElementById('canvas');
@@ -231,7 +231,7 @@
       render();
     }
 
-    XHRs(urlObjs, finish);
+    textGets(urlObjs, finish);
 
   }, false);
 }());
