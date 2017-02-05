@@ -64,6 +64,8 @@
 
     var count;
 
+    var rafID = null;
+
     var urlObjs = [
       {key: 'VSSource', url: 'glsl/webglBeginnings007_vs.glsl'},
       {key: 'FSSource', url: 'glsl/webglBeginnings007_fs.glsl'}
@@ -129,6 +131,8 @@
       primitiveType = gl.TRIANGLES;
 
       gl.drawArrays(gl.TRIANGLES, offset, count);
+
+      rafID = null;
     }
 
     function finish (responsesObj) {
@@ -153,7 +157,11 @@
       colorBuffer = gl.createBuffer();
       positionBuffer = gl.createBuffer();
 
-      window.addEventListener('resize', render, false);
+      window.addEventListener('resize', function () {
+        if (rafID === null) {
+          rafID = window.requestAnimationFrame(render);
+        }
+      }, false);
 
       render();
     }
