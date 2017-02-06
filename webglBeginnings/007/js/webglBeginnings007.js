@@ -64,7 +64,7 @@
 
     var count;
 
-    var rafID = null;
+    var throttledRender;
 
     var urlObjs = [
       {key: 'VSSource', url: 'glsl/webglBeginnings007_vs.glsl'},
@@ -131,8 +131,6 @@
       primitiveType = gl.TRIANGLES;
 
       gl.drawArrays(gl.TRIANGLES, offset, count);
-
-      rafID = null;
     }
 
     function finish (responsesObj) {
@@ -157,11 +155,10 @@
       colorBuffer = gl.createBuffer();
       positionBuffer = gl.createBuffer();
 
-      window.addEventListener('resize', function () {
-        if (rafID === null) {
-          rafID = window.requestAnimationFrame(render);
-        }
-      }, false);
+      throttledRender = tinyThrottle(render);
+
+      window.addEventListener('resize', throttledRender, false);
+      window.addEventListener('mousedown',throttledRender, false);
 
       render();
     }
