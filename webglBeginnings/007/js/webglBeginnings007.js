@@ -83,15 +83,9 @@
 
       var ii;
 
-      var width;
-      var height;
-
       webglUtils.resizeCanvasToDisplaySize(gl);
 
       gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-
-      width = gl.canvas.width;
-      height = gl.canvas.height;
 
       gl.clearColor(0, 0, 0, 0);
       gl.clear(gl.COLOR_BUFFER_BIT);
@@ -155,7 +149,7 @@
       colorBuffer = gl.createBuffer();
       positionBuffer = gl.createBuffer();
 
-      throttledRender = tinyThrottle(render);
+      throttledRender = renderThrottle(render, true);
 
       window.addEventListener('resize', throttledRender, false);
       window.addEventListener('mousedown',throttledRender, false);
