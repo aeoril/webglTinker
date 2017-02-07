@@ -1,27 +1,30 @@
-function rAFAnimate (animate, continuous) {
+var rAFAnimate = (function () {
   'use strict';
 
-  var self = rAFAnimate;
+  var ID;
 
-  if ('_ID' in self) {
-    throw new Error('Only call rAFAnimate once.  Works with 1 function only');
-  }
+  return function (animate, continuous) {
 
-  self._ID = null;
-
-  function innerAnimateRAFed() {
-    if (self._ID === null) {
-      self._ID = window.requestAnimationFrame(function rAFCallee(timestamp) {
-        self._ID = null;
-        animate(timestamp);
-        if (innerAnimateRAFed.continuous) {
-          self._ID = window.requestAnimationFrame(rAFCallee);
-        }
-      });
+    if (ID !== undefined) {
+      throw new Error('Only call rAFAnimate once.  Works with 1 function only');
     }
-  }
-  
-  innerAnimateRAFed.continuous = continuous;
 
-  return innerAnimateRAFed;
-}
+    ID = null;
+
+    function innerAnimateRAFed() {
+      if (ID === null) {
+        ID = window.requestAnimationFrame(function rAFCallee(timestamp) {
+          ID = null;
+          animate(timestamp);
+          if (innerAnimateRAFed.continuous) {
+            ID = window.requestAnimationFrame(rAFCallee);
+          }
+        });
+      }
+    }
+
+    innerAnimateRAFed.continuous = continuous;
+
+    return innerAnimateRAFed;
+  };
+}());

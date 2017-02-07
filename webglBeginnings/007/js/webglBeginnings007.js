@@ -148,8 +148,8 @@
       colorBuffer = gl.createBuffer();
       positionBuffer = gl.createBuffer();
 
-      //animateRAFed = rAFAnimate(animate);
-      animateRAFed = rAFAnimate(animate, true);
+      animateRAFed = rAFAnimate(animate);
+      //animateRAFed = rAFAnimate(animate, true);
 
       window.addEventListener('resize', animateRAFed, false);
       window.addEventListener('mousedown', function () {
