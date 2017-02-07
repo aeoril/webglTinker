@@ -1,5 +1,4 @@
 var mathExtras = (function () {
-
   'use strict';
 
   return {

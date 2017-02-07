@@ -1,5 +1,4 @@
 var webglUtils = (function () {
-  
   'use strict';
 
   return {
@@ -14,6 +13,7 @@ var webglUtils = (function () {
 
       return gl;
     },
+
     createShader:  function (gl, type, source) {
       var success;
       var shaderInfoLog;
@@ -31,6 +31,7 @@ var webglUtils = (function () {
       }
       return shader;
     },
+
     createProgram: function (gl, vertexShader, fragmentShader) {
       var success;
       var programInfoLog;
@@ -50,6 +51,7 @@ var webglUtils = (function () {
 
       return program;
     },
+    
     resizeCanvasToDisplaySize: function (gl) {
       var realToCSSPixels = window.devicePixelRatio;
 

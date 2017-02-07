@@ -1,7 +1,6 @@
 var xhr = (function () {
-
   'use strict';
-  
+
   return {
     textGets: function (urlObjs, finish, progress, error, abort) {
 

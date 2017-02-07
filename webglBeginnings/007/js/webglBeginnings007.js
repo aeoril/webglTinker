@@ -1,5 +1,4 @@
 (function () {
-
   'use strict';
 
   function setGeometry (gl) {
@@ -64,14 +63,14 @@
 
     var count;
 
-    var renderRAFed;
+    var animateRAFed;
 
     var urlObjs = [
       {key: 'VSSource', url: 'glsl/webglBeginnings007_vs.glsl'},
       {key: 'FSSource', url: 'glsl/webglBeginnings007_fs.glsl'}
     ];
 
-    function render () {
+    function animate () {
 
       var size;
       var type;
@@ -149,18 +148,18 @@
       colorBuffer = gl.createBuffer();
       positionBuffer = gl.createBuffer();
 
-      //renderRAFed = rAFRender(render);
-      renderRAFed = rAFRender(render, true);
+      //animateRAFed = rAFAnimate(animate);
+      animateRAFed = rAFAnimate(animate, true);
 
-      window.addEventListener('resize', renderRAFed, false);
+      window.addEventListener('resize', animateRAFed, false);
       window.addEventListener('mousedown', function () {
-        renderRAFed.continuous = !renderRAFed.continuous;
-        if (renderRAFed.continuous) {
-          renderRAFed();
+        animateRAFed.continuous = !animateRAFed.continuous;
+        if (animateRAFed.continuous) {
+          animateRAFed();
         }
       }, false);
 
-      renderRAFed();
+      animateRAFed();
     }
 
     xhr.textGets(urlObjs, finish);
