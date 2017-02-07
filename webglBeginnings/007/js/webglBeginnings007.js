@@ -147,7 +147,7 @@
       positionBuffer = gl.createBuffer();
 
       var animateRAFed = rAFAnimate(animate);
-      //animateRAFed = rAFAnimate(animate, true);
+      //var animateRAFed = rAFAnimate(animate, true);
 
       window.addEventListener('resize', animateRAFed, false);
       window.addEventListener('mousedown', function () {
