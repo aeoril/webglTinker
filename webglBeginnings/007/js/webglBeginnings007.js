@@ -146,29 +146,18 @@
       colorBuffer = gl.createBuffer();
       positionBuffer = gl.createBuffer();
 
-      var animateRAFed1 = rAFAnimate(function(timestamp) {
-        console.log('1: ' + timestamp);
-      }, false);
-
-      var animateRAFed2 = rAFAnimate(function(timestamp) {
-        console.log('2: ' + timestamp);
-      }, false);
-
-      animateRAFed1();
-      animateRAFed2();
-
-      //animateRAFed = rAFAnimate(animate);
+      var animateRAFed = rAFAnimate(animate);
       //animateRAFed = rAFAnimate(animate, true);
 
-      //window.addEventListener('resize', animateRAFed, false);
-      //window.addEventListener('mousedown', function () {
-      //  animateRAFed.continuous = !animateRAFed.continuous;
-      //  if (animateRAFed.continuous) {
-      //   animateRAFed();
-      //  }
-      //}, false);
+      window.addEventListener('resize', animateRAFed, false);
+      window.addEventListener('mousedown', function () {
+        animateRAFed.continuous = !animateRAFed.continuous;
+        if (animateRAFed.continuous) {
+         animateRAFed();
+        }
+      }, false);
 
-      //animateRAFed();
+      animateRAFed();
     }
 
     xhr.textGets(urlObjs, finish);
