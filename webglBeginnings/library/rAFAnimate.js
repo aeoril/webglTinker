@@ -3,9 +3,7 @@ function rAFAnimate (animate, continuous) {
 
   return (function () {
 
-    var ID;
-
-    ID = null;
+    var ID = null;
 
     function innerAnimateRAFed() {
       if (ID === null) {
