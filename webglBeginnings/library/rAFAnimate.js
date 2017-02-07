@@ -5,10 +5,6 @@ function rAFAnimate (animate, continuous) {
 
     var ID;
 
-    //if (ID !== undefined) {
-    //  throw new Error('Only call rAFAnimate once.  Works with 1 function only');
-    //}
-
     ID = null;
 
     function innerAnimateRAFed() {
