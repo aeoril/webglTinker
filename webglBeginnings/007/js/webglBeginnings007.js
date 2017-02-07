@@ -63,8 +63,6 @@
 
     var count;
 
-    var animateRAFed;
-
     var urlObjs = [
       {key: 'VSSource', url: 'glsl/webglBeginnings007_vs.glsl'},
       {key: 'FSSource', url: 'glsl/webglBeginnings007_fs.glsl'}
@@ -148,18 +146,29 @@
       colorBuffer = gl.createBuffer();
       positionBuffer = gl.createBuffer();
 
-      animateRAFed = rAFAnimate(animate);
-      //animateRAFed = rAFAnimate(animate, true);
-
-      window.addEventListener('resize', animateRAFed, false);
-      window.addEventListener('mousedown', function () {
-        animateRAFed.continuous = !animateRAFed.continuous;
-        if (animateRAFed.continuous) {
-          animateRAFed();
-        }
+      var animateRAFed1 = rAFAnimate(function(timestamp) {
+        console.log('1: ' + timestamp);
       }, false);
 
-      animateRAFed();
+      var animateRAFed2 = rAFAnimate(function(timestamp) {
+        console.log('2: ' + timestamp);
+      }, false);
+
+      animateRAFed1();
+      animateRAFed2();
+
+      //animateRAFed = rAFAnimate(animate);
+      //animateRAFed = rAFAnimate(animate, true);
+
+      //window.addEventListener('resize', animateRAFed, false);
+      //window.addEventListener('mousedown', function () {
+      //  animateRAFed.continuous = !animateRAFed.continuous;
+      //  if (animateRAFed.continuous) {
+      //   animateRAFed();
+      //  }
+      //}, false);
+
+      //animateRAFed();
     }
 
     xhr.textGets(urlObjs, finish);

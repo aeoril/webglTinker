@@ -7,7 +7,7 @@ var xhr = (function () {
       var responsesObj = { badStatus: false };
 
       function log (evt, that) {
-        console.log('textGets Event log: type: ' + evt.type); console.log(that || this); console.log(evt);
+        //console.log('textGets Event log: type: ' + evt.type); console.log(that || this); console.log(evt);
       }
 
       function get (url, load, progress, error, abort) {

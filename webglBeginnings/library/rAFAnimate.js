@@ -1,13 +1,13 @@
-var rAFAnimate = (function () {
+function rAFAnimate (animate, continuous) {
   'use strict';
 
-  var ID;
+  return (function () {
 
-  return function (animate, continuous) {
+    var ID;
 
-    if (ID !== undefined) {
-      throw new Error('Only call rAFAnimate once.  Works with 1 function only');
-    }
+    //if (ID !== undefined) {
+    //  throw new Error('Only call rAFAnimate once.  Works with 1 function only');
+    //}
 
     ID = null;
 
@@ -26,5 +26,6 @@ var rAFAnimate = (function () {
     innerAnimateRAFed.continuous = continuous;
 
     return innerAnimateRAFed;
-  };
-}());
+
+  }());
+}
