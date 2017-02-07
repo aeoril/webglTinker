@@ -64,7 +64,7 @@
 
     var count;
 
-    var throttledRender;
+    var renderRAFed;
 
     var urlObjs = [
       {key: 'VSSource', url: 'glsl/webglBeginnings007_vs.glsl'},
@@ -149,12 +149,18 @@
       colorBuffer = gl.createBuffer();
       positionBuffer = gl.createBuffer();
 
-      throttledRender = renderThrottle(render, true);
+      //renderRAFed = rAFRender(render);
+      renderRAFed = rAFRender(render, true);
 
-      window.addEventListener('resize', throttledRender, false);
-      window.addEventListener('mousedown',throttledRender, false);
+      window.addEventListener('resize', renderRAFed, false);
+      window.addEventListener('mousedown', function () {
+        renderRAFed.continuous = !renderRAFed.continuous;
+        if (renderRAFed.continuous) {
+          renderRAFed();
+        }
+      }, false);
 
-      render();
+      renderRAFed();
     }
 
     xhr.textGets(urlObjs, finish);
