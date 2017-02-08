@@ -68,7 +68,7 @@
       {key: 'FSSource', url: 'glsl/webglBeginnings007_fs.glsl'}
     ];
 
-    function animate () {
+    function animate (timestamp) {
 
       var size;
       var type;
@@ -150,10 +150,10 @@
       //var animateRAFed = rAFAnimate(animate, true);
 
       window.addEventListener('resize', animateRAFed, false);
-      window.addEventListener('mousedown', function () {
+      window.addEventListener('mousedown', function (timestamp) {
         animateRAFed.continuous = !animateRAFed.continuous;
         if (animateRAFed.continuous) {
-         animateRAFed();
+         animateRAFed(timestamp);
         }
       }, false);
 
