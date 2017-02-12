@@ -5,11 +5,14 @@ function rAFAnimate (animate, continuous) {
 
     var ID = null;
 
-    function innerAnimateRAFed() {
+    function innerAnimateRAFed(evt, options) {
+      if (!options) {
+        options = {};
+      }
       if (ID === null) {
         ID = window.requestAnimationFrame(function rAFCallee(timestamp) {
           ID = null;
-          animate(timestamp);
+          animate(timestamp, evt, options);
           if (innerAnimateRAFed.continuous) {
             ID = window.requestAnimationFrame(rAFCallee);
           }
