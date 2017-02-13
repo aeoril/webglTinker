@@ -8,11 +8,52 @@
 
     var indices = [
       width * 0.2, height * 0.2,
-      width * 0.2, height * 0.8,
+      width * 0.4, height * 0.4,
+      width * 0.5, height * 0.2,
+
+      width * 0.5, height * 0.2,
+      width * 0.4, height * 0.4,
+      width * 0.6, height * 0.4,
+
+      width * 0.6, height * 0.4,
+      width * 0.5, height * 0.2,
       width * 0.8, height * 0.2,
+
       width * 0.8, height * 0.2,
+      width * 0.6, height * 0.4,
+      width * 0.8, height * 0.5,
+
+      width * 0.8, height * 0.5,
+      width * 0.6, height * 0.4,
+      width * 0.6, height * 0.6,
+
+      width * 0.8, height * 0.5,
+      width * 0.6, height * 0.6,
       width * 0.8, height * 0.8,
-      width * 0.2, height * 0.8
+
+      width * 0.8, height * 0.8,
+      width * 0.6, height * 0.6,
+      width * 0.5, height * 0.8,
+
+      width * 0.5, height * 0.8,
+      width * 0.6, height * 0.6,
+      width * 0.4, height * 0.6,
+
+      width * 0.4, height * 0.6,
+      width * 0.5, height * 0.8,
+      width * 0.2, height * 0.8,
+
+      width * 0.2, height * 0.8,
+      width * 0.4, height * 0.6,
+      width * 0.2, height * 0.5,
+
+      width * 0.2, height * 0.5,
+      width * 0.4, height * 0.6,
+      width * 0.4, height * 0.4,
+
+      width * 0.4, height * 0.4,
+      width * 0.2, height * 0.5,
+      width * 0.2, height * 0.2
     ];
 
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(indices), gl.STATIC_DRAW);
@@ -91,7 +132,7 @@
 
       var ii;
 
-      console.log(timestamp, options);
+      //console.log(timestamp, options);
 
       webglUtils.resizeCanvasToDisplaySize(gl);
 
