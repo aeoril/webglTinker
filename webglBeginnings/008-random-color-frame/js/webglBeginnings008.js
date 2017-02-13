@@ -113,6 +113,11 @@
 
     var count;
 
+    var prevTimestamp;
+
+    var RESIZE_MS = 100;
+    var MOUSEDOWN_MS = 40;
+
     //var setColorsInAnimate = true;
 
     var urlObjs = [
@@ -133,6 +138,16 @@
       var ii;
 
       //console.log(timestamp, options);
+
+      prevTimestamp = prevTimestamp ? prevTimestamp : timestamp;
+
+      if (options.checkTimestamp) {
+        if (timestamp - prevTimestamp < options.ms) {
+          return;
+        }
+      }
+
+      prevTimestamp = timestamp;
 
       webglUtils.resizeCanvasToDisplaySize(gl);
 
@@ -210,13 +225,16 @@
       var animateRAFed = rAFAnimate(animate);
       //var animateRAFed = rAFAnimate(animate, true);
 
-      window.addEventListener('resize', animateRAFed, false);
+      window.addEventListener('resize', function () {
+        animateRAFed({checkTimestamp: true, ms: RESIZE_MS});
+      }, false);
+
       window.addEventListener('mousedown', function () {
         animateRAFed.continuous = !animateRAFed.continuous;
         if (animateRAFed.continuous) {
-      //    animateRAFed(evt, {setColors: true});
-      //  animateRAFed({setColors: true});
-        animateRAFed({updateRandomColor: true});
+      //    animateRAFed(evt, {setColors: true, checkTimestamp: true, ms: MOUSEDOWN_MS});
+      //  animateRAFed({setColors: true}, checkTimestamp: true, ms: MOUSEDOWN_MS);
+        animateRAFed({updateRandomColor: true, checkTimestamp: true, ms: MOUSEDOWN_MS});
         }
       }, false);
 

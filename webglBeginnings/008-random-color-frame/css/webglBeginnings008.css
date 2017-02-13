@@ -2,11 +2,19 @@ html,
 body {
   margin: 0;
   padding: 0;
-  background-color: white;
+  background-color: black;
+}
+
+h2 {
+  color: white;
+  text-align: center;
 }
 
 canvas {
   width: 100vw;
   height: 100vh;
-  display: block;
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
