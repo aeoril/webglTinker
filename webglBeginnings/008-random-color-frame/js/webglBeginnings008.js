@@ -141,7 +141,7 @@
 
       prevTimestamp = prevTimestamp ? prevTimestamp : timestamp;
 
-      if (options.checkTimestamp) {
+      if (options.ms) {
         if (timestamp - prevTimestamp < options.ms) {
           return;
         }
@@ -176,11 +176,9 @@
 
       gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
 
-      if(options.setColors) {
+      if(options.setColors || !colors) {
         colors = setColors(gl, count);
-      }
-
-      if (options.updateRandomColor) {
+      } else if (options.updateRandomColor) {
         updateRandomColor(gl, colors);
       }
 
@@ -222,23 +220,23 @@
       colorBuffer = gl.createBuffer();
       positionBuffer = gl.createBuffer();
 
-      var animateRAFed = rAFAnimate(animate);
-      //var animateRAFed = rAFAnimate(animate, true);
+      //var animateRAFed = rAFAnimate(animate);
+      var animateRAFed = rAFAnimate(animate, true);
 
       window.addEventListener('resize', function () {
-        animateRAFed({checkTimestamp: true, ms: RESIZE_MS});
+        animateRAFed({ms: RESIZE_MS});
       }, false);
 
       window.addEventListener('mousedown', function () {
         animateRAFed.continuous = !animateRAFed.continuous;
         if (animateRAFed.continuous) {
-      //    animateRAFed(evt, {setColors: true, checkTimestamp: true, ms: MOUSEDOWN_MS});
-      //  animateRAFed({setColors: true}, checkTimestamp: true, ms: MOUSEDOWN_MS);
-        animateRAFed({updateRandomColor: true, checkTimestamp: true, ms: MOUSEDOWN_MS});
+      //    animateRAFed(evt, {setColors: true, ms: MOUSEDOWN_MS});
+      //  animateRAFed({setColors: true}, ms: MOUSEDOWN_MS);
+        animateRAFed({updateRandomColor: true, ms: MOUSEDOWN_MS});
         }
       }, false);
 
-      animateRAFed({setColors: true});
+      animateRAFed({updateRandomColor: true, ms: MOUSEDOWN_MS});
     }
 
     xhr.textGets(urlObjs, finish);
