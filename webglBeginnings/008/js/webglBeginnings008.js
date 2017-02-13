@@ -70,7 +70,7 @@
       {key: 'FSSource', url: 'glsl/webglBeginnings008_fs.glsl'}
     ];
 
-    function animate (timestamp, evt, options) {
+    function animate (timestamp, options) {
 
       var size;
       var type;
@@ -82,7 +82,7 @@
 
       var ii;
 
-      //console.log(timestamp, options);
+      console.log(timestamp, options);
 
       webglUtils.resizeCanvasToDisplaySize(gl);
 
@@ -157,14 +157,15 @@
       //var animateRAFed = rAFAnimate(animate, true);
 
       window.addEventListener('resize', animateRAFed, false);
-      window.addEventListener('mousedown', function (evt) {
+      window.addEventListener('mousedown', function () {
       //  animateRAFed.continuous = !animateRAFed.continuous;
       //  if (animateRAFed.continuous) {
-         animateRAFed(evt, {setColors: true});
+      //    animateRAFed(evt, {setColors: true});
+        animateRAFed({setColors: true});
       //  }
       }, false);
 
-      animateRAFed({}, {setColors: true});
+      animateRAFed({setColors: true});
     }
 
     xhr.textGets(urlObjs, finish);

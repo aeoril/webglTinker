@@ -7,12 +7,19 @@ function rAFAnimate (animate, continuous) {
 
     function innerAnimateRAFed(evt, options) {
       if (!options) {
-        options = {};
+        if (!evt || evt instanceof Event) {
+            options = {evt: evt};
+        } else {
+          options = evt;
+          options.evt = undefined;
+        }
+      } else {
+        options.evt = evt;
       }
       if (ID === null) {
         ID = window.requestAnimationFrame(function rAFCallee(timestamp) {
           ID = null;
-          animate(timestamp, evt, options);
+          animate(timestamp, options);
           if (innerAnimateRAFed.continuous) {
             ID = window.requestAnimationFrame(rAFCallee);
           }
