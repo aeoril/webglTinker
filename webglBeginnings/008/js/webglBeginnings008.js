@@ -20,7 +20,7 @@
     return Math.round(indices.length / 2);
   }
 
-  function setColors (gl) {
+  function setColors (gl, count) {
 
     //var r1 = Math.random();
     //var g1 = Math.random();
@@ -30,15 +30,22 @@
     //var g2 = Math.random();
     //var b2 = Math.random();
 
-    gl.bufferData(gl.ARRAY_BUFFER,
-    new Float32Array(
-      [Math.random(), Math.random(), Math.random(), 1,
-       Math.random(), Math.random(), Math.random(), 1,
-       Math.random(), Math.random(), Math.random(), 1,
-       Math.random(), Math.random(), Math.random(), 1,
-       Math.random(), Math.random(), Math.random(), 1,
-       Math.random(), Math.random(), Math.random(), 1]),
-    gl.STATIC_DRAW);
+    var colors = [];
+    for (var ii = 0; ii < count; ii++) {
+      colors.splice(colors.length, 0,
+        mathExtras.randomInt(256), mathExtras.randomInt(256), mathExtras.randomInt(256), 255);
+    }
+
+    gl.bufferData(gl.ARRAY_BUFFER, new Uint8Array(colors), gl.STATIC_DRAW);
+
+    return colors;
+  }
+
+  function updateRandomColor(gl, colors) {
+    colors.splice(mathExtras.randomInt(colors.length / 4) * 4, 4,
+      mathExtras.randomInt(256), mathExtras.randomInt(256), mathExtras.randomInt(256), 255);
+
+    gl.bufferData(gl.ARRAY_BUFFER, new Uint8Array(colors), gl.STATIC_DRAW);
   }
 
   window.addEventListener('load', function () {
@@ -60,6 +67,8 @@
 
     var canvasElem;
     var gl;
+
+    var colors;
 
     var count;
 
@@ -93,23 +102,6 @@
 
       gl.useProgram(program);
 
-      gl.enableVertexAttribArray(colorAttributeLocation);
-
-      gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
-
-      if(options.setColors) {
-        setColors(gl);
-      }
-
-      size = 4;
-      type = gl.FLOAT;
-      normalize = false;
-      stride = 0;
-      offset = 0;
-
-      gl.vertexAttribPointer(
-        colorAttributeLocation, size, type, normalize, stride, offset);
-
       gl.enableVertexAttribArray(positionAttributeLocation);
 
       gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
@@ -123,6 +115,27 @@
 
       gl.vertexAttribPointer(
         positionAttributeLocation, size, type, normalize, stride, offset);
+
+      gl.enableVertexAttribArray(colorAttributeLocation);
+
+      gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
+
+      if(options.setColors) {
+        colors = setColors(gl, count);
+      }
+
+      if (options.updateRandomColor) {
+        updateRandomColor(gl, colors);
+      }
+
+      size = 4;
+      type = gl.UNSIGNED_BYTE;
+      normalize = true;
+      stride = 0;
+      offset = 0;
+
+      gl.vertexAttribPointer(
+        colorAttributeLocation, size, type, normalize, stride, offset);
 
       gl.uniform2f(resolutionUniformLocation, gl.canvas.width, gl.canvas.height);
 
@@ -158,11 +171,12 @@
 
       window.addEventListener('resize', animateRAFed, false);
       window.addEventListener('mousedown', function () {
-      //  animateRAFed.continuous = !animateRAFed.continuous;
-      //  if (animateRAFed.continuous) {
+        animateRAFed.continuous = !animateRAFed.continuous;
+        if (animateRAFed.continuous) {
       //    animateRAFed(evt, {setColors: true});
-        animateRAFed({setColors: true});
-      //  }
+      //  animateRAFed({setColors: true});
+        animateRAFed({updateRandomColor: true});
+        }
       }, false);
 
       animateRAFed({setColors: true});
