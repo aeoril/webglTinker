@@ -11,7 +11,7 @@ var mathExtras = (function () {
 
     },
 
-    // min must be less than max. min, max or both may be negative. Inclusive
+    // min must be less than max. min or min and max may be negative. Inclusive
     randIntInc: function (min, max) {
 
       min = Math.ceil(min);
@@ -21,7 +21,7 @@ var mathExtras = (function () {
 
     },
 
-    // min must be less than max. min, max or both may be negative. Exclusive
+    // min must be less than max. min or min and max may be negative. Exclusive
     randIntExc: function (min, max) {
 
       min = Math.ceil(min);
