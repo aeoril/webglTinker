@@ -3,21 +3,31 @@ var mathExtras = (function () {
 
   return {
 
-    // Random integer from 0 to numInts - 1
-    // numInts may be negative - gives slots + 1 to 0
+    // Random integer from 0 to numInts - 1, inclusive
+    // numInts may be negative - gives numInts + 1 to 0, inclusive
     randInt: function (numInts) {
 
       return Math.trunc(Math.random() * Math.trunc(numInts));
 
     },
 
-    // min must be less than max, but min, max or both may be negative
-    randIntMM: function (min, max) {
+    // min must be less than max. min, max or both may be negative. Inclusive
+    randIntInc: function (min, max) {
 
       min = Math.ceil(min);
       max = Math.floor(max);
 
       return Math.floor(Math.random() * (max - min + 1)) + min;
+
+    },
+
+    // min must be less than max. min, max or both may be negative. Exclusive
+    randIntExc: function (min, max) {
+
+      min = Math.ceil(min);
+      max = Math.floor(max);
+
+      return Math.floor(Math.random() * (max - min)) + min;
 
     }
   };
