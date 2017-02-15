@@ -74,7 +74,7 @@
     var colors = [];
     for (var ii = 0; ii < count; ii++) {
       colors.splice(colors.length, 0,
-        mathExtras.randomInt(256), mathExtras.randomInt(256), mathExtras.randomInt(256), 255);
+        mathExtras.randInt(256), mathExtras.randInt(256), mathExtras.randInt(256), 255);
     }
 
     gl.bufferData(gl.ARRAY_BUFFER, new Uint8Array(colors), gl.STATIC_DRAW);
@@ -83,8 +83,8 @@
   }
 
   function updateRandomColor(gl, colors) {
-    colors.splice(mathExtras.randomInt(colors.length / 4) * 4, 4,
-      mathExtras.randomInt(256), mathExtras.randomInt(256), mathExtras.randomInt(256), 255);
+    colors.splice(mathExtras.randInt(colors.length / 4) * 4, 4,
+      mathExtras.randInt(256), mathExtras.randInt(256), mathExtras.randInt(256), 255);
 
     gl.bufferData(gl.ARRAY_BUFFER, new Uint8Array(colors), gl.STATIC_DRAW);
   }
