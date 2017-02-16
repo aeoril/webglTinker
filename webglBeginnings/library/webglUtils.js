@@ -1,3 +1,7 @@
+/**
+ * @author aeoril | https://www.ic3dimensions.com
+ */
+
 var webglUtils = ( function () {
 
   'use strict';
@@ -9,12 +13,13 @@ var webglUtils = ( function () {
       var gl = null;
 
       gl = canvasElem.getContext( 'webgl' ) ||
-       canvasElem.getContext( 'experimental-webgl' );
+           canvasElem.getContext( 'experimental-webgl' );
 
       if ( !gl ) {
 
         throw new Error('canvasElem.getContext("webgl") returned ' + gl +
          ' - webgl may not be supported');
+
       }
 
       return gl;
@@ -65,7 +70,7 @@ var webglUtils = ( function () {
       if ( !success ) {
 
         programInfoLog = gl.getProgramInfoLog( program );
-        
+
         gl.deleteProgram( program );
 
         throw new Error( programInfoLog );
@@ -86,7 +91,7 @@ var webglUtils = ( function () {
       if ( gl.canvas.width !== displayWidth ||
            gl.canvas.height !== displayHeight ) {
 
-        gl.canvas.width = displayWidth;
+        gl.canvas.width  = displayWidth;
         gl.canvas.height = displayHeight;
 
         return true;

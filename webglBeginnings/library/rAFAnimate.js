@@ -1,3 +1,7 @@
+/**
+ * @author aeoril | https://www.ic3dimensions.com
+ */
+
 function rAFAnimate ( animate, continuous ) {
 
   'use strict';

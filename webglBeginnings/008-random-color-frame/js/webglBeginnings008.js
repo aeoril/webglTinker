@@ -1,21 +1,29 @@
-(function () {
+/**
+ * @author aeoril | https://www.ic3dimensions.com
+ */
+
+( function () {
 
   'use strict';
 
   function setGeometry ( gl ) {
 
-    var width = gl.canvas.width;
+    var width  = gl.canvas.width;
     var height = gl.canvas.height;
 
     var indices = [
+
+      // Triangle 1
       width * 0.2, height * 0.2,
       width * 0.4, height * 0.4,
       width * 0.5, height * 0.2,
 
+      // Triangle 2
       width * 0.5, height * 0.2,
       width * 0.4, height * 0.4,
       width * 0.6, height * 0.4,
 
+      // ...
       width * 0.6, height * 0.4,
       width * 0.5, height * 0.2,
       width * 0.8, height * 0.2,
@@ -55,6 +63,7 @@
       width * 0.4, height * 0.4,
       width * 0.2, height * 0.5,
       width * 0.2, height * 0.2
+
     ];
 
     gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( indices ), gl.STATIC_DRAW );
@@ -65,21 +74,13 @@
 
   function setColors ( gl, count ) {
 
-    //var r1 = Math.random();
-    //var g1 = Math.random();
-    //var b1 = Math.random();
-
-    //var r2 = Math.random();
-    //var g2 = Math.random();
-    //var b2 = Math.random();
-
     var colors = [];
 
     for ( var ii = 0; ii < count; ii++ ) {
 
       colors.splice( colors.length, 0,
         mathExtras.randInt( 256 ), mathExtras.randInt( 256 ),
-         mathExtras.randInt( 256 ), 255 );
+        mathExtras.randInt( 256 ), 255 );
 
     }
 
@@ -93,7 +94,7 @@
 
     colors.splice( mathExtras.randInt( colors.length / 4 ) * 4, 4,
       mathExtras.randInt( 256 ), mathExtras.randInt( 256 ),
-       mathExtras.randInt( 256 ), 255);
+      mathExtras.randInt( 256 ), 255);
 
     gl.bufferData( gl.ARRAY_BUFFER, new Uint8Array( colors ), gl.STATIC_DRAW );
 
@@ -103,6 +104,13 @@
 
     var vertexShaderSource;
     var fragmentShaderSource;
+
+    var urlObjs = [
+
+      {key: 'VSSource', url: 'glsl/webglBeginnings008_vs.glsl'},
+      {key: 'FSSource', url: 'glsl/webglBeginnings008_fs.glsl'}
+
+    ];
 
     var vertexShader;
     var fragmentShader;
@@ -125,17 +133,11 @@
     var count;
 
     var prevTimestamp;
+
     var first = true;
 
     var RESIZE_MS = 100;
     var MOUSEDOWN_MS = 40;
-
-    var urlObjs = [
-
-      {key: 'VSSource', url: 'glsl/webglBeginnings008_vs.glsl'},
-      {key: 'FSSource', url: 'glsl/webglBeginnings008_fs.glsl'}
-
-    ];
 
     function animate ( timestamp, options ) {
 
@@ -236,7 +238,7 @@
 
       if ( responsesObj.badStatus ) {
 
-        throw new Error('1 or more get loads had a bad status');
+        throw new Error( '1 or more get loads had a bad status' );
 
       }
 
@@ -246,6 +248,7 @@
 
       vertexShader = webglUtils.createShader(
         gl, gl.VERTEX_SHADER, responsesObj.VSSource );
+
       fragmentShader = webglUtils.createShader(
         gl, gl.FRAGMENT_SHADER, responsesObj.FSSource );
 
@@ -253,9 +256,9 @@
 
       positionAttributeLocation = gl.getAttribLocation( program, 'a_position' );
       resolutionUniformLocation = gl.getUniformLocation( program, 'u_resolution' );
-      colorAttributeLocation = gl.getAttribLocation( program, 'a_color' );
+      colorAttributeLocation    = gl.getAttribLocation( program, 'a_color' );
 
-      colorBuffer = gl.createBuffer();
+      colorBuffer    = gl.createBuffer();
       positionBuffer = gl.createBuffer();
 
       gl.useProgram( program );
@@ -268,7 +271,9 @@
       var animateRAFed = rAFAnimate( animate, true );
 
       window.addEventListener( 'resize', function () {
+
         animateRAFed( { ms: RESIZE_MS } );
+
       }, false );
 
       window.addEventListener( 'mousedown', function () {
@@ -276,6 +281,7 @@
         animateRAFed.continuous = !animateRAFed.continuous;
 
         if ( animateRAFed.continuous ) {
+
       //    animateRAFed( evt, { setColors: true, ms: MOUSEDOWN_MS } );
       //    animateRAFed( { setColors: true, ms: MOUSEDOWN_MS } );
           animateRAFed( { updateRandomColor: true, ms: MOUSEDOWN_MS } );
@@ -284,9 +290,10 @@
       }, false );
 
       animateRAFed( { updateRandomColor: true, ms: MOUSEDOWN_MS } );
+
     }
 
     xhr.textGets( urlObjs, finish );
 
   }, false);
-}());
+}() );

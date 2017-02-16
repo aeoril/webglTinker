@@ -1,54 +1,79 @@
-var xhr = (function () {
+var xhr = ( function () {
+
   'use strict';
 
-  return {
-    textGets: function (urlObjs, finish, progress, error, abort) {
+  self = {
+
+    debug: false,
+
+    log: function ( evt, that ) {
+
+      if ( self.debug ) {
+
+        console.log( 'textGets Event log: type: ' + evt.type );
+        console.log( that || this );
+        console.log( evt );
+
+      }
+    },
+
+    load: function ( evt, that, key, length, responsesObj, finish ) {
+
+      //self.log(evt, that);
+
+      if ( that.status !== 200 || !that.responseText ) {
+
+        console.log('textGets: load event for key ' + key +
+         ' returned bad status or empty response text');
+
+        responsesObj.badStatus = true;
+
+      }
+
+      responsesObj[ key ] = that.responseText;
+
+      if ( Object.keys( responsesObj ).length - 1 === length) {
+
+        finish( responsesObj );
+
+      }
+    },
+
+    get: function ( url, load, progress, error, abort ) {
+
+      var req = new XMLHttpRequest();
+
+      load = load || self.log;
+      progress = progress || self.log;
+      error = error || self.log;
+      abort = abort || self.log;
+
+      req.addEventListener( 'load', load, false );
+      req.addEventListener( 'progress', progress, false );
+      req.addEventListener( 'error', error, false );
+      req.addEventListener( 'abort', abort, false );
+
+      req.open( 'GET', url );
+      req.send();
+
+    },
+
+    textGets: function ( urlObjs, finish, progress, error, abort ) {
 
       var responsesObj = { badStatus: false };
 
-      function log (evt, that) {
-        //console.log('textGets Event log: type: ' + evt.type); console.log(that || this); console.log(evt);
-      }
+      urlObjs.forEach( function (urlObj ) {
 
-      function get (url, load, progress, error, abort) {
+        self.get( urlObj.url, function ( evt ) {
 
-        var xhr = new XMLHttpRequest();
+          self.load( evt, this, urlObj.key, urlObjs.length, responsesObj, finish );
 
-        load = load || log;
-        progress = progress || log;
-        error = error || log;
-        abort = abort || log;
+        }, progress, error, abort );
 
-        xhr.addEventListener('load', load, false);
-        xhr.addEventListener('progress', progress, false);
-        xhr.addEventListener('error', error, false);
-        xhr.addEventListener('abort', abort, false);
-
-        xhr.open('GET', url);
-        xhr.send();
-      }
-
-      function load (evt, that, key, responsesObj) {
-
-        log(evt, that);
-
-        if (that.status !== 200 || !that.responseText) {
-          console.log('textGets: load event for key ' + key + ' returned bad status or empty response text');
-          responsesObj.badStatus = true;
-        }
-
-        responsesObj[key] = that.responseText;
-
-        if (Object.keys(responsesObj).length - 1 === urlObjs.length) {
-          finish(responsesObj);
-        }
-      }
-
-      urlObjs.forEach(function (urlObj) {
-        get(urlObj.url, function (evt) {
-          load(evt, this, urlObj.key, responsesObj);
-        }, progress, error, abort);
       });
     }
   };
-}());
+
+  return self;
+
+}() );
