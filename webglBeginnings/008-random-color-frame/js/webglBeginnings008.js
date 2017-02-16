@@ -114,6 +114,7 @@
     var count;
 
     var prevTimestamp;
+    var first = true;
 
     var RESIZE_MS = 100;
     var MOUSEDOWN_MS = 40;
@@ -127,75 +128,98 @@
 
     function animate (timestamp, options) {
 
+      var canvasResized;
+
       var size;
       var type;
       var normalize;
       var stride;
       var offset;
 
-      var primitiveType;
+      var primitiveType = gl.TRIANGLES;
 
       var ii;
 
-      //console.log(timestamp, options);
+      //console.log( timestamp, options );
 
-      prevTimestamp = prevTimestamp ? prevTimestamp : timestamp;
+      if ( prevTimestamp === undefined ) {
 
-      if (options.ms) {
-        if (timestamp - prevTimestamp < options.ms) {
+         prevTimestamp = timestamp;
+
+       }
+
+      if ( options.ms ) {
+
+        if ( timestamp - prevTimestamp < options.ms ) {
+
           return;
+
         }
       }
 
       prevTimestamp = timestamp;
 
-      webglUtils.resizeCanvasToDisplaySize(gl);
+      canvasResized = webglUtils.resizeCanvasToDisplaySize( gl );
 
-      gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+      gl.viewport( 0, 0, gl.canvas.width, gl.canvas.height );
 
-      gl.clearColor(0, 0, 0, 0);
-      gl.clear(gl.COLOR_BUFFER_BIT);
+      gl.clearColor( 0, 0, 0, 0 );
+      gl.clear( gl.COLOR_BUFFER_BIT );
 
-      gl.useProgram(program);
+      gl.useProgram( program );
 
-      gl.enableVertexAttribArray(positionAttributeLocation);
+      gl.enableVertexAttribArray( positionAttributeLocation );
 
-      gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-      count = setGeometry(gl);
+      if ( canvasResized || first ) {
 
-      size = 2;
-      type = gl.FLOAT;
-      normalize = false;
-      stride = 0;
-      offset = 0;
+        gl.bindBuffer( gl.ARRAY_BUFFER, positionBuffer );
 
-      gl.vertexAttribPointer(
-        positionAttributeLocation, size, type, normalize, stride, offset);
+        count = setGeometry(gl);
+
+        size = 2;
+        type = gl.FLOAT;
+        normalize = false;
+        stride = 0;
+        offset = 0;
+
+        gl.vertexAttribPointer(
+          positionAttributeLocation, size, type, normalize, stride, offset );
+
+        gl.uniform2f(
+          resolutionUniformLocation, gl.canvas.width, gl.canvas.height );
+
+      }
 
       gl.enableVertexAttribArray(colorAttributeLocation);
 
-      gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
+      if ( options.updateRandomColor ||  options.setColors || first ) {
 
-      if(options.setColors || !colors) {
-        colors = setColors(gl, count);
-      } else if (options.updateRandomColor) {
-        updateRandomColor(gl, colors);
+        gl.bindBuffer( gl.ARRAY_BUFFER, colorBuffer );
+
+        if ( options.setColors || first ) {
+
+          colors = setColors(gl, count);
+
+        } else {
+
+          updateRandomColor(gl, colors);
+
+        }
+
+        size = 4;
+        type = gl.UNSIGNED_BYTE;
+        normalize = true;
+        stride = 0;
+        offset = 0;
+
+        gl.vertexAttribPointer(
+          colorAttributeLocation, size, type, normalize, stride, offset);
+
       }
 
-      size = 4;
-      type = gl.UNSIGNED_BYTE;
-      normalize = true;
-      stride = 0;
-      offset = 0;
+      gl.drawArrays(primitiveType, offset, count);
 
-      gl.vertexAttribPointer(
-        colorAttributeLocation, size, type, normalize, stride, offset);
-
-      gl.uniform2f(resolutionUniformLocation, gl.canvas.width, gl.canvas.height);
-
-      primitiveType = gl.TRIANGLES;
-
-      gl.drawArrays(gl.TRIANGLES, offset, count);
+      first = false;
     }
 
     function finish (responsesObj) {
