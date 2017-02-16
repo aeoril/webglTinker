@@ -1,4 +1,4 @@
-var webglUtils = (function () {
+var webglUtils = ( function () {
 
   'use strict';
 
@@ -18,6 +18,7 @@ var webglUtils = (function () {
       }
 
       return gl;
+
     },
 
     createShader:  function ( gl, type, source ) {
@@ -54,19 +55,20 @@ var webglUtils = (function () {
 
       var program = gl.createProgram();
 
-      gl.attachShader(program, vertexShader);
-      gl.attachShader(program, fragmentShader);
+      gl.attachShader( program, vertexShader );
+      gl.attachShader( program, fragmentShader );
 
-      gl.linkProgram(program);
+      gl.linkProgram( program );
 
-      success = gl.getProgramParameter(program, gl.LINK_STATUS);
+      success = gl.getProgramParameter( program, gl.LINK_STATUS );
 
       if ( !success ) {
 
         programInfoLog = gl.getProgramInfoLog( program );
+        
         gl.deleteProgram( program );
 
-        throw new Error(programInfoLog);
+        throw new Error( programInfoLog );
 
       }
 
@@ -82,7 +84,7 @@ var webglUtils = (function () {
       var displayHeight = Math.floor( gl.canvas.clientHeight * realToCSSPixels );
 
       if ( gl.canvas.width !== displayWidth ||
-          gl.canvas.height !== displayHeight ) {
+           gl.canvas.height !== displayHeight ) {
 
         gl.canvas.width = displayWidth;
         gl.canvas.height = displayHeight;
@@ -95,4 +97,4 @@ var webglUtils = (function () {
 
     }
   };
-}());
+}() );

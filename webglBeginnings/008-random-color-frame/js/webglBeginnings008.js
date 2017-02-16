@@ -1,7 +1,8 @@
 (function () {
+
   'use strict';
 
-  function setGeometry (gl) {
+  function setGeometry ( gl ) {
 
     var width = gl.canvas.width;
     var height = gl.canvas.height;
@@ -56,12 +57,13 @@
       width * 0.2, height * 0.2
     ];
 
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(indices), gl.STATIC_DRAW);
+    gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( indices ), gl.STATIC_DRAW );
 
-    return Math.round(indices.length / 2);
+    return Math.round( indices.length / 2 );
+
   }
 
-  function setColors (gl, count) {
+  function setColors ( gl, count ) {
 
     //var r1 = Math.random();
     //var g1 = Math.random();
@@ -72,24 +74,33 @@
     //var b2 = Math.random();
 
     var colors = [];
-    for (var ii = 0; ii < count; ii++) {
-      colors.splice(colors.length, 0,
-        mathExtras.randInt(256), mathExtras.randInt(256), mathExtras.randInt(256), 255);
+
+    for ( var ii = 0; ii < count; ii++ ) {
+
+      colors.splice( colors.length, 0,
+        mathExtras.randInt( 256 ), mathExtras.randInt( 256 ),
+         mathExtras.randInt( 256 ), 255 );
+
     }
 
-    gl.bufferData(gl.ARRAY_BUFFER, new Uint8Array(colors), gl.STATIC_DRAW);
+    gl.bufferData( gl.ARRAY_BUFFER, new Uint8Array( colors ), gl.STATIC_DRAW );
 
     return colors;
+
   }
 
-  function updateRandomColor(gl, colors) {
-    colors.splice(mathExtras.randInt(colors.length / 4) * 4, 4,
-      mathExtras.randInt(256), mathExtras.randInt(256), mathExtras.randInt(256), 255);
+  function updateRandomColor( gl, colors ) {
 
-    gl.bufferData(gl.ARRAY_BUFFER, new Uint8Array(colors), gl.STATIC_DRAW);
+    colors.splice( mathExtras.randInt( colors.length / 4 ) * 4, 4,
+      mathExtras.randInt( 256 ), mathExtras.randInt( 256 ),
+       mathExtras.randInt( 256 ), 255);
+
+    gl.bufferData( gl.ARRAY_BUFFER, new Uint8Array( colors ), gl.STATIC_DRAW );
+
   }
 
-  window.addEventListener('load', function () {
+  window.addEventListener( 'load', function () {
+
     var vertexShaderSource;
     var fragmentShaderSource;
 
@@ -119,14 +130,14 @@
     var RESIZE_MS = 100;
     var MOUSEDOWN_MS = 40;
 
-    //var setColorsInAnimate = true;
-
     var urlObjs = [
+
       {key: 'VSSource', url: 'glsl/webglBeginnings008_vs.glsl'},
       {key: 'FSSource', url: 'glsl/webglBeginnings008_fs.glsl'}
+
     ];
 
-    function animate (timestamp, options) {
+    function animate ( timestamp, options ) {
 
       var canvasResized;
 
@@ -168,11 +179,11 @@
 
       if ( canvasResized || first ) {
 
-        //console.log('animate: resizing');
+        //console.log( 'animate: resizing' );
 
         gl.bindBuffer( gl.ARRAY_BUFFER, positionBuffer );
 
-        count = setGeometry(gl);
+        count = setGeometry( gl );
 
         size = 2;
         type = gl.FLOAT;
@@ -196,11 +207,11 @@
 
         if ( options.setColors || first ) {
 
-          colors = setColors(gl, count);
+          colors = setColors( gl, count );
 
         } else {
 
-          updateRandomColor(gl, colors);
+          updateRandomColor( gl, colors );
 
         }
 
@@ -211,33 +222,38 @@
         offset = 0;
 
         gl.vertexAttribPointer(
-          colorAttributeLocation, size, type, normalize, stride, offset);
+          colorAttributeLocation, size, type, normalize, stride, offset );
 
       }
 
-      gl.drawArrays(primitiveType, offset, count);
+      gl.drawArrays( primitiveType, offset, count );
 
       first = false;
+
     }
 
-    function finish (responsesObj) {
+    function finish ( responsesObj ) {
 
-      if (responsesObj.badStatus) {
+      if ( responsesObj.badStatus ) {
+
         throw new Error('1 or more get loads had a bad status');
+
       }
 
-      canvasElem = document.getElementById('canvas');
+      canvasElem = document.getElementById( 'canvas' );
 
-      gl = webglUtils.initWebGL(canvasElem);
+      gl = webglUtils.initWebGL( canvasElem );
 
-      vertexShader = webglUtils.createShader(gl, gl.VERTEX_SHADER, responsesObj.VSSource);
-      fragmentShader = webglUtils.createShader(gl, gl.FRAGMENT_SHADER, responsesObj.FSSource);
+      vertexShader = webglUtils.createShader(
+        gl, gl.VERTEX_SHADER, responsesObj.VSSource );
+      fragmentShader = webglUtils.createShader(
+        gl, gl.FRAGMENT_SHADER, responsesObj.FSSource );
 
-      program = webglUtils.createProgram(gl, vertexShader, fragmentShader);
+      program = webglUtils.createProgram( gl, vertexShader, fragmentShader );
 
-      positionAttributeLocation = gl.getAttribLocation(program, 'a_position');
-      resolutionUniformLocation = gl.getUniformLocation(program, 'u_resolution');
-      colorAttributeLocation = gl.getAttribLocation(program, 'a_color');
+      positionAttributeLocation = gl.getAttribLocation( program, 'a_position' );
+      resolutionUniformLocation = gl.getUniformLocation( program, 'u_resolution' );
+      colorAttributeLocation = gl.getAttribLocation( program, 'a_color' );
 
       colorBuffer = gl.createBuffer();
       positionBuffer = gl.createBuffer();
@@ -246,28 +262,31 @@
 
       gl.enableVertexAttribArray( positionAttributeLocation );
 
-      gl.enableVertexAttribArray(colorAttributeLocation);
+      gl.enableVertexAttribArray( colorAttributeLocation );
 
-      //var animateRAFed = rAFAnimate(animate);
-      var animateRAFed = rAFAnimate(animate, true);
+      //var animateRAFed = rAFAnimate( animate );
+      var animateRAFed = rAFAnimate( animate, true );
 
-      window.addEventListener('resize', function () {
-        animateRAFed({ms: RESIZE_MS});
-      }, false);
+      window.addEventListener( 'resize', function () {
+        animateRAFed( { ms: RESIZE_MS } );
+      }, false );
 
-      window.addEventListener('mousedown', function () {
+      window.addEventListener( 'mousedown', function () {
+
         animateRAFed.continuous = !animateRAFed.continuous;
-        if (animateRAFed.continuous) {
-      //    animateRAFed(evt, {setColors: true, ms: MOUSEDOWN_MS});
-      //    animateRAFed({setColors: true, ms: MOUSEDOWN_MS});
-          animateRAFed({updateRandomColor: true, ms: MOUSEDOWN_MS});
-        }
-      }, false);
 
-      animateRAFed({updateRandomColor: true, ms: MOUSEDOWN_MS});
+        if ( animateRAFed.continuous ) {
+      //    animateRAFed( evt, { setColors: true, ms: MOUSEDOWN_MS } );
+      //    animateRAFed( { setColors: true, ms: MOUSEDOWN_MS } );
+          animateRAFed( { updateRandomColor: true, ms: MOUSEDOWN_MS } );
+
+        }
+      }, false );
+
+      animateRAFed( { updateRandomColor: true, ms: MOUSEDOWN_MS } );
     }
 
-    xhr.textGets(urlObjs, finish);
+    xhr.textGets( urlObjs, finish );
 
   }, false);
 }());
