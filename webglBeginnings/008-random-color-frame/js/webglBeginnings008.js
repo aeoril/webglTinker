@@ -148,7 +148,7 @@
 
        }
 
-      if ( options.ms ) {
+      if ( options.ms && !first ) {
 
         if ( timestamp - prevTimestamp < options.ms ) {
 
@@ -166,11 +166,9 @@
       gl.clearColor( 0, 0, 0, 0 );
       gl.clear( gl.COLOR_BUFFER_BIT );
 
-      gl.useProgram( program );
-
-      gl.enableVertexAttribArray( positionAttributeLocation );
-
       if ( canvasResized || first ) {
+
+        //console.log('animate: resizing');
 
         gl.bindBuffer( gl.ARRAY_BUFFER, positionBuffer );
 
@@ -190,9 +188,9 @@
 
       }
 
-      gl.enableVertexAttribArray(colorAttributeLocation);
-
       if ( options.updateRandomColor ||  options.setColors || first ) {
+
+        //console.log('animate: setting colors');
 
         gl.bindBuffer( gl.ARRAY_BUFFER, colorBuffer );
 
@@ -244,6 +242,12 @@
       colorBuffer = gl.createBuffer();
       positionBuffer = gl.createBuffer();
 
+      gl.useProgram( program );
+
+      gl.enableVertexAttribArray( positionAttributeLocation );
+
+      gl.enableVertexAttribArray(colorAttributeLocation);
+
       //var animateRAFed = rAFAnimate(animate);
       var animateRAFed = rAFAnimate(animate, true);
 
@@ -255,8 +259,8 @@
         animateRAFed.continuous = !animateRAFed.continuous;
         if (animateRAFed.continuous) {
       //    animateRAFed(evt, {setColors: true, ms: MOUSEDOWN_MS});
-      //  animateRAFed({setColors: true}, ms: MOUSEDOWN_MS);
-        animateRAFed({updateRandomColor: true, ms: MOUSEDOWN_MS});
+      //    animateRAFed({setColors: true, ms: MOUSEDOWN_MS});
+          animateRAFed({updateRandomColor: true, ms: MOUSEDOWN_MS});
         }
       }, false);
 
