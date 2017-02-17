@@ -174,7 +174,9 @@
 
       canvasResized = webglUtils.resizeCanvasToDisplaySize( gl );
 
-      gl.viewport( 0, 0, gl.canvas.width, gl.canvas.height );
+      if ( canvasResized || first ) {
+        gl.viewport( 0, 0, gl.canvas.width, gl.canvas.height );
+      }
 
       gl.clear( gl.COLOR_BUFFER_BIT );
 
@@ -269,7 +271,7 @@
       gl.enableVertexAttribArray( colorAttributeLocation );
 
       gl.clearColor( 0, 0, 0, 0 );
-      
+
       //var animateRAFed = rAFAnimate( animate );
       var animateRAFed = rAFAnimate( animate, true );
 
