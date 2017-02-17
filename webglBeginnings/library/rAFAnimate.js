@@ -34,13 +34,15 @@ function rAFAnimate ( animate, continuous ) {
 
         ID = window.requestAnimationFrame( function rAFCallee( timestamp ) {
 
-          ID = null;
-
           animate( timestamp, options );
 
           if ( innerAnimateRAFed.continuous ) {
 
             ID = window.requestAnimationFrame( rAFCallee );
+
+          } else {
+
+            ID = null;
 
           }
         } );

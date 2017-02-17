@@ -137,7 +137,7 @@
     var first = true;
 
     var RESIZE_MS = 100;
-    var MOUSEDOWN_MS = 40;
+    var MOUSEDOWN_MS = 30;
 
     function animate ( timestamp, options ) {
 
@@ -149,7 +149,7 @@
       var stride;
       var offset;
 
-      var primitiveType = gl.TRIANGLES;
+      var primitiveType;
 
       var ii;
 
@@ -176,7 +176,6 @@
 
       gl.viewport( 0, 0, gl.canvas.width, gl.canvas.height );
 
-      gl.clearColor( 0, 0, 0, 0 );
       gl.clear( gl.COLOR_BUFFER_BIT );
 
       if ( canvasResized || first ) {
@@ -228,6 +227,8 @@
 
       }
 
+      primitiveType = gl.TRIANGLES;
+
       gl.drawArrays( primitiveType, offset, count );
 
       first = false;
@@ -267,6 +268,8 @@
 
       gl.enableVertexAttribArray( colorAttributeLocation );
 
+      gl.clearColor( 0, 0, 0, 0 );
+      
       //var animateRAFed = rAFAnimate( animate );
       var animateRAFed = rAFAnimate( animate, true );
 
