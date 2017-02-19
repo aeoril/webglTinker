@@ -2,13 +2,13 @@ var xhr = ( function () {
 
   'use strict';
 
-  var me = {
+  var self = {
 
     debug: false,
 
     log: function ( evt, that ) {
 
-      if ( me.debug ) {
+      if ( self.debug ) {
 
         console.log( 'textGets Event log: type: ' + evt.type );
         console.log( that || this );
@@ -19,7 +19,7 @@ var xhr = ( function () {
 
     load: function ( evt, that, key, length, responsesObj, finish ) {
 
-      //me.log(evt, that);
+      //self.log(evt, that);
 
       if ( that.status !== 200 || !that.responseText ) {
 
@@ -43,10 +43,10 @@ var xhr = ( function () {
 
       var req = new XMLHttpRequest();
 
-      load = load || me.log;
-      progress = progress || me.log;
-      error = error || me.log;
-      abort = abort || me.log;
+      load = load || self.log;
+      progress = progress || self.log;
+      error = error || self.log;
+      abort = abort || self.log;
 
       req.addEventListener( 'load', load, false );
       req.addEventListener( 'progress', progress, false );
@@ -64,9 +64,9 @@ var xhr = ( function () {
 
       urlObjs.forEach( function (urlObj ) {
 
-        me.get( urlObj.url, function ( evt ) {
+        self.get( urlObj.url, function ( evt ) {
 
-          me.load( evt, this, urlObj.key, urlObjs.length, responsesObj, finish );
+          self.load( evt, this, urlObj.key, urlObjs.length, responsesObj, finish );
 
         }, progress, error, abort );
 
@@ -74,6 +74,6 @@ var xhr = ( function () {
     }
   };
 
-  return me;
+  return self;
 
 }() );

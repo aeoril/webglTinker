@@ -137,7 +137,7 @@
     var first = true;
 
     var RESIZE_MS = 100;
-    var MOUSEDOWN_MS = 30;
+    var MOUSEDOWN_MS = 42;
 
     function animate ( timestamp, options ) {
 
