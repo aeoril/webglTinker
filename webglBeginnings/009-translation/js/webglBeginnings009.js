@@ -138,6 +138,14 @@
     var positionAttributeLocation;
     var positionBuffer;
 
+    var rotationUniformLocation;
+    var rotation = [];
+    var angleInDegrees = 90.0;
+    var angleInRadians;
+
+    var centerTranslationUniformLocation;
+    var centerTranslation;
+
     var translationUniformLocation;
     var translation = [0, 0];
     var translations = [];
@@ -208,6 +216,15 @@
 
         count = setGeometry( gl );
 
+        centerTranslation = [
+
+          -0.5 * gl.canvas.width,
+          -0.5 * gl.canvas.height
+
+        ];
+
+        gl.uniform2fv( centerTranslationUniformLocation, centerTranslation );
+
         if (first) {
 
           for ( offset = 0; offset < count; offset += VERTICES_PER_TRIANGLE ) {
@@ -264,11 +281,22 @@
 
       primitiveType = gl.TRIANGLES;
 
+      angleInRadians = angleInDegrees * Math.PI / 180.0;
+
+      var rotation = [
+
+        Math.cos( angleInRadians ),
+        Math.sin( angleInRadians )
+
+      ];
+
       translations.forEach( function ( translation, index ) {
 
+        gl.uniform2fv( rotationUniformLocation, rotation );
         gl.uniform2fv( translationUniformLocation, translation );
 
-        gl.drawArrays( primitiveType, index * VERTICES_PER_TRIANGLE, VERTICES_PER_TRIANGLE );
+        gl.drawArrays(
+          primitiveType, index * VERTICES_PER_TRIANGLE, VERTICES_PER_TRIANGLE );
 
         if (options.updateTranslations) {
 
@@ -277,6 +305,8 @@
 
         }
       });
+
+      angleInDegrees += 0.1;
 
       first = false;
 
@@ -303,6 +333,8 @@
       program = webglUtils.createProgram( gl, vertexShader, fragmentShader );
 
       positionAttributeLocation = gl.getAttribLocation( program, 'a_position' );
+      rotationUniformLocation = gl.getUniformLocation( program, 'u_rotation' );
+      centerTranslationUniformLocation = gl.getUniformLocation( program, 'u_centerTranslation');
       translationUniformLocation = gl.getUniformLocation( program, 'u_translation');
       resolutionUniformLocation = gl.getUniformLocation( program, 'u_resolution' );
       colorAttributeLocation    = gl.getAttribLocation( program, 'a_color' );
@@ -348,6 +380,8 @@
         } else {
 
           translations.forEach( function ( translation ) {
+
+//            angleInDegrees = 90.0;
 
             translation[0] = 0;
             translation[1] = 0;
