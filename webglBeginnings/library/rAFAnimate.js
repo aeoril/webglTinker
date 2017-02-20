@@ -10,6 +10,7 @@ function rAFAnimate ( animate, continuous ) {
   return ( function () {
 
     var ID = null;
+    var prevContinuous = continuous;
 
     function innerAnimateRAFed( evt, options ) {
 
@@ -31,7 +32,15 @@ function rAFAnimate ( animate, continuous ) {
 
       }
 
-      if ( ID === null ) {
+      if ( ID === null || innerAnimateRAFed.continuous !== prevContinuous) {
+
+        prevContinuous = continuous;
+
+        if ( ID ) {
+
+          window.cancelAnimationFrame(ID);
+
+        }
 
         ID = window.requestAnimationFrame( function rAFCallee( timestamp ) {
 
