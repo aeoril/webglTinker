@@ -9,61 +9,62 @@
 
   function setGeometry ( gl ) {
 
-    var width  = gl.canvas.width;
-    var height = gl.canvas.height;
+    var width  = Math.min(gl.canvas.width, gl.canvas.height);
+    var height = width;
+//    var height = gl.canvas.height;
 
     var indices = [
 
       // Triangle 1
-      width * 0.2, height * 0.2,
-      width * 0.4, height * 0.4,
-      width * 0.5, height * 0.2,
+      width * -0.3, height * -0.3,
+      width * -0.2, height * -0.2,
+      width *  0.0, height * -0.3,
 
       // Triangle 2
-      width * 0.5, height * 0.2,
-      width * 0.4, height * 0.4,
-      width * 0.6, height * 0.4,
+      width *  0.0, height * -0.3,
+      width * -0.2, height * -0.2,
+      width *  0.2, height * -0.2,
 
       // ...
-      width * 0.6, height * 0.4,
-      width * 0.5, height * 0.2,
-      width * 0.8, height * 0.2,
+      width *  0.2, height * -0.2,
+      width *  0.0, height * -0.3,
+      width *  0.3, height * -0.3,
 
-      width * 0.8, height * 0.2,
-      width * 0.6, height * 0.4,
-      width * 0.8, height * 0.5,
+      width *  0.3, height * -0.3,
+      width *  0.2, height * -0.2,
+      width *  0.3, height *  0.0,
 
-      width * 0.8, height * 0.5,
-      width * 0.6, height * 0.4,
-      width * 0.6, height * 0.6,
+      width *  0.3, height *  0.0,
+      width *  0.2, height * -0.2,
+      width *  0.2, height *  0.2,
 
-      width * 0.8, height * 0.5,
-      width * 0.6, height * 0.6,
-      width * 0.8, height * 0.8,
+      width *  0.2, height *  0.2,
+      width *  0.3, height * -0.0,
+      width *  0.3, height *  0.3,
 
-      width * 0.8, height * 0.8,
-      width * 0.6, height * 0.6,
-      width * 0.5, height * 0.8,
+      width *  0.3,  height *  0.3,
+      width *  0.2,  height *  0.2,
+      width *  0.0,  height *  0.3,
 
-      width * 0.5, height * 0.8,
-      width * 0.6, height * 0.6,
-      width * 0.4, height * 0.6,
+      width *  0.0,  height *  0.3,
+      width *  0.2,  height *  0.2,
+      width * -0.2,  height *  0.2,
 
-      width * 0.4, height * 0.6,
-      width * 0.5, height * 0.8,
-      width * 0.2, height * 0.8,
+      width * -0.2,  height *  0.2,
+      width *  0.0,  height *  0.3,
+      width * -0.3,  height *  0.3,
 
-      width * 0.2, height * 0.8,
-      width * 0.4, height * 0.6,
-      width * 0.2, height * 0.5,
+      width * -0.3,  height *  0.3,
+      width * -0.2,  height *  0.2,
+      width * -0.3,  height *  0.0,
 
-      width * 0.2, height * 0.5,
-      width * 0.4, height * 0.6,
-      width * 0.4, height * 0.4,
+      width * -0.3,  height *  0.0,
+      width * -0.2,  height *  0.2,
+      width * -0.2,  height * -0.2,
 
-      width * 0.4, height * 0.4,
-      width * 0.2, height * 0.5,
-      width * 0.2, height * 0.2
+      width * -0.2,  height * -0.2,
+      width * -0.3,  height *  0.0,
+      width * -0.3,  height * -0.3
 
     ];
 
@@ -218,8 +219,8 @@
 
         centerTranslation = [
 
-          -0.5 * gl.canvas.width,
-          -0.5 * gl.canvas.height
+          0.5 * gl.canvas.width,
+          0.5 * gl.canvas.height
 
         ];
 
@@ -375,7 +376,8 @@
       //    animateRAFed( evt, { setColors: true, ms: MOUSEDOWN_MS } );
       //    animateRAFed( { setColors: true, ms: MOUSEDOWN_MS } );
       //    animateRAFed( { updateOneRandomColor: true, ms: MOUSEDOWN_MS } );
-          animateRAFed( { updateOneColor: true, ms: MOUSEDOWN_MS, updateTranslations: true } );
+          //animateRAFed( { updateOneColor: true, ms: MOUSEDOWN_MS, updateTranslations: true } );
+          animateRAFed( { updateOneColor: true, ms: MOUSEDOWN_MS } );
 
         } else {
 
@@ -393,7 +395,8 @@
       }, false );
 
       //animateRAFed( { updateOneRandomColor: true, ms: MOUSEDOWN_MS } );
-      animateRAFed( { updateOneColor: true, ms: MOUSEDOWN_MS, updateTranslations: true } );
+      //animateRAFed( { updateOneColor: true, ms: MOUSEDOWN_MS, updateTranslations: true } );
+      animateRAFed( { updateOneColor: true, ms: MOUSEDOWN_MS } );
 
     }
 

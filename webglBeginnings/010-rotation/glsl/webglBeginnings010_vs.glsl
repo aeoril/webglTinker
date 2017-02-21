@@ -10,15 +10,11 @@ varying vec4 v_color;
 
 void main() {
 
-  vec2 transformedPosition = a_position + u_centerTranslation;
+  vec2 transformedPosition =
+    vec2( a_position.x * u_rotation.y + a_position.y * u_rotation.x,
+          a_position.y * u_rotation.y - a_position.x * u_rotation.x);
 
-  transformedPosition =
-    vec2(transformedPosition.x * u_rotation.y + transformedPosition.y * u_rotation.x,
-         transformedPosition.y * u_rotation.y - transformedPosition.x * u_rotation.x);
-//    vec2(a_position.x * u_rotation.y + a_position.y * u_rotation.x,
-//         a_position.y * u_rotation.y - a_position.x * u_rotation.x);
-
-  transformedPosition = transformedPosition - u_centerTranslation + u_translation;
+  transformedPosition = transformedPosition + u_centerTranslation + u_translation;
 
   // convert the position from pixels to 0.0 to 1.0
   vec2 zeroToOne = transformedPosition / u_resolution;
