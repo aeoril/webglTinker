@@ -83,6 +83,27 @@ var webglUtils = ( function () {
 
     },
 
+    resizeCanvasToWindowSize: function ( gl ) {
+
+      var windowWidth  = window.innerWidth;
+      var windowHeight = window.innerHeight;
+
+      //var lesser = Math.min(windowWidth, windowHeight);
+
+      if ( gl.canvas.width !== windowWidth ||
+           gl.canvas.height !== windowHeight ) {
+
+        gl.canvas.width  = windowWidth;
+        gl.canvas.height = windowHeight;
+
+        return true;
+
+      }
+
+      return false;
+
+    },
+
     resizeCanvasToDisplaySize: function ( gl ) {
 
       var realToCSSPixels = window.devicePixelRatio;
