@@ -11,7 +11,7 @@ body {
   background-color: black;
 }
 
-h2 {
+.text {
   color: white;
   text-align: center;
 }
@@ -19,8 +19,9 @@ h2 {
 canvas {
   width: 100vw;
   height: 100vh;
-  display: inline-block;
-  position: absolute;
+  display: block;
+
+  /* position: absolute;
   top: 0;
-  left: 0;
+  left: 0; */
 }

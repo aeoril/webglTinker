@@ -45,6 +45,8 @@
 
     var displayWidth  = Math.floor(canvas.clientWidth * realToCSSPixels);
     var displayHeight = Math.floor(canvas.clientHeight * realToCSSPixels);
+    //var displayWidth  = canvas.clientWidth;
+    //var displayHeight = canvas.clientHeight;
 
     if (canvas.width !== displayWidth ||
         canvas.height !== displayHeight) {

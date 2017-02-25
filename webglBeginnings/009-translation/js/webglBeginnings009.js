@@ -145,7 +145,9 @@
 
     var resolutionUniformLocation;
 
+    var outputElem;
     var canvasElem;
+
     var gl;
 
     var colors;
@@ -196,6 +198,10 @@
       canvasResized = webglUtils.resizeCanvasToDisplaySize( gl );
 
       if ( canvasResized || first ) {
+        outputElem.innerText = 'gl.canvas.clientHeight: ' + gl.canvas.clientHeight +
+        ' gl.canvas.height: ' + gl.canvas.height +
+        ' window.innerHeight: ' + window.innerHeight +
+        ' window.devicePixelRatio: ' + window.devicePixelRatio;
         gl.viewport( 0, 0, gl.canvas.width, gl.canvas.height );
       }
 
@@ -265,7 +271,7 @@
 
       primitiveType = gl.TRIANGLES;
 
-      translations.forEach( function ( translation, index ) {
+      /*translations.forEach( function ( translation, index ) {
 
         gl.uniform2fv( translationUniformLocation, translation );
 
@@ -277,7 +283,11 @@
           translation[1] += mathExtras.randIntInc( -1, 1 );
 
         }
-      });
+      }); */
+
+      offset = 0;
+      
+      gl.drawArrays( primitiveType, offset, count );
 
       first = false;
 
@@ -291,6 +301,7 @@
 
       }
 
+      outputElem = document.getElementById('output');
       canvasElem = document.getElementById( 'canvas' );
 
       gl = webglUtils.initWebGL( canvasElem );

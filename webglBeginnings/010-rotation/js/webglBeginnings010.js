@@ -202,8 +202,8 @@
 
       prevTimestamp = timestamp;
 
-      //canvasResized = webglUtils.resizeCanvasToDisplaySize( gl );
-      canvasResized = webglUtils.resizeCanvasToWindowSize( gl );
+      canvasResized = webglUtils.resizeCanvasToDisplaySize( gl );
+      //canvasResized = webglUtils.resizeCanvasToWindowSize( gl );
 
       if ( canvasResized || first ) {
         gl.viewport( 0, 0, gl.canvas.width, gl.canvas.height );

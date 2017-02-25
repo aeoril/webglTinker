@@ -4,10 +4,8 @@
  * Portions Copyright © 2012 by Gregg Tavares.  See LICENSE-webfundamentals.md
  */
 
-html,
 body {
   margin: 0;
-  padding: 0;
   background-color: white;
 }
 
@@ -17,15 +15,10 @@ h2 {
 }
 
 canvas {
-  /* width: 100vw;
-  height: 100vh; */
-
-  display: inline-block;
+  width: 100vw;
+  height: 100vh;
+  display: block;
   position: absolute;
   top: 0;
   left: 0;
-
-  /* margin-left: auto;
-  margin-right: auto;
-  display: block; */
 }
