@@ -83,12 +83,14 @@ var webglUtils = ( function () {
 
     },
 
+    ////////////////////////////////////////////////////
+    // todo: reminder of anti-pattern - don't do this!!!
+    ////////////////////////////////////////////////////
     resizeCanvasToWindowSize: function ( gl ) {
 
+      // window.innerWidth and window.innerHeight are the problem
       var windowWidth  = window.innerWidth;
       var windowHeight = window.innerHeight;
-
-      //var lesser = Math.min(windowWidth, windowHeight);
 
       if ( gl.canvas.width !== windowWidth ||
            gl.canvas.height !== windowHeight ) {
@@ -103,6 +105,9 @@ var webglUtils = ( function () {
       return false;
 
     },
+    ////////////////////////////////////////////////////
+    // todo: end of anti-pattern reminder
+    ////////////////////////////////////////////////////
 
     resizeCanvasToDisplaySize: function ( gl ) {
 
@@ -110,7 +115,6 @@ var webglUtils = ( function () {
 
       var displayWidth  = Math.floor( gl.canvas.clientWidth * realToCSSPixels );
       var displayHeight = Math.floor( gl.canvas.clientHeight * realToCSSPixels );
-      //displayHeight = 6100;
 
       if ( gl.canvas.width !== displayWidth ||
            gl.canvas.height !== displayHeight ) {
