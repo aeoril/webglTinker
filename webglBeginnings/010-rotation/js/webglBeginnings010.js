@@ -202,7 +202,7 @@
       canvasResized = webglUtils.resizeCanvasToDisplaySize( gl );
 
       if ( canvasResized || first ) {
-        gl.viewport( 0, 0, gl.canvas.width, gl.canvas.height );
+        gl.viewport( 0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight );
       }
 
       gl.clear( gl.COLOR_BUFFER_BIT );
@@ -334,11 +334,14 @@
       program = webglUtils.createProgram( gl, vertexShader, fragmentShader );
 
       positionAttributeLocation = gl.getAttribLocation( program, 'a_position' );
+      colorAttributeLocation    = gl.getAttribLocation( program, 'a_color' );
+
       rotationUniformLocation = gl.getUniformLocation( program, 'u_rotation' );
+
       centerTranslationUniformLocation = gl.getUniformLocation( program, 'u_centerTranslation');
       translationUniformLocation = gl.getUniformLocation( program, 'u_translation');
+
       resolutionUniformLocation = gl.getUniformLocation( program, 'u_resolution' );
-      colorAttributeLocation    = gl.getAttribLocation( program, 'a_color' );
 
       colorBuffer    = gl.createBuffer();
       positionBuffer = gl.createBuffer();
@@ -351,14 +354,7 @@
 
       gl.clearColor( 0, 0, 0, 0 );
 
-      //var animateRAFed = rAFAnimate( animate );
       var animateRAFed = rAFAnimate( animate, true );
-
-      //window.addEventListener( 'resize', function () {
-
-       // animateRAFed( { ms: RESIZE_MS } );
-
-      //}, false );
 
       var resizeOnly = false;
 
@@ -374,20 +370,18 @@
 
 //          translations.forEach( function ( translation ) {
 
-//            angleInDegrees = 90.0;
-
  //           translation[0] = 0;
   //          translation[1] = 0;
 
           //});
 
+//          angleInDegrees = 90.0;
+
           animateRAFed( { ms: MOUSEDOWN_MS } );
         }
       }, false );
 
-      //animateRAFed( { updateOneRandomColor: true, ms: MOUSEDOWN_MS } );
-      //animateRAFed( { updateOneColor: true, ms: MOUSEDOWN_MS, updateTranslations: true } );
-      animateRAFed( { rotate: true, updateOneColor: true, ms: MOUSEDOWN_MS, doAnimate: true } );
+      animateRAFed( { rotate: true, updateOneColor: true, ms: MOUSEDOWN_MS } );
 
     }
 
