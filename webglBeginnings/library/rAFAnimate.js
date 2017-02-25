@@ -10,7 +10,7 @@ function rAFAnimate ( animate, continuous ) {
   return ( function () {
 
     var ID = null;
-    var prevContinuous = continuous;
+    //var prevContinuous = continuous;
 
     function innerAnimateRAFed( evt, options ) {
 
@@ -32,9 +32,9 @@ function rAFAnimate ( animate, continuous ) {
 
       }
 
-      if ( ID === null || innerAnimateRAFed.continuous !== prevContinuous) {
+      //if ( ID === null || innerAnimateRAFed.continuous !== prevContinuous) {
 
-        prevContinuous = continuous;
+       // prevContinuous = continuous;
 
         if ( ID ) {
 
@@ -57,7 +57,7 @@ function rAFAnimate ( animate, continuous ) {
           }
         } );
       }
-    }
+    //}
 
     innerAnimateRAFed.continuous = continuous;
 

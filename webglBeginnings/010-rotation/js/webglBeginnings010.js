@@ -11,8 +11,7 @@
   function setGeometry ( gl ) {
 
     var width  = Math.min(gl.canvas.width, gl.canvas.height);
-    var height = width;
-//    var height = gl.canvas.height;
+    var height = width; // make a square frame
 
     var indices = [
 
@@ -183,8 +182,6 @@
 
       var ii;
 
-      //console.log( timestamp, options );
-
       if ( prevTimestamp === undefined ) {
 
          prevTimestamp = timestamp;
@@ -203,7 +200,6 @@
       prevTimestamp = timestamp;
 
       canvasResized = webglUtils.resizeCanvasToDisplaySize( gl );
-      //canvasResized = webglUtils.resizeCanvasToWindowSize( gl );
 
       if ( canvasResized || first ) {
         gl.viewport( 0, 0, gl.canvas.width, gl.canvas.height );
@@ -212,8 +208,6 @@
       gl.clear( gl.COLOR_BUFFER_BIT );
 
       if ( canvasResized || first ) {
-
-        //console.log( 'animate: resizing' );
 
         gl.bindBuffer( gl.ARRAY_BUFFER, positionBuffer );
 
@@ -309,7 +303,11 @@
         }
       });
 
-      angleInDegrees += 0.1;
+      if (options.rotate) {
+
+        angleInDegrees += 0.1;
+
+      }
 
       first = false;
 
@@ -356,49 +354,40 @@
       //var animateRAFed = rAFAnimate( animate );
       var animateRAFed = rAFAnimate( animate, true );
 
-      window.addEventListener( 'resize', function () {
+      //window.addEventListener( 'resize', function () {
 
-        animateRAFed( { ms: RESIZE_MS } );
+       // animateRAFed( { ms: RESIZE_MS } );
 
-      }, false );
+      //}, false );
+
+      var resizeOnly = false;
 
       window.addEventListener( 'mousedown', function () {
 
-        animateRAFed.continuous = !animateRAFed.continuous;
+        resizeOnly = !resizeOnly;
 
-        if ( animateRAFed.continuous ) {
+        if ( !resizeOnly ) {
 
-//          translations.forEach( function ( translation ) {
-//
-//            translation[0] = 0;
-//            translation[1] = 0;
-
-//          });
-
-      //    animateRAFed( evt, { setColors: true, ms: MOUSEDOWN_MS } );
-      //    animateRAFed( { setColors: true, ms: MOUSEDOWN_MS } );
-      //    animateRAFed( { updateOneRandomColor: true, ms: MOUSEDOWN_MS } );
-          //animateRAFed( { updateOneColor: true, ms: MOUSEDOWN_MS, updateTranslations: true } );
-          animateRAFed( { updateOneColor: true, ms: MOUSEDOWN_MS } );
+          animateRAFed( { rotate: true, updateOneColor: true, ms: MOUSEDOWN_MS } );
 
         } else {
 
-          translations.forEach( function ( translation ) {
+//          translations.forEach( function ( translation ) {
 
 //            angleInDegrees = 90.0;
 
-            translation[0] = 0;
-            translation[1] = 0;
+ //           translation[0] = 0;
+  //          translation[1] = 0;
 
-          });
+          //});
 
-          animateRAFed();
+          animateRAFed( { ms: MOUSEDOWN_MS } );
         }
       }, false );
 
       //animateRAFed( { updateOneRandomColor: true, ms: MOUSEDOWN_MS } );
       //animateRAFed( { updateOneColor: true, ms: MOUSEDOWN_MS, updateTranslations: true } );
-      animateRAFed( { updateOneColor: true, ms: MOUSEDOWN_MS } );
+      animateRAFed( { rotate: true, updateOneColor: true, ms: MOUSEDOWN_MS, doAnimate: true } );
 
     }
 
