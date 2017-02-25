@@ -10,7 +10,6 @@ function rAFAnimate ( animate, continuous ) {
   return ( function () {
 
     var ID = null;
-    //var prevContinuous = continuous;
 
     function innerAnimateRAFed( evt, options ) {
 
@@ -32,32 +31,27 @@ function rAFAnimate ( animate, continuous ) {
 
       }
 
-      //if ( ID === null || innerAnimateRAFed.continuous !== prevContinuous) {
+      if ( ID ) {
 
-       // prevContinuous = continuous;
+        window.cancelAnimationFrame(ID);
 
-        if ( ID ) {
+      }
 
-          window.cancelAnimationFrame(ID);
+      ID = window.requestAnimationFrame( function rAFCallee( timestamp ) {
+
+        animate( timestamp, options );
+
+        if ( innerAnimateRAFed.continuous ) {
+
+          ID = window.requestAnimationFrame( rAFCallee );
+
+        } else {
+
+          ID = null;
 
         }
-
-        ID = window.requestAnimationFrame( function rAFCallee( timestamp ) {
-
-          animate( timestamp, options );
-
-          if ( innerAnimateRAFed.continuous ) {
-
-            ID = window.requestAnimationFrame( rAFCallee );
-
-          } else {
-
-            ID = null;
-
-          }
-        } );
-      }
-    //}
+      } );
+    }
 
     innerAnimateRAFed.continuous = continuous;
 
