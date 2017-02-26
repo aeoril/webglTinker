@@ -16,7 +16,7 @@
     var indices = [
 
       // Triangle 1
-      width * -0.3, height * -0.3,
+      width * -0.2, height * -0.3,
       width * -0.2, height * -0.2,
       width *  0.0, height * -0.3,
 
@@ -64,11 +64,7 @@
 
       width * -0.2,  height * -0.2,
       width * -0.3,  height *  0.0,
-      width * -0.3,  height * -0.3,
-
-      width * -0.3,  height * -0.3,
-      width * -0.2,  height * -0.2,
-      width * -0.2,  height * -0.3
+      width * -0.3,  height * -0.3
 
     ];
 
@@ -86,7 +82,7 @@
 
       colors.splice( colors.length, 0,
         mathExtras.randInt( 256 ), mathExtras.randInt( 256 ),
-        mathExtras.randInt( 256 ), ii < (count - 3) ? 255 : 0 );
+        mathExtras.randInt( 256 ), 255 );
 
     }
 
