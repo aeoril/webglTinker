@@ -11,23 +11,27 @@ function rAFAnimate ( animate, continuous ) {
 
     var ID = null;
 
-    function innerAnimateRAFed( evt, options ) {
+    function innerAnimateRAFed( evt, optionsAry ) {
 
-      if ( !options ) {
+      if ( !optionsAry ) {
 
         if ( !evt || evt instanceof Event ) {
 
-            options = { evt: evt };
+            optionsAry = [ { evt: evt } ];
 
         } else {
 
-          options = evt;
-          options.evt = undefined;
+          optionsAry = evt;
+          optionsAry.forEach( function ( options ) {
+            options.evt = undefined;
+          });
 
         }
       } else {
 
-        options.evt = evt;
+        optionsAry.forEach( function ( options ) {
+          options.evt = evt;
+        });
 
       }
 
@@ -39,14 +43,20 @@ function rAFAnimate ( animate, continuous ) {
 
       ID = window.requestAnimationFrame( function rAFCallee( timestamp ) {
 
-        animate( timestamp, options );
+        animate( timestamp, optionsAry[0] );
 
-        if ( innerAnimateRAFed.continuous ) {
+        if ( innerAnimateRAFed.continuous || optionsAry.length > 1 ) {
+
+          if ( optionsAry.length > 1 ) {
+
+            optionsAry.shift();
+
+          }
 
           ID = window.requestAnimationFrame( rAFCallee );
 
         } else {
-
+          
           ID = null;
 
         }
