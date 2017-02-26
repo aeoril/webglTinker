@@ -294,7 +294,9 @@
 
       gl.uniform2fv( scaleUniformLocation, scale );
       gl.uniform2fv( rotationUniformLocation, rotation );
-      gl.uniform2fv( translationUniformLocation, translation );
+      gl.uniform2fv( translationUniformLocation,
+        [ Math.floor( translation[0] * window.devicePixelRatio ),
+          Math.floor( translation[1] * window.devicePixelRatio ) ] );
 
       primitiveType = gl.TRIANGLES;
       offset = 0;
