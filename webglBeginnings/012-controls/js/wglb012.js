@@ -156,7 +156,6 @@
 
     var translationUniformLocation;
     var translation = [0, 0];
-    var translations = [];
 
     var resolutionUniformLocation;
 
@@ -181,6 +180,9 @@
     var scaleYElem;
 
     var angleElem;
+
+    var translateXElem;
+    var translateYElem;
 
     function animate ( timestamp, options ) {
 
@@ -216,7 +218,9 @@
       canvasResized = webglUtils.resizeCanvasToDisplaySize( gl );
 
       if ( canvasResized || first ) {
+
         gl.viewport( 0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight );
+
       }
 
       gl.clear( gl.COLOR_BUFFER_BIT );
@@ -226,24 +230,6 @@
         gl.bindBuffer( gl.ARRAY_BUFFER, positionBuffer );
 
         count = setGeometry( gl );
-
-        centerTranslation = [
-
-          0.5 * gl.canvas.width,
-          0.5 * gl.canvas.height
-
-        ];
-
-        gl.uniform2fv( centerTranslationUniformLocation, centerTranslation );
-
-        if (first) {
-
-          for ( offset = 0; offset < count; offset += VERTICES_PER_TRIANGLE ) {
-
-            translations.push([0, 0]);
-
-          }
-        }
 
         size = 2;
         type = gl.FLOAT;
@@ -257,9 +243,20 @@
         gl.uniform2f(
           resolutionUniformLocation, gl.canvas.width, gl.canvas.height );
 
+        translateXElem.max = gl.canvas.clientWidth;
+
+        translation[0] = Math.min(translation[0], translateXElem.max );
+        translateXElem.value = translation[0];
+
+        translateYElem.max = gl.canvas.clientHeight;
+
+        translation[1] = Math.min(translation[1], translateYElem.max );
+        translateYElem.value = translation[1];
+
       }
 
-      if ( options.updateOneColor || options.updateOneRandomColor ||  options.setColors || first ) {
+      if ( options.updateOneColor || options.updateOneRandomColor ||
+           options.setColors || first ) {
 
         //console.log('animate: setting colors');
 
@@ -290,8 +287,6 @@
 
       }
 
-      primitiveType = gl.TRIANGLES;
-
       angleInRadians = angleInDegrees * Math.PI / 180.0;
 
       var rotation = [
@@ -301,22 +296,21 @@
 
       ];
 
-      translations.forEach( function ( translation, index ) {
+      gl.uniform2fv( scaleUniformLocation, scale );
+      gl.uniform2fv( rotationUniformLocation, rotation );
+      gl.uniform2fv( translationUniformLocation, translation );
 
-        gl.uniform2fv( scaleUniformLocation, scale );
-        gl.uniform2fv( rotationUniformLocation, rotation );
-        gl.uniform2fv( translationUniformLocation, translation );
+      primitiveType = gl.TRIANGLES;
+      offset = 0;
 
-        gl.drawArrays(
-          primitiveType, index * VERTICES_PER_TRIANGLE, VERTICES_PER_TRIANGLE );
+      gl.drawArrays( primitiveType, offset, count );
 
-        if (options.updateTranslations) {
+      if ( options.translate ) {
 
-          translation[0] += mathExtras.randIntInc( -1, 1 );
-          translation[1] += mathExtras.randIntInc( -1, 1 );
+        translation[0] += mathExtras.randIntInc( -1, 1 );
+        translation[1] += mathExtras.randIntInc( -1, 1 );
 
-        }
-      });
+      }
 
       if (options.scale) {
 
@@ -378,6 +372,32 @@
       gl.clearColor( 0, 0, 0, 0 );
 
       var animateRAFed = rAFAnimate( animate, true );
+
+      translateXElem = document.getElementById('translateX');
+
+      translateXElem.min = 0;
+      translateXElem.max = gl.canvas.clientWidth;
+      translateXElem.value = Math.floor( gl.canvas.clientWidth / 2 );
+      translation[0] = parseInt(translateXElem.value);
+
+      translateXElem.addEventListener('input', function () {
+
+        translation[0] = parseInt( translateXElem.value );
+
+      });
+
+      translateYElem = document.getElementById('translateY');
+
+      translateYElem.min = 0;
+      translateYElem.max = gl.canvas.clientHeight;
+      translateYElem.value = Math.floor( gl.canvas.clientHeight / 2 );
+      translation[1] = parseInt(translateYElem.value);
+
+      translateYElem.addEventListener('input', function () {
+
+        translation[1] = parseInt( translateYElem.value );
+
+      });
 
       scaleXElem = document.getElementById('scaleX');
 
@@ -441,7 +461,14 @@
       //    animateRAFed( { ms: MOUSEDOWN_MS } );
        // }
 
-        scale = [1, 1];
+        translation = [ Math.floor( gl.canvas.clientWidth / 2 ),
+          Math.floor( gl.canvas.clientHeight / 2 ) ];
+
+        translateXElem.value = translation[ 0 ];
+        translateYElem.value = translation[ 1 ];
+
+
+        scale = [ 1, 1 ];
         scaleXElem.value = 100;
         scaleYElem.value = 100;
 
@@ -449,12 +476,12 @@
         angleElem.value = 0;
 
 //animateRAFed.continuous = false;
-        animateRAFed( [ { scale: false, rotate: false, setColors: true, updateOneColor: false, ms: 0 },
-                        { scale: false, rotate: false, setColors: false, updateOneColor: false, ms: MOUSEDOWN_MS } ] );
+        animateRAFed( [ { scale: false, rotate: false, translate: false, setColors: true, updateOneColor: false, ms: 0 },
+                        { scale: false, rotate: false, translate: false, setColors: false, updateOneColor: false, ms: MOUSEDOWN_MS } ] );
 
       }, false );
 
-      animateRAFed( [ { scale: false, rotate: false, setColors: false, updateOneColor: false, ms: MOUSEDOWN_MS } ] );
+      animateRAFed( [ { scale: false, rotate: false, translate: false, setColors: false, updateOneColor: false, ms: MOUSEDOWN_MS } ] );
 
     }
 
