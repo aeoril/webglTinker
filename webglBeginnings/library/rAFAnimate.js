@@ -3,7 +3,7 @@
  * Copyright © 2017 by IC3 Dimensions.  MIT License. See LICENSE.md
  */
 
-function rAFAnimate ( animate, continuous ) {
+function rAFAnimate ( animate, continuous, renderCount ) {
 
   'use strict';
 
@@ -43,6 +43,21 @@ function rAFAnimate ( animate, continuous ) {
 
       ID = window.requestAnimationFrame( function rAFCallee( timestamp ) {
 
+        if ( innerAnimateRAFed.renderCount === 0 ) {
+
+          optionsAry[0].render = false;
+
+        } else {
+
+          optionsAry[0].render = true;
+
+          if ( innerAnimateRAFed.renderCount > 0 ) {
+
+            innerAnimateRAFed.renderCount--;
+
+          }
+        }
+
         animate( timestamp, optionsAry[0] );
 
         if ( innerAnimateRAFed.continuous || optionsAry.length > 1 ) {
@@ -56,7 +71,7 @@ function rAFAnimate ( animate, continuous ) {
           ID = window.requestAnimationFrame( rAFCallee );
 
         } else {
-          
+
           ID = null;
 
         }
@@ -64,6 +79,7 @@ function rAFAnimate ( animate, continuous ) {
     }
 
     innerAnimateRAFed.continuous = continuous;
+    innerAnimateRAFed.renderCount = renderCount || 0;
 
     return innerAnimateRAFed;
 

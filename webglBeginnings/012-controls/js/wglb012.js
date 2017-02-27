@@ -167,8 +167,7 @@
 
     var first = true;
 
-    var RESIZE_MS = 100;
-    var MOUSEDOWN_MS = 42;
+    var ANIMATE_MS = 42;
 
     var resetElem;
 
@@ -182,7 +181,7 @@
 
     function animate ( timestamp, options ) {
 
-      var canvasResized;
+      var resized;
 
       var size;
       var type;
@@ -211,17 +210,15 @@
 
       prevTimestamp = timestamp;
 
-      canvasResized = webglUtils.resizeCanvasToDisplaySize( gl );
+      resized = webglUtils.resizeCanvasToDisplaySize( gl );
 
-      if ( canvasResized || first ) {
+      if ( resized || first ) {
 
         gl.viewport( 0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight );
 
       }
 
-      gl.clear( gl.COLOR_BUFFER_BIT );
-
-      if ( canvasResized || first ) {
+      if ( resized || first ) {
 
         gl.bindBuffer( gl.ARRAY_BUFFER, positionBuffer );
 
@@ -283,26 +280,6 @@
 
       }
 
-      angleInRadians = angleInDegrees * Math.PI / 180.0;
-
-      var rotation = [
-
-        Math.cos( angleInRadians ),
-        Math.sin( angleInRadians )
-
-      ];
-
-      gl.uniform2fv( scaleUniformLocation, scale );
-      gl.uniform2fv( rotationUniformLocation, rotation );
-      gl.uniform2fv( translationUniformLocation,
-        [ Math.floor( translation[0] * window.devicePixelRatio ),
-          Math.floor( translation[1] * window.devicePixelRatio ) ] );
-
-      primitiveType = gl.TRIANGLES;
-      offset = 0;
-
-      gl.drawArrays( primitiveType, offset, count );
-
       if ( options.translate ) {
 
         translation[0] += mathExtras.randIntInc( -1, 1 );
@@ -320,6 +297,32 @@
       if (options.rotate) {
 
         angleInDegrees += 0.1;
+
+      }
+
+      angleInRadians = angleInDegrees * Math.PI / 180.0;
+
+      var rotation = [
+
+        Math.cos( angleInRadians ),
+        Math.sin( angleInRadians )
+
+      ];
+
+      if ( resized || options.render || first ) {
+
+        gl.clear( gl.COLOR_BUFFER_BIT );
+
+        gl.uniform2fv( scaleUniformLocation, scale );
+        gl.uniform2fv( rotationUniformLocation, rotation );
+        gl.uniform2fv( translationUniformLocation,
+          [ Math.floor( translation[0] * window.devicePixelRatio ),
+            Math.floor( translation[1] * window.devicePixelRatio ) ] );
+
+        primitiveType = gl.TRIANGLES;
+        offset = 0;
+
+        gl.drawArrays( primitiveType, offset, count );
 
       }
 
@@ -369,7 +372,7 @@
 
       gl.clearColor( 0, 0, 0, 0 );
 
-      var animateRAFed = rAFAnimate( animate, true );
+      var animateRAFed = rAFAnimate( animate, true, 1 );
 
       translateXElem = document.getElementById('translateX');
 
@@ -381,6 +384,8 @@
       translateXElem.addEventListener('input', function () {
 
         translation[0] = parseInt( translateXElem.value );
+
+        animateRAFed.renderCount = 1;
 
       });
 
@@ -395,6 +400,8 @@
 
         translation[1] = parseInt( translateYElem.value );
 
+        animateRAFed.renderCount = 1;
+
       });
 
       scaleXElem = document.getElementById('scaleX');
@@ -406,6 +413,8 @@
       scaleXElem.addEventListener('input', function () {
 
         scale[0] = parseInt( scaleXElem.value ) / 100;
+
+        animateRAFed.renderCount = 1;
 
       });
 
@@ -419,6 +428,8 @@
 
         scale[1] = parseInt( scaleYElem.value, 10 ) / 100;
 
+        animateRAFed.renderCount = 1;
+
       });
 
       angleElem = document.getElementById('angle');
@@ -431,33 +442,15 @@
 
         angleInDegrees = parseInt( angleElem.value, 10 ) + 90;
 
-      });
+        animateRAFed.renderCount = 1;
 
-      //var resizeOnly = false;
+      });
 
       var resetElem = document.getElementById('reset');
 
       resetElem.addEventListener( 'click', function () {
 
-       // resizeOnly = !resizeOnly;
-
-      //  if ( !resizeOnly ) {
-
-       //   animateRAFed( { scale: true, rotate: true, updateOneColor: true, ms: MOUSEDOWN_MS } );
-
-      //  } else {
-
-//          translations.forEach( function ( translation ) {
-
- //           translation[0] = 0;
-  //          translation[1] = 0;
-
-          //});
-
-          angleInDegrees = 0.0;
-
-      //    animateRAFed( { ms: MOUSEDOWN_MS } );
-       // }
+        angleInDegrees = 0.0;
 
         translation = [ Math.floor( gl.canvas.clientWidth / 2 ),
           Math.floor( gl.canvas.clientHeight / 2 ) ];
@@ -473,13 +466,15 @@
         angleInDegrees = 90;
         angleElem.value = 0;
 
-//animateRAFed.continuous = false;
-        animateRAFed( [ { scale: false, rotate: false, translate: false, setColors: true, updateOneColor: false, ms: 0 },
-                        { scale: false, rotate: false, translate: false, setColors: false, updateOneColor: false, ms: MOUSEDOWN_MS } ] );
+        animateRAFed.renderCount = 1;
+        animateRAFed( [ { setColors: true, ms: 0 },
+                        { ms: ANIMATE_MS } ] );
 
       }, false );
 
-      animateRAFed( [ { scale: false, rotate: false, translate: false, setColors: false, updateOneColor: false, ms: MOUSEDOWN_MS } ] );
+      //animateRAFed.renderCount = 1;
+      animateRAFed( [ { setColors: true, ms: 0 },
+                      { ms: ANIMATE_MS } ] );
 
     }
 
