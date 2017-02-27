@@ -3,37 +3,35 @@
  * Copyright © 2017 by IC3 Dimensions.  MIT License. See LICENSE.md
  */
 
-function rAFAnimate ( animate, continuous, renderCount ) {
+function rAFAnimate ( animate, options ) {
 
   'use strict';
+
+  // eliminate side effects and external interference
+  options = simpleCopy(options);
+
+  options.repeat = options.repeat || 0;
+  options.render = options.render || 0;
+  options.ms = options.ms || 0;
 
   return ( function () {
 
     var ID = null;
 
-    function innerAnimateRAFed( evt, optionsAry ) {
+    function innerAnimateRAFed( optionsUpdates ) {
 
-      if ( !optionsAry ) {
+      Object.keys( optionsUpdates ).forEach( function( key ) {
 
-        if ( !evt || evt instanceof Event ) {
+        if ( key in options ) {
 
-            optionsAry = [ { evt: evt } ];
+          options[key] = optionsUpdates[key];
 
         } else {
 
-          optionsAry = evt;
-          optionsAry.forEach( function ( options ) {
-            options.evt = undefined;
-          });
+          throw new RangeError( key + ' is not a valid option' );
 
         }
-      } else {
-
-        optionsAry.forEach( function ( options ) {
-          options.evt = evt;
-        });
-
-      }
+      });
 
       if ( ID ) {
 
@@ -43,30 +41,31 @@ function rAFAnimate ( animate, continuous, renderCount ) {
 
       ID = window.requestAnimationFrame( function rAFCallee( timestamp ) {
 
-        if ( innerAnimateRAFed.renderCount === 0 ) {
+        var outOptions = Object.keys( options ).reduce( function ( obj, key ) {
 
-          optionsAry[0].render = false;
+          if ( key === 'ms' || ( typeof options[ key ] !== 'number' ) ) {
 
-        } else {
+            obj[key] = simpleCopy( options[key] );
 
-          optionsAry[0].render = true;
-
-          if ( innerAnimateRAFed.renderCount > 0 ) {
-
-            innerAnimateRAFed.renderCount--;
+            return obj;
 
           }
-        }
 
-        animate( timestamp, optionsAry[0] );
+          obj[key] = !!options[key];
 
-        if ( innerAnimateRAFed.continuous || optionsAry.length > 1 ) {
+          if ( options[key] > 0 ) {
 
-          if ( optionsAry.length > 1 ) {
-
-            optionsAry.shift();
+            options[key]--;
 
           }
+
+          return obj;
+
+        }, {});
+
+        animate( timestamp, outOptions );
+
+        if ( options.repeat ) {
 
           ID = window.requestAnimationFrame( rAFCallee );
 
@@ -77,9 +76,6 @@ function rAFAnimate ( animate, continuous, renderCount ) {
         }
       } );
     }
-
-    innerAnimateRAFed.continuous = continuous;
-    innerAnimateRAFed.renderCount = renderCount || 0;
 
     return innerAnimateRAFed;
 
