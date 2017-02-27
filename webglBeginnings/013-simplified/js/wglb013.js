@@ -123,8 +123,8 @@
 
     var urlObjs = [
 
-      {key: 'VSSource', url: 'glsl/wglb012_vs.glsl'},
-      {key: 'FSSource', url: 'glsl/wglb012_fs.glsl'}
+      {key: 'VSSource', url: 'glsl/wglb013_vs.glsl'},
+      {key: 'FSSource', url: 'glsl/wglb013_fs.glsl'}
 
     ];
 
@@ -193,13 +193,21 @@
 
       var ii;
 
+      resized = webglUtils.resizeCanvasToDisplaySize( gl );
+
+      if ( resized || first ) {
+
+        gl.viewport( 0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight );
+
+      }
+
       if ( prevTimestamp === undefined ) {
 
          prevTimestamp = timestamp;
 
        }
 
-      if ( options.ms && !first ) {
+      if ( !resized && !options.immediate && !first ) {
 
         if ( timestamp - prevTimestamp < options.ms ) {
 
@@ -209,14 +217,6 @@
       }
 
       prevTimestamp = timestamp;
-
-      resized = webglUtils.resizeCanvasToDisplaySize( gl );
-
-      if ( resized || first ) {
-
-        gl.viewport( 0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight );
-
-      }
 
       if ( resized || first ) {
 
