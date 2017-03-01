@@ -11,6 +11,7 @@ function rAFAnimate ( animate, options ) {
   options = simpleCopy(options);
 
   options.repeat = options.repeat || 0;
+  options.immediate = options.immediate || 0;
   options.render = options.render || 0;
   options.ms = options.ms || 0;
 
@@ -22,16 +23,25 @@ function rAFAnimate ( animate, options ) {
 
       Object.keys( optionsUpdates ).forEach( function( key ) {
 
-        if ( key in options ) {
-
-          options[key] = optionsUpdates[key];
-
-        } else {
+        if ( !( key in options ) ) {
 
           throw new RangeError( key + ' is not a valid option' );
 
         }
+
+        if ( optionsUpdates[ key ] === 'toggle' ) {
+
+          options[ key ] = options[ key ] === Infinity ? 0 : Infinity;
+          options.immediate = options.immediate || 1;
+
+        } else {
+
+          options[key] = optionsUpdates[key];
+
+        }
       });
+
+      options.render = 0;
 
       if ( ID ) {
 
@@ -41,27 +51,61 @@ function rAFAnimate ( animate, options ) {
 
       ID = window.requestAnimationFrame( function rAFCallee( timestamp ) {
 
-        var outOptions = Object.keys( options ).reduce( function ( obj, key ) {
+        var outOptions = {};
 
-          if ( key === 'ms' || ( typeof options[ key ] !== 'number' ) ) {
+        Object.keys( options ).forEach( function ( key ) {
 
-            obj[key] = simpleCopy( options[key] );
+          if ( key === 'ms' ) {
 
-            return obj;
+            outOptions.ms = options.ms;
 
+          } else {
+
+            if ( key === 'repeat' ) {
+
+              return;
+
+            }
+
+            if ( key !== 'render' && key !== 'immediate' ) {
+
+              outOptions[ key ] = !!options[ key ];
+
+              if ( options[ key ] !== Infinity ) {
+
+                options.immediate = Math.max( options.immediate, options[ key ]);
+
+                options.render = Math.max( options.render, options.immediate );
+
+              } else {
+
+                options.render = Infinity;
+
+              }
+
+              if ( options [ key ] > 0 ) {
+
+                options[ key ]--;
+
+              }
+            }
           }
+        });
 
-          obj[key] = !!options[key];
+        outOptions.immediate = !!options.immediate;
+        outOptions.render = !!options.render;
 
-          if ( options[key] > 0 ) {
+        if ( options.immediate > 0 ) {
 
-            options[key]--;
+          options.immediate--;
 
-          }
+        }
 
-          return obj;
+        if ( options.render > 0 ) {
 
-        }, {});
+          options.render--;
+
+        }
 
         animate( timestamp, outOptions );
 
@@ -75,6 +119,9 @@ function rAFAnimate ( animate, options ) {
 
         }
       } );
+
+      return simpleCopy( options );
+
     }
 
     return innerAnimateRAFed;

@@ -251,8 +251,6 @@
       if ( options.updateOneColor || options.updateOneRandomColor ||
            options.setColors || first ) {
 
-        //console.log('animate: setting colors');
-
         gl.bindBuffer( gl.ARRAY_BUFFER, colorBuffer );
 
         if ( options.setColors || first ) {
@@ -280,21 +278,29 @@
 
       }
 
-      if ( options.translate ) {
+      if ( options.translateX ) {
 
-        translation[0] += mathExtras.randIntInc( -1, 1 );
-        translation[1] += mathExtras.randIntInc( -1, 1 );
+        translation[ 0 ] += mathExtras.randIntInc( -1, 1 );
 
-      }
+      if ( options.translateY )
 
-      if (options.scale) {
-
-        scale[0] += (Math.random() - 0.5) / 100;
-        scale[1] = scale[0];
+        translation[ 1 ] += mathExtras.randIntInc( -1, 1 );
 
       }
 
-      if (options.rotate) {
+      if ( options.scaleX ) {
+
+        scale[ 0 ] += (Math.random() - 0.5) / 100;
+
+      }
+
+      if ( options.scaleY ) {
+
+        scale[ 1 ] = scale[0];
+
+      }
+
+      if ( options.rotate ) {
 
         angleInDegrees += 0.1;
 
@@ -373,18 +379,20 @@
       gl.clearColor( 0, 0, 0, 0 );
 
       var animateRAFed = rAFAnimate( animate,
-         {
-           repeat: -1,
-           immediate: 0,
-           ms: ANIMATE_MS,
-           setColors: 1,
-           updateOneColor: 0,
-           updateOneRandomColor: 0,
-           translate: 0,
-           scale: 0,
-           rotate: 0,
-           render: 1,
-          } );
+      {
+
+         repeat: Infinity,
+         ms: ANIMATE_MS,
+         setColors: 1,
+         updateOneColor: 0,
+         updateOneRandomColor: 0,
+         translateX: 0,
+         translateY: 0,
+         scaleY: 0,
+         scaleX: 0,
+         rotate: 0,
+
+        } );
 
       translateXElem = document.getElementById('translateX');
 
@@ -397,9 +405,25 @@
 
         translation[0] = parseInt( translateXElem.value );
 
-        animateRAFed( { immediate: 1, render: 1 } );
+        animateRAFed( { immediate: 1 } );
 
       });
+
+      var animateTranslateXElem = document.getElementById( 'animateTranslateX' );
+
+      animateTranslateXElem.addEventListener( 'click', function () {
+
+        if ( animateRAFed( { translateX: 'toggle' } ).translateX ) {
+
+          animateTranslateXElem.style.borderStyle = 'inset';
+
+        } else {
+
+          animateTranslateXElem.style.borderStyle = 'outset';
+
+        }
+
+      }, false );
 
       translateYElem = document.getElementById('translateY');
 
@@ -412,9 +436,9 @@
 
         translation[1] = parseInt( translateYElem.value );
 
-        animateRAFed( { immediate: 1, render: 1 } );
+        animateRAFed( { immediate: 1 } );
 
-      });
+      }, false);
 
       scaleXElem = document.getElementById('scaleX');
 
@@ -426,9 +450,9 @@
 
         scale[0] = parseInt( scaleXElem.value ) / 100;
 
-        animateRAFed( { immediate: 1, render: 1 } );
+        animateRAFed( { immediate: 1 } );
 
-      });
+      }, false);
 
       scaleYElem = document.getElementById('scaleY');
 
@@ -440,9 +464,9 @@
 
         scale[1] = parseInt( scaleYElem.value, 10 ) / 100;
 
-        animateRAFed( { immediate: 1, render: 1 } );
+        animateRAFed( { immediate: 1 } );
 
-      });
+      }, false);
 
       angleElem = document.getElementById('angle');
 
@@ -454,9 +478,9 @@
 
         angleInDegrees = parseInt( angleElem.value, 10 ) + 90;
 
-        animateRAFed( { immediate: 1, render: 1 } );
+        animateRAFed( { immediate: 1 } );
 
-      });
+      }, false);
 
       var resetElem = document.getElementById('reset');
 
@@ -478,11 +502,11 @@
         angleInDegrees = 90;
         angleElem.value = 0;
 
-        animateRAFed( { immediate: 1, render: 1, setColors: 1 } );
+        animateRAFed( { immediate: 1, setColors: 1 } );
 
       }, false );
 
-      animateRAFed( { immediate: 1, render: 1, setColors: 1 } );
+      animateRAFed( { immediate: 1 } );
 
     }
 
