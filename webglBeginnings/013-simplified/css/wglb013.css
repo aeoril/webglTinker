@@ -30,7 +30,7 @@ label {
 }
 
 input[type=range] {
-  width: 50vw;
+  width: 45vw;
 }
 
 .inlineBlock {
@@ -41,6 +41,6 @@ input[type=range] {
   vertical-align: middle;
 }
 
-#oneRandomColor {
+#oneColor {
   margin-left: 10px;
 }

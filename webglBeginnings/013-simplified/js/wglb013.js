@@ -94,7 +94,7 @@
 
   var triangleToUpdate = 0;
 
-  function updateOneColor( gl, colors ) {
+  function oneColor( gl, colors ) {
 
     colors.splice( triangleToUpdate * 4, 4,
       mathExtras.randInt( 256 ), mathExtras.randInt( 256 ),
@@ -106,7 +106,7 @@
 
   }
 
-  function updateOneRandomColor( gl, colors ) {
+  function oneRandomColor( gl, colors ) {
 
     colors.splice( mathExtras.randInt( colors.length / 4 ) * 4, 4,
       mathExtras.randInt( 256 ), mathExtras.randInt( 256 ),
@@ -179,6 +179,11 @@
     var translateXElem;
     var translateYElem;
 
+    var setColorsElem;
+
+    var oneColorElem;
+    var oneRandomColorElem;
+
     function animate ( timestamp, options ) {
 
       var resized;
@@ -244,7 +249,7 @@
 
       }
 
-      if ( options.updateOneColor || options.updateOneRandomColor ||
+      if ( options.oneColor || options.oneRandomColor ||
            options.setColors ) {
 
         gl.bindBuffer( gl.ARRAY_BUFFER, colorBuffer );
@@ -253,13 +258,13 @@
 
           colors = setColors( gl, count );
 
-        } else if (options.updateOneColor) {
+        } else if (options.oneColor) {
 
-          updateOneColor( gl, colors );
+          oneColor( gl, colors );
 
         } else {
 
-          updateOneRandomColor( gl, colors );
+          oneRandomColor( gl, colors );
 
         }
 
@@ -382,8 +387,8 @@
         repeat: Infinity,
         ms: ANIMATE_MS,
         setColors: 1,
-        updateOneColor: 0,
-        updateOneRandomColor: 0,
+        oneColor: 0,
+        oneRandomColor: 0,
         scaleY: 0,
         scaleX: 0,
         translateX: 0,
@@ -539,6 +544,36 @@
         }
       }, false );
 
+      var oneColorElem = document.getElementById( 'oneColor' );
+
+      oneColorElem.addEventListener( 'click', function () {
+
+        if ( animateRAFed( { oneColor: 'toggle' } ).oneColor ) {
+
+          oneColorElem.style.borderStyle = 'inset';
+
+        } else {
+
+          oneColorElem.style.borderStyle = '';
+
+        }
+      }, false );
+
+      var oneRandomColorElem = document.getElementById( 'oneRandomColor' );
+
+      oneRandomColorElem.addEventListener( 'click', function () {
+
+        if ( animateRAFed( { oneRandomColor: 'toggle' } ).oneRandomColor ) {
+
+          oneRandomColorElem.style.borderStyle = 'inset';
+
+        } else {
+
+          oneRandomColorElem.style.borderStyle = '';
+
+        }
+      }, false );
+
       var resetElem = document.getElementById('reset');
 
       resetElem.addEventListener( 'click', function () {
@@ -564,13 +599,15 @@
         animateTranslateXElem.style.borderStyle = '';
         animateTranslateYElem.style.borderStyle = '';
         animateRotateElem.style.borderStyle = '';
+        oneColorElem.style.borderStyle = '';
+        oneRandomColorElem.style.borderStyle = '';
 
         animateRAFed(
         {
 
           setColors: 1,
-          updateOneColor: 0,
-          updateOneRandomColor: 0,
+          oneColor: 0,
+          oneRandomColor: 0,
           scaleY: 0,
           scaleX: 0,
           translateX: 0,
