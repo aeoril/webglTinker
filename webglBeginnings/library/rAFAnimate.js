@@ -48,7 +48,7 @@ function rAFAnimate ( animate, options ) {
 
       Object.keys( options ).forEach( function ( key ) {
 
-        if ( key === 'repeat' ) {
+        if ( key === 'repeat' || key === 'ms' ) {
 
           return;
 

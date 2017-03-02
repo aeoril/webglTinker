@@ -174,7 +174,7 @@
     var scaleXElem;
     var scaleYElem;
 
-    var angleElem;
+    var rotateElem;
 
     var translateXElem;
     var translateYElem;
@@ -203,7 +203,7 @@
 
       prevTimestamp = prevTimestamp || timestamp;
 
-      if ( !resized && !options.immediate && !options.render ) {
+      if ( !resized && !options.immediate ) {
 
         if ( timestamp - prevTimestamp < options.ms ) {
 
@@ -278,7 +278,9 @@
 
         translation[ 0 ] += mathExtras.randIntInc( -1, 1 );
 
-      if ( options.translateY )
+      }
+
+      if ( options.translateY ) {
 
         translation[ 1 ] += mathExtras.randIntInc( -1, 1 );
 
@@ -292,7 +294,7 @@
 
       if ( options.scaleY ) {
 
-        scale[ 1 ] = scale[0];
+        scale[ 1 ] += (Math.random() - 0.5) / 100;
 
       }
 
@@ -377,18 +379,18 @@
       var animateRAFed = rAFAnimate( animate,
       {
 
-         repeat: Infinity,
-         ms: ANIMATE_MS,
-         setColors: 1,
-         updateOneColor: 0,
-         updateOneRandomColor: 0,
-         translateX: 0,
-         translateY: 0,
-         scaleY: 0,
-         scaleX: 0,
-         rotate: 0,
+        repeat: Infinity,
+        ms: ANIMATE_MS,
+        setColors: 1,
+        updateOneColor: 0,
+        updateOneRandomColor: 0,
+        scaleY: 0,
+        scaleX: 0,
+        translateX: 0,
+        translateY: 0,
+        rotate: 0,
 
-        } );
+      } );
 
       translateXElem = document.getElementById('translateX');
 
@@ -448,15 +450,15 @@
 
       }, false);
 
-      angleElem = document.getElementById('angle');
+      rotateElem = document.getElementById('rotate');
 
-      angleElem.min = 0;
-      angleElem.max = 360;
-      angleElem.value = 0;
+      rotateElem.min = 0;
+      rotateElem.max = 360;
+      rotateElem.value = 0;
 
-      angleElem.addEventListener('input', function () {
+      rotateElem.addEventListener('input', function () {
 
-        angleInDegrees = parseInt( angleElem.value, 10 ) + 90;
+        angleInDegrees = parseInt( rotateElem.value, 10 ) + 90;
 
         animateRAFed( { immediate: 1 } );
 
@@ -472,10 +474,24 @@
 
         } else {
 
-          animateScaleXElem.style.borderStyle = 'outset';
+          animateScaleXElem.style.borderStyle = '';
 
         }
+      }, false );
 
+      var animateScaleYElem = document.getElementById( 'animateScaleY' );
+
+      animateScaleYElem.addEventListener( 'click', function () {
+
+        if ( animateRAFed( { scaleY: 'toggle' } ).scaleY ) {
+
+          animateScaleYElem.style.borderStyle = 'inset';
+
+        } else {
+
+          animateScaleYElem.style.borderStyle = '';
+
+        }
       }, false );
 
       var animateTranslateXElem = document.getElementById( 'animateTranslateX' );
@@ -488,10 +504,39 @@
 
         } else {
 
-          animateTranslateXElem.style.borderStyle = 'outset';
+          animateTranslateXElem.style.borderStyle = '';
 
         }
+      }, false );
 
+      var animateTranslateYElem = document.getElementById( 'animateTranslateY' );
+
+      animateTranslateYElem.addEventListener( 'click', function () {
+
+        if ( animateRAFed( { translateY: 'toggle' } ).translateY ) {
+
+          animateTranslateYElem.style.borderStyle = 'inset';
+
+        } else {
+
+          animateTranslateYElem.style.borderStyle = '';
+
+        }
+      }, false );
+
+      var animateRotateElem = document.getElementById( 'animateRotate' );
+
+      animateRotateElem.addEventListener( 'click', function () {
+
+        if ( animateRAFed( { rotate: 'toggle' } ).rotate ) {
+
+          animateRotateElem.style.borderStyle = 'inset';
+
+        } else {
+
+          animateRotateElem.style.borderStyle = '';
+
+        }
       }, false );
 
       var resetElem = document.getElementById('reset');
@@ -512,10 +557,27 @@
         scaleYElem.value = 100;
 
         angleInDegrees = 90;
-        angleElem.value = 0;
+        rotateElem.value = 0;
 
-        animateRAFed( { setColors: 1 } );
+        animateScaleXElem.style.borderStyle = '';
+        animateScaleYElem.style.borderStyle = '';
+        animateTranslateXElem.style.borderStyle = '';
+        animateTranslateYElem.style.borderStyle = '';
+        animateRotateElem.style.borderStyle = '';
 
+        animateRAFed(
+        {
+
+          setColors: 1,
+          updateOneColor: 0,
+          updateOneRandomColor: 0,
+          scaleY: 0,
+          scaleX: 0,
+          translateX: 0,
+          translateY: 0,
+          rotate: 0,
+
+        } );
       }, false );
 
       animateRAFed();
