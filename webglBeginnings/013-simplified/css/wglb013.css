@@ -40,3 +40,7 @@ input[type=range] {
 .vMiddle {
   vertical-align: middle;
 }
+
+#oneRandomColor {
+  margin-left: 10px;
+}

@@ -21,27 +21,54 @@ function rAFAnimate ( animate, options ) {
 
     function innerAnimateRAFed( optionsUpdates ) {
 
-      Object.keys( optionsUpdates ).forEach( function( key ) {
+      if ( optionsUpdates ) {
 
-        if ( !( key in options ) ) {
+        Object.keys( optionsUpdates ).forEach( function( key ) {
 
-          throw new RangeError( key + ' is not a valid option' );
+          if ( !( key in options ) ) {
 
-        }
+            throw new RangeError( key + ' is not a valid option' );
 
-        if ( optionsUpdates[ key ] === 'toggle' ) {
+          }
 
-          options[ key ] = options[ key ] === Infinity ? 0 : Infinity;
-          options.immediate = options.immediate || 1;
+          if ( optionsUpdates[ key ] === 'toggle' ) {
 
-        } else {
+            options[ key ] = options[ key ] === Infinity ? 0 : Infinity;
+            options.immediate = options.immediate || 1;
 
-          options[key] = optionsUpdates[key];
+          } else {
 
-        }
-      });
+            options[key] = optionsUpdates[key];
+
+          }
+        });
+      }
 
       options.render = 0;
+
+      Object.keys( options ).forEach( function ( key ) {
+
+        if ( key === 'repeat' ) {
+
+          return;
+
+        }
+
+        if ( key !== 'render' && key !== 'immediate' ) {
+
+          if ( options[ key ] !== Infinity ) {
+
+            options.immediate = Math.max( options.immediate, options[ key ]);
+
+            options.render = Math.max( options.render, options.immediate );
+
+          } else {
+
+            options.render = Infinity;
+
+          }
+        }
+      });
 
       if ( ID ) {
 
@@ -61,51 +88,15 @@ function rAFAnimate ( animate, options ) {
 
           } else {
 
-            if ( key === 'repeat' ) {
+            outOptions[ key ] = !!options[ key ];
 
-              return;
+            if ( options [ key ] > 0 ) {
 
-            }
+              options[ key ]--;
 
-            if ( key !== 'render' && key !== 'immediate' ) {
-
-              outOptions[ key ] = !!options[ key ];
-
-              if ( options[ key ] !== Infinity ) {
-
-                options.immediate = Math.max( options.immediate, options[ key ]);
-
-                options.render = Math.max( options.render, options.immediate );
-
-              } else {
-
-                options.render = Infinity;
-
-              }
-
-              if ( options [ key ] > 0 ) {
-
-                options[ key ]--;
-
-              }
             }
           }
         });
-
-        outOptions.immediate = !!options.immediate;
-        outOptions.render = !!options.render;
-
-        if ( options.immediate > 0 ) {
-
-          options.immediate--;
-
-        }
-
-        if ( options.render > 0 ) {
-
-          options.render--;
-
-        }
 
         animate( timestamp, outOptions );
 

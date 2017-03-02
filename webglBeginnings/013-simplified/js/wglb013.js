@@ -201,13 +201,9 @@
 
       }
 
-      if ( prevTimestamp === undefined ) {
+      prevTimestamp = prevTimestamp || timestamp;
 
-         prevTimestamp = timestamp;
-
-       }
-
-      if ( !resized && !options.immediate && !first ) {
+      if ( !resized && !options.immediate && !options.render ) {
 
         if ( timestamp - prevTimestamp < options.ms ) {
 
@@ -249,7 +245,7 @@
       }
 
       if ( options.updateOneColor || options.updateOneRandomColor ||
-           options.setColors || first ) {
+           options.setColors ) {
 
         gl.bindBuffer( gl.ARRAY_BUFFER, colorBuffer );
 
@@ -315,7 +311,7 @@
 
       ];
 
-      if ( resized || options.render || first ) {
+      if ( resized || options.render ) {
 
         gl.clear( gl.COLOR_BUFFER_BIT );
 
@@ -409,22 +405,6 @@
 
       });
 
-      var animateTranslateXElem = document.getElementById( 'animateTranslateX' );
-
-      animateTranslateXElem.addEventListener( 'click', function () {
-
-        if ( animateRAFed( { translateX: 'toggle' } ).translateX ) {
-
-          animateTranslateXElem.style.borderStyle = 'inset';
-
-        } else {
-
-          animateTranslateXElem.style.borderStyle = 'outset';
-
-        }
-
-      }, false );
-
       translateYElem = document.getElementById('translateY');
 
       translateYElem.min = 0;
@@ -482,6 +462,38 @@
 
       }, false);
 
+      var animateScaleXElem = document.getElementById( 'animateScaleX' );
+
+      animateScaleXElem.addEventListener( 'click', function () {
+
+        if ( animateRAFed( { scaleX: 'toggle' } ).scaleX ) {
+
+          animateScaleXElem.style.borderStyle = 'inset';
+
+        } else {
+
+          animateScaleXElem.style.borderStyle = 'outset';
+
+        }
+
+      }, false );
+
+      var animateTranslateXElem = document.getElementById( 'animateTranslateX' );
+
+      animateTranslateXElem.addEventListener( 'click', function () {
+
+        if ( animateRAFed( { translateX: 'toggle' } ).translateX ) {
+
+          animateTranslateXElem.style.borderStyle = 'inset';
+
+        } else {
+
+          animateTranslateXElem.style.borderStyle = 'outset';
+
+        }
+
+      }, false );
+
       var resetElem = document.getElementById('reset');
 
       resetElem.addEventListener( 'click', function () {
@@ -502,11 +514,11 @@
         angleInDegrees = 90;
         angleElem.value = 0;
 
-        animateRAFed( { immediate: 1, setColors: 1 } );
+        animateRAFed( { setColors: 1 } );
 
       }, false );
 
-      animateRAFed( { immediate: 1 } );
+      animateRAFed();
 
     }
 
