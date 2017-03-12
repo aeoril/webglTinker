@@ -161,7 +161,6 @@
     var colors;
 
     var count;
-    var VERTICES_PER_TRIANGLE = 3;
 
     var prevTimestamp;
 
