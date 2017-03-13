@@ -46,7 +46,7 @@ var mathExtras = ( function () {
       ];
     },
 
-    multiply: function(a, b) {
+    multiply: function( a, b ) {
 
       var a00 = a[0 * 3 + 0];
       var a01 = a[0 * 3 + 1];
