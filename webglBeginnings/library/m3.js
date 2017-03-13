@@ -21,7 +21,23 @@ var mathExtras = ( function () {
       ];
     },
 
-    rotation: function ( angleInRadians ) {
+    rotationRad: function ( angleInRadians ) {
+
+      var c = Math.cos( angleInRadians );
+      var s = Math.sin( angleInRadians );
+
+      return [
+
+        c, -s, 0,
+        s,  c, 0,
+        0,  0, 1
+
+      ];
+    },
+
+    rotationDeg: function ( angleInDegrees ) {
+
+      var angleInRadians = angleInDegrees * Math.PI / 180.0;
 
       var c = Math.cos( angleInRadians );
       var s = Math.sin( angleInRadians );

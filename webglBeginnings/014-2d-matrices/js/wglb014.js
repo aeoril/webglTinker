@@ -139,19 +139,16 @@
     var positionAttributeLocation;
     var positionBuffer;
 
-    var scaleUniformLocation;
-    var scale = [1, 1];
+    var scaleX;
+    var scaleY;
+    var scaleMatrix = ms.scale( scaleX, scaleY );
 
-    var rotationUniformLocation;
-    var rotation = [];
     var angleInDegrees = 90.0;
-    var angleInRadians;
+    var rotationMatrix = m3.rotationDeg( angleInDegrees );
 
-    var centerTranslationUniformLocation;
-    var centerTranslation;
-
-    var translationUniformLocation;
-    var translation = [0, 0];
+    var translationX = 0;
+    var translationY = 0;
+    var translationMatrix = m3.translation( translationX, translationY, );
 
     var resolutionUniformLocation;
 
@@ -238,13 +235,15 @@
 
         translateXElem.max = gl.canvas.clientWidth;
 
-        translation[0] = Math.min(translation[0], translateXElem.max );
-        translateXElem.value = translation[0];
+        translationX = Math.min( translationX, translateXElem.max );
+        translateXElem.value = translationX;
 
         translateYElem.max = gl.canvas.clientHeight;
 
-        translation[1] = Math.min(translation[1], translateYElem.max );
-        translateYElem.value = translation[1];
+        translationY = Math.min( translationY, translateYElem.max );
+        translateYElem.value = translationy;
+
+        translationMatrix = m3.translation( translationX, translationY )
 
       }
 
