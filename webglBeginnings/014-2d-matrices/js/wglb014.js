@@ -148,7 +148,7 @@
 
     var translationX = 0;
     var translationY = 0;
-    var translationMatrix = m3.translation( translationX, translationY, );
+    var translationMatrix = m3.translation( translationX, translationY );
 
     var resolutionUniformLocation;
 
@@ -243,7 +243,7 @@
         translationY = Math.min( translationY, translateYElem.max );
         translateYElem.value = translationy;
 
-        translationMatrix = m3.translation( translationX, translationY )
+        translationMatrix = m3.translation( translationX, translationY );
 
       }
 
@@ -279,25 +279,39 @@
 
       if ( options.translateX ) {
 
-        translation[ 0 ] += mathExtras.randIntInc( -1, 1 );
+        translationX += mathExtras.randIntInc( -1, 1 );
 
       }
 
       if ( options.translateY ) {
 
-        translation[ 1 ] += mathExtras.randIntInc( -1, 1 );
+        translationY += mathExtras.randIntInc( -1, 1 );
+
+      }
+
+      if ( options.translateX || options.translateY ) {
+
+        translationMatrix = m3.translate(
+          translationX * window.devicePixelRatio,
+          translateY * window.devicePixelRatio );
 
       }
 
       if ( options.scaleX ) {
 
-        scale[ 0 ] += (Math.random() - 0.5) / 100;
+        scaleX += (Math.random() - 0.5) / 100;
 
       }
 
       if ( options.scaleY ) {
 
-        scale[ 1 ] += (Math.random() - 0.5) / 100;
+        scaleY += (Math.random() - 0.5) / 100;
+
+      }
+
+      if ( options.scaleX || options.scaleY ) {
+
+        scaleMatrix = m3.scale( scaleX, scaleY );
 
       }
 
@@ -305,26 +319,18 @@
 
         angleInDegrees += 0.1;
 
+        rotationMatrix = m3.rotationDeg( angleInDegrees );
+
       }
-
-      angleInRadians = angleInDegrees * Math.PI / 180.0;
-
-      var rotation = [
-
-        Math.cos( angleInRadians ),
-        Math.sin( angleInRadians )
-
-      ];
 
       if ( resized || options.render ) {
 
         gl.clear( gl.COLOR_BUFFER_BIT );
 
-        gl.uniform2fv( scaleUniformLocation, scale );
-        gl.uniform2fv( rotationUniformLocation, rotation );
-        gl.uniform2fv( translationUniformLocation,
-          [ Math.floor( translation[0] * window.devicePixelRatio ),
-            Math.floor( translation[1] * window.devicePixelRatio ) ] );
+        transformMatrix = m3.multiply( translationMatrix, rotationMatrix );
+        transformMatrix = m3.multiply( transformMatrix, scalematrix );
+
+        gl.uniformMatrix3fv( matrixUniformLocation, false, transformMatrix );
 
         primitiveType = gl.TRIANGLES;
         offset = 0;
@@ -360,11 +366,7 @@
       positionAttributeLocation = gl.getAttribLocation( program, 'a_position' );
       colorAttributeLocation    = gl.getAttribLocation( program, 'a_color' );
 
-      scaleUniformLocation = gl.getUniformLocation( program, 'u_scale' );
-      rotationUniformLocation = gl.getUniformLocation( program, 'u_rotation' );
-
-      centerTranslationUniformLocation = gl.getUniformLocation( program, 'u_centerTranslation');
-      translationUniformLocation = gl.getUniformLocation( program, 'u_translation');
+      matrixUniformLocation = gl.getUniformLocation( program, 'u_matrix');
 
       resolutionUniformLocation = gl.getUniformLocation( program, 'u_resolution' );
 
@@ -433,7 +435,7 @@
 
       scaleXElem.addEventListener('input', function () {
 
-        scale[0] = parseInt( scaleXElem.value ) / 100;
+        scaleX = parseInt( scaleXElem.value ) / 100;
 
         animateRAFed( { immediate: 1 } );
 
@@ -447,7 +449,7 @@
 
       scaleYElem.addEventListener('input', function () {
 
-        scale[1] = parseInt( scaleYElem.value, 10 ) / 100;
+        scaleY = parseInt( scaleYElem.value, 10 ) / 100;
 
         animateRAFed( { immediate: 1 } );
 
@@ -585,7 +587,8 @@
         translateYElem.value = translation[ 1 ];
 
 
-        scale = [ 1, 1 ];
+        scaleX = 1;
+        scaleY = 1;
         scaleXElem.value = 100;
         scaleYElem.value = 100;
 
