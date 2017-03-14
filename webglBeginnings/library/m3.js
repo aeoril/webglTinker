@@ -4,7 +4,7 @@
  * Copyright © 2017 by IC3 Dimensions.  MIT License. See LICENSE.md
  */
 
-var mathExtras = ( function () {
+var m3 = ( function () {
 
   'use strict';
 

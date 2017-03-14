@@ -141,15 +141,16 @@
 
     var scaleX;
     var scaleY;
-    var scaleMatrix = ms.scale( scaleX, scaleY );
+    var scaleMatrix;
 
-    var angleInDegrees = 90.0;
-    var rotationMatrix = m3.rotationDeg( angleInDegrees );
+    var angleInDegrees;
+    var rotationMatrix;
 
-    var translationX = 0;
-    var translationY = 0;
-    var translationMatrix = m3.translation( translationX, translationY );
+    var translationX;
+    var translationY;
+    var translationMatrix;
 
+    var matrixUniformLocation;
     var resolutionUniformLocation;
 
     var canvasElem;
@@ -191,6 +192,8 @@
       var offset;
 
       var primitiveType;
+
+      var transformMatrix;
 
       var ii;
 
@@ -241,7 +244,7 @@
         translateYElem.max = gl.canvas.clientHeight;
 
         translationY = Math.min( translationY, translateYElem.max );
-        translateYElem.value = translationy;
+        translateYElem.value = translationY;
 
         translationMatrix = m3.translation( translationX, translationY );
 
@@ -289,13 +292,9 @@
 
       }
 
-      if ( options.translateX || options.translateY ) {
-
-        translationMatrix = m3.translate(
-          translationX * window.devicePixelRatio,
-          translateY * window.devicePixelRatio );
-
-      }
+      translationMatrix = m3.translation(
+        translationX * window.devicePixelRatio,
+        translationY * window.devicePixelRatio );
 
       if ( options.scaleX ) {
 
@@ -309,26 +308,22 @@
 
       }
 
-      if ( options.scaleX || options.scaleY ) {
-
-        scaleMatrix = m3.scale( scaleX, scaleY );
-
-      }
+      scaleMatrix = m3.scale( scaleX, scaleY );
 
       if ( options.rotate ) {
 
         angleInDegrees += 0.1;
 
-        rotationMatrix = m3.rotationDeg( angleInDegrees );
-
       }
+
+      rotationMatrix = m3.rotationDeg( 360 - angleInDegrees );
 
       if ( resized || options.render ) {
 
         gl.clear( gl.COLOR_BUFFER_BIT );
 
         transformMatrix = m3.multiply( translationMatrix, rotationMatrix );
-        transformMatrix = m3.multiply( transformMatrix, scalematrix );
+        transformMatrix = m3.multiply( transformMatrix, scaleMatrix );
 
         gl.uniformMatrix3fv( matrixUniformLocation, false, transformMatrix );
 
@@ -402,11 +397,11 @@
       translateXElem.min = 0;
       translateXElem.max = gl.canvas.clientWidth;
       translateXElem.value = Math.floor( gl.canvas.clientWidth / 2 );
-      translation[0] = parseInt(translateXElem.value);
+      translationX = parseInt(translateXElem.value);
 
       translateXElem.addEventListener('input', function () {
 
-        translation[0] = parseInt( translateXElem.value );
+        translationX = parseInt( translateXElem.value );
 
         animateRAFed( { immediate: 1 } );
 
@@ -417,11 +412,11 @@
       translateYElem.min = 0;
       translateYElem.max = gl.canvas.clientHeight;
       translateYElem.value = Math.floor( gl.canvas.clientHeight / 2 );
-      translation[1] = parseInt(translateYElem.value);
+      translationY = parseInt(translateYElem.value);
 
       translateYElem.addEventListener('input', function () {
 
-        translation[1] = parseInt( translateYElem.value );
+        translationY = parseInt( translateYElem.value );
 
         animateRAFed( { immediate: 1 } );
 
@@ -463,7 +458,7 @@
 
       rotateElem.addEventListener('input', function () {
 
-        angleInDegrees = parseInt( rotateElem.value, 10 ) + 90;
+        angleInDegrees = parseInt( rotateElem.value, 10 );
 
         animateRAFed( { immediate: 1 } );
 
@@ -576,23 +571,22 @@
 
       var resetElem = document.getElementById('reset');
 
-      resetElem.addEventListener( 'click', function () {
+      function reset () {
 
         angleInDegrees = 0.0;
 
-        translation = [ Math.floor( gl.canvas.clientWidth / 2 ),
-          Math.floor( gl.canvas.clientHeight / 2 ) ];
+        translationX = Math.floor( gl.canvas.clientWidth / 2 );
+        translationY = Math.floor( gl.canvas.clientHeight / 2 );
 
-        translateXElem.value = translation[ 0 ];
-        translateYElem.value = translation[ 1 ];
-
+        translateXElem.value = translationX;
+        translateYElem.value = translationY;
 
         scaleX = 1;
         scaleY = 1;
         scaleXElem.value = 100;
         scaleYElem.value = 100;
 
-        angleInDegrees = 90;
+        angleInDegrees = 0;
         rotateElem.value = 0;
 
         animateScaleXElem.style.borderStyle = '';
@@ -609,14 +603,18 @@
           setColors: 1,
           oneColor: 0,
           oneRandomColor: 0,
-          scaleY: 0,
           scaleX: 0,
+          scaleY: 0,
           translateX: 0,
           translateY: 0,
           rotate: 0,
 
         } );
-      }, false );
+      }
+
+      resetElem.addEventListener( 'click', reset, false );
+
+      reset();
 
       animateRAFed();
 
