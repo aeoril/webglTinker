@@ -62,6 +62,17 @@ var m3 = ( function () {
       ];
     },
 
+    identity: function ( sx, sy ) {
+
+      return [
+
+        1, 0, 0,
+        0, 1, 0,
+        0, 0, 1
+
+      ];
+    },
+
     multiply: function( a, b ) {
 
       var a00 = a[0 * 3 + 0];
