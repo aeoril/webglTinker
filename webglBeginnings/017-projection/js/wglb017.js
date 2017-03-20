@@ -146,7 +146,7 @@
 
     var scaleX;
     var scaleY;
-    var scaleMatrix;
+    var scalingMatrix;
 
     var angleInDegrees;
     var rotationMatrix;
@@ -315,7 +315,7 @@
 
       }
 
-      scaleMatrix = m3.scale( scaleX, scaleY );
+      scalingMatrix = m3.scaling( scaleX, scaleY );
 
       if ( options.rotate ) {
 
@@ -331,7 +331,7 @@
 
         transformMatrix = m3.multiply( projectionMatrix, translationMatrix );
         transformMatrix = m3.multiply( transformMatrix, rotationMatrix );
-        transformMatrix = m3.multiply( transformMatrix, scaleMatrix );
+        transformMatrix = m3.multiply( transformMatrix, scalingMatrix );
         transformMatrix = m3.multiply( transformMatrix, moveOriginMatrix );
 
         gl.uniformMatrix3fv( matrixUniformLocation, false, transformMatrix );

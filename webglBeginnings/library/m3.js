@@ -62,7 +62,7 @@ var m3 = ( function () {
       ];
     },
 
-    scale: function ( sx, sy ) {
+    scaling: function ( sx, sy ) {
 
       return [
 
@@ -82,6 +82,30 @@ var m3 = ( function () {
         -1,          1,          1
 
       ];
+    },
+
+    translate: function ( m, tx, ty ) {
+
+      return m3.multiply( m, translation( tx, ty ) );
+
+    },
+
+    rotateRad: function ( m, angleInRadians ) {
+
+      return m3.multiply( m, rotationRad( angleInRadians ) );
+
+    },
+
+    rotateDeg: function ( m, angleInDegrees ) {
+
+      return m3.multiply( m, rotationDeg( angleInDegrees ) );
+
+    },
+
+    scale: function ( m, sx, sy ) {
+
+      return m3.multiply( m, scaling( tx, ty ) );
+
     },
 
     multiply: function( a, b ) {
