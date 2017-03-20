@@ -153,11 +153,11 @@
 
     var translationX;
     var translationY;
+    var projectionMatrix;
     var translationMatrix;
     var moveOriginMatrix;
 
     var matrixUniformLocation;
-    var resolutionUniformLocation;
 
     var canvasElem;
     var gl;
@@ -239,9 +239,6 @@
         gl.vertexAttribPointer(
           positionAttributeLocation, size, type, normalize, stride, offset );
 
-        gl.uniform2f(
-          resolutionUniformLocation, gl.canvas.width, gl.canvas.height );
-
         translateXElem.max = gl.canvas.clientWidth;
 
         translationX = Math.min( translationX, translateXElem.max );
@@ -251,6 +248,8 @@
 
         translationY = Math.min( translationY, translateYElem.max );
         translateYElem.value = translationY;
+
+        projectionMatrix = m3.projection( gl.canvas.clientWidth, gl.canvas.clientHeight );
 
         translationMatrix = m3.translation( translationX, translationY );
 
@@ -330,7 +329,8 @@
 
         gl.clear( gl.COLOR_BUFFER_BIT );
 
-        transformMatrix = m3.multiply( translationMatrix, rotationMatrix );
+        transformMatrix = m3.multiply( projectionMatrix, translationMatrix );
+        transformMatrix = m3.multiply( transformMatrix, rotationMatrix );
         transformMatrix = m3.multiply( transformMatrix, scaleMatrix );
         transformMatrix = m3.multiply( transformMatrix, moveOriginMatrix );
 
@@ -371,8 +371,6 @@
       colorAttributeLocation    = gl.getAttribLocation( program, 'a_color' );
 
       matrixUniformLocation = gl.getUniformLocation( program, 'u_matrix');
-
-      resolutionUniformLocation = gl.getUniformLocation( program, 'u_resolution' );
 
       colorBuffer    = gl.createBuffer();
       positionBuffer = gl.createBuffer();

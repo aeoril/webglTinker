@@ -10,6 +10,17 @@ var m3 = ( function () {
 
   return {
 
+    identity: function ( sx, sy ) {
+
+      return [
+
+        1, 0, 0,
+        0, 1, 0,
+        0, 0, 1
+
+      ];
+    },
+
     translation: function ( tx, ty ) {
 
       return [
@@ -62,13 +73,13 @@ var m3 = ( function () {
       ];
     },
 
-    identity: function ( sx, sy ) {
+    projection: function ( width, height ) {
 
       return [
 
-        1, 0, 0,
-        0, 1, 0,
-        0, 0, 1
+         2 / width,  0,          0,
+         0,         -2 / height, 0,
+        -1,          1,          1
 
       ];
     },
