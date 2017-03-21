@@ -309,7 +309,7 @@
 
       }
 
-      scaleMatrix = m3.scale( scaleX, scaleY );
+      scaleMatrix = m3.scaling( scaleX, scaleY );
 
       if ( options.rotate ) {
 
@@ -550,10 +550,18 @@
 
       oneColorElem.addEventListener( 'click', function () {
 
-        if ( animateRAFed( { oneColor: 'toggle' } ).oneColor ) {
+        var options = animateRAFed( { oneColor: 'toggle' } );
+
+        if (options.oneColor ) {
 
           oneColorElem.style.borderStyle = 'inset';
 
+          if ( options.oneRandomColor ) {
+
+            animateRAFed( { oneRandomColor: 0 } );
+            oneRandomColorElem.style.borderStyle = '';
+
+          }
         } else {
 
           oneColorElem.style.borderStyle = '';
@@ -565,10 +573,18 @@
 
       oneRandomColorElem.addEventListener( 'click', function () {
 
-        if ( animateRAFed( { oneRandomColor: 'toggle' } ).oneRandomColor ) {
+        var options = animateRAFed( { oneRandomColor: 'toggle' } );
+
+        if (options.oneRandomColor ) {
 
           oneRandomColorElem.style.borderStyle = 'inset';
 
+          if ( options.oneColor ) {
+
+            animateRAFed( { oneColor: 0 } );
+            oneColorElem.style.borderStyle = '';
+
+          }
         } else {
 
           oneRandomColorElem.style.borderStyle = '';
