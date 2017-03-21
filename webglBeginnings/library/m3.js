@@ -8,7 +8,7 @@ var m3 = ( function () {
 
   'use strict';
 
-  return {
+  var self = {
 
     identity: function ( sx, sy ) {
 
@@ -86,25 +86,25 @@ var m3 = ( function () {
 
     translate: function ( m, tx, ty ) {
 
-      return m3.multiply( m, translation( tx, ty ) );
+      return self.multiply( m, self.translation( tx, ty ) );
 
     },
 
     rotateRad: function ( m, angleInRadians ) {
 
-      return m3.multiply( m, rotationRad( angleInRadians ) );
+      return self.multiply( m, self.rotationRad( angleInRadians ) );
 
     },
 
     rotateDeg: function ( m, angleInDegrees ) {
 
-      return m3.multiply( m, rotationDeg( angleInDegrees ) );
+      return self.multiply( m, self.rotationDeg( angleInDegrees ) );
 
     },
 
     scale: function ( m, sx, sy ) {
 
-      return m3.multiply( m, scaling( tx, ty ) );
+      return self.multiply( m, self.scaling( sx, sy ) );
 
     },
 
@@ -144,4 +144,7 @@ var m3 = ( function () {
       ];
     }
   };
+
+  return self;
+
 }() );

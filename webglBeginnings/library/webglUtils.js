@@ -118,11 +118,16 @@ var webglUtils = ( function () {
       var displayWidth  = Math.floor( gl.canvas.clientWidth * realToCSSPixels );
       var displayHeight = Math.floor( gl.canvas.clientHeight * realToCSSPixels );
 
+      console.log( 'Initial clientWidth: ' + gl.canvas.clientWidth + ' Initial clientHeight: ' + gl.canvas.clientHeight );
+
       if ( gl.canvas.width !== displayWidth ||
            gl.canvas.height !== displayHeight ) {
 
         gl.canvas.width  = displayWidth;
         gl.canvas.height = displayHeight;
+
+        console.log( 'displayWidth: ' + displayWidth + ' displayHeight: ' + displayHeight );
+        console.log( 'clientWidth: ' + gl.canvas.clientWidth + ' clientHeight: ' + gl.canvas.clientHeight );
 
         return true;
 

@@ -10,7 +10,7 @@
 
   function setGeometry ( gl ) {
 
-    var width  = Math.min(gl.canvas.width, gl.canvas.height);
+    var width  = Math.min( gl.canvas.clientWidth, gl.canvas.clientHeight);
     var height = width; // make a square frame
 
     var indices = [
@@ -249,12 +249,6 @@
         translationY = Math.min( translationY, translateYElem.max );
         translateYElem.value = translationY;
 
-        projectionMatrix = m3.projection( gl.canvas.clientWidth, gl.canvas.clientHeight );
-
-        translationMatrix = m3.translation( translationX, translationY );
-
-        moveOriginMatrix = m3.translation( -setGeometryMeta.center.x, -setGeometryMeta.center.y );
-
       }
 
       if ( options.oneColor || options.oneRandomColor ||
@@ -299,10 +293,6 @@
 
       }
 
-      translationMatrix = m3.translation(
-        translationX * window.devicePixelRatio,
-        translationY * window.devicePixelRatio );
-
       if ( options.scaleX ) {
 
         scaleX += (Math.random() - 0.5) / 100;
@@ -315,24 +305,26 @@
 
       }
 
-      scalingMatrix = m3.scaling( scaleX, scaleY );
-
       if ( options.rotate ) {
 
         angleInDegrees += 0.1;
 
       }
 
-      rotationMatrix = m3.rotationDeg( 360 - angleInDegrees );
-
       if ( resized || options.render ) {
 
         gl.clear( gl.COLOR_BUFFER_BIT );
 
-        transformMatrix = m3.multiply( projectionMatrix, translationMatrix );
-        transformMatrix = m3.multiply( transformMatrix, rotationMatrix );
-        transformMatrix = m3.multiply( transformMatrix, scalingMatrix );
-        transformMatrix = m3.multiply( transformMatrix, moveOriginMatrix );
+        projectionMatrix = m3.projection(
+          gl.canvas.clientWidth,
+          gl.canvas.clientHeight);
+
+        transformMatrix = m3.translate( projectionMatrix,
+          translationX, translationY );
+        transformMatrix = m3.rotateDeg( transformMatrix, 360 - angleInDegrees );
+        transformMatrix = m3.scale( transformMatrix, scaleX, scaleY );
+        transformMatrix = m3.translate( transformMatrix,
+          -setGeometryMeta.center.x, -setGeometryMeta.center.y );
 
         gl.uniformMatrix3fv( matrixUniformLocation, false, transformMatrix );
 
