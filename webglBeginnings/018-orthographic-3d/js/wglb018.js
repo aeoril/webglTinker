@@ -230,7 +230,7 @@
 
         setGeometryMeta = setGeometry( gl );
 
-        size = 2;
+        size = 3;
         type = gl.FLOAT;
         normalize = false;
         stride = 0;

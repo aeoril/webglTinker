@@ -22,55 +22,95 @@ var m4 = ( function () {
       ];
     },
 
-    translation: function ( tx, ty ) {
+    translation: function ( tx, ty, tz ) {
 
       return [
 
-        1,  0,  0,
-        0,  1,  0,
-        tx, ty, 1
+        1,  0,  0,  0,
+        0,  1,  0,  0,
+        0,  0,  1,  0,
+        tx, ty, tz, 1
 
       ];
     },
 
-    rotationRad: function ( angleInRadians ) {
+    xRotationRad: function ( angleInRadians ) {
 
       var c = Math.cos( angleInRadians );
       var s = Math.sin( angleInRadians );
 
       return [
 
-        c, -s, 0,
-        s,  c, 0,
-        0,  0, 1
+        1,  0, 0, 0,
+        0,  c, s, 0,
+        0, -s, c, 0,
+        0,  0, 0, 1
 
       ];
     },
 
-    rotationDeg: function ( angleInDegrees ) {
+    yRotationRad: function ( angleInRadians ) {
+
+      var c = Math.cos( angleInRadians );
+      var s = Math.sin( angleInRadians );
+
+      return [
+
+        c, 0, -s, 0,
+        0, 1,  0, 0,
+        s, 0,  c, 0,
+        0, 0,  0, 1
+
+      ];
+    },
+
+    zRotationRad: function ( angleInRadians ) {
+
+      var c = Math.cos( angleInRadians );
+      var s = Math.sin( angleInRadians );
+
+      return [
+
+        c, -s, 0, 0,
+        s,  c, 0, 0,
+        0,  0, 1, 0,
+        0,  0, 0, 1
+
+      ];
+    },
+
+    xRotationDeg: function ( angleInDegrees ) {
 
       var angleInRadians = angleInDegrees * Math.PI / 180.0;
 
-      var c = Math.cos( angleInRadians );
-      var s = Math.sin( angleInRadians );
+      return self.xRotationRad( angleInRadians );
 
-      return [
-
-        c, -s, 0,
-        s,  c, 0,
-        0,  0, 1
-
-      ];
     },
 
-    scaling: function ( sx, sy ) {
+    yRotationDeg: function ( angleInDegrees ) {
+
+      var angleInRadians = angleInDegrees * Math.PI / 180.0;
+
+      return self.yRotationRad( angleInRadians );
+
+    },
+
+    zRotationDeg: function ( angleInDegrees ) {
+
+      var angleInRadians = angleInDegrees * Math.PI / 180.0;
+
+      return self.zRotationRad( angleInRadians );
+
+    },
+
+    scaling: function ( sx, sy, sz ) {
 
       return [
 
-        sx, 0, 0,
-        0, sy, 0,
-        0,  0, 1
-
+        sx, 0,  0, 0,
+        0, sy,  0, 0,
+        0,  0, sz, 0,
+        0,  0,  0, 1
       ];
     },
 
