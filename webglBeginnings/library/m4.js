@@ -4,7 +4,7 @@
  * Copyright © 2017 by IC3 Dimensions.  MIT License. See LICENSE.md
  */
 
-var m3 = ( function () {
+var m4 = ( function () {
 
   'use strict';
 
@@ -14,9 +14,10 @@ var m3 = ( function () {
 
       return [
 
-        1, 0, 0,
-        0, 1, 0,
-        0, 0, 1
+        1, 0, 0, 0,
+        0, 1, 0, 0,
+        0, 0, 1, 0,
+        0, 0, 0, 1
 
       ];
     },
@@ -50,8 +51,16 @@ var m3 = ( function () {
 
       var angleInRadians = angleInDegrees * Math.PI / 180.0;
 
-      return self.rotationRad( angleInRadians );
+      var c = Math.cos( angleInRadians );
+      var s = Math.sin( angleInRadians );
 
+      return [
+
+        c, -s, 0,
+        s,  c, 0,
+        0,  0, 1
+
+      ];
     },
 
     scaling: function ( sx, sy ) {
