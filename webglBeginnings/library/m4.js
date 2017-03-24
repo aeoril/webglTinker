@@ -34,7 +34,7 @@ var m4 = ( function () {
       ];
     },
 
-    xRotationRad: function ( angleInRadians ) {
+    XRotationRad: function ( angleInRadians ) {
 
       var c = Math.cos( angleInRadians );
       var s = Math.sin( angleInRadians );
@@ -49,7 +49,7 @@ var m4 = ( function () {
       ];
     },
 
-    yRotationRad: function ( angleInRadians ) {
+    YRotationRad: function ( angleInRadians ) {
 
       var c = Math.cos( angleInRadians );
       var s = Math.sin( angleInRadians );
@@ -64,7 +64,7 @@ var m4 = ( function () {
       ];
     },
 
-    zRotationRad: function ( angleInRadians ) {
+    ZRotationRad: function ( angleInRadians ) {
 
       var c = Math.cos( angleInRadians );
       var s = Math.sin( angleInRadians );
@@ -79,27 +79,27 @@ var m4 = ( function () {
       ];
     },
 
-    xRotationDeg: function ( angleInDegrees ) {
+    XRotationDeg: function ( angleInDegrees ) {
 
       var angleInRadians = angleInDegrees * Math.PI / 180.0;
 
-      return self.xRotationRad( angleInRadians );
+      return self.XRotationRad( angleInRadians );
 
     },
 
-    yRotationDeg: function ( angleInDegrees ) {
+    YRotationDeg: function ( angleInDegrees ) {
 
       var angleInRadians = angleInDegrees * Math.PI / 180.0;
 
-      return self.yRotationRad( angleInRadians );
+      return self.YRotationRad( angleInRadians );
 
     },
 
-    zRotationDeg: function ( angleInDegrees ) {
+    ZRotationDeg: function ( angleInDegrees ) {
 
       var angleInRadians = angleInDegrees * Math.PI / 180.0;
 
-      return self.zRotationRad( angleInRadians );
+      return self.ZRotationRad( angleInRadians );
 
     },
 
@@ -120,7 +120,7 @@ var m4 = ( function () {
 
          2 / width,  0,          0,         0,
          0,         -2 / height, 0,         0,
-         0,          0,          2 / depth, 1,
+         0,          0,          2 / depth, 0,
         -1,          1,          0,         1
 
       ];
@@ -132,39 +132,39 @@ var m4 = ( function () {
 
     },
 
-    xRotateRad: function ( m, angleInRadians ) {
+    XRotateRad: function ( m, angleInRadians ) {
 
-      return self.multiply( m, self.xRotationRad( angleInRadians ) );
-
-    },
-
-    yRotateRad: function ( m, angleInRadians ) {
-
-      return self.multiply( m, self.yRotationRad( angleInRadians ) );
+      return self.multiply( m, self.XRotationRad( angleInRadians ) );
 
     },
 
-    zRotateRad: function ( m, angleInRadians ) {
+    YRotateRad: function ( m, angleInRadians ) {
 
-      return self.multiply( m, self.zRotationRad( angleInRadians ) );
-
-    },
-
-    xRotateDeg: function ( m, angleInDegrees ) {
-
-      return self.multiply( m, self.xRotationDeg( angleInDegrees ) );
+      return self.multiply( m, self.YRotationRad( angleInRadians ) );
 
     },
 
-    yRotateDeg: function ( m, angleInDegrees ) {
+    ZRotateRad: function ( m, angleInRadians ) {
 
-      return self.multiply( m, self.yRotationDeg( angleInDegrees ) );
+      return self.multiply( m, self.ZRotationRad( angleInRadians ) );
 
     },
 
-    zRotateDeg: function ( m, angleInDegrees ) {
+    XRotateDeg: function ( m, angleInDegrees ) {
 
-      return self.multiply( m, self.zRotationDeg( angleInDegrees ) );
+      return self.multiply( m, self.XRotationDeg( angleInDegrees ) );
+
+    },
+
+    YRotateDeg: function ( m, angleInDegrees ) {
+
+      return self.multiply( m, self.YRotationDeg( angleInDegrees ) );
+
+    },
+
+    ZRotateDeg: function ( m, angleInDegrees ) {
+
+      return self.multiply( m, self.ZRotationDeg( angleInDegrees ) );
 
     },
 

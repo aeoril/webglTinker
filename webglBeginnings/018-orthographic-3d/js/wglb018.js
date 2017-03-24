@@ -183,7 +183,9 @@
     var scaleYElem;
     var scaleZElem;
 
-    var rotateElem;
+    var rotateXElem;
+    var rotateYElem;
+    var rotateZElem;
 
     var translateXElem;
     var translateYElem;
@@ -358,9 +360,9 @@
 
         transformMatrix = m4.translate( projectionMatrix,
           translationX, translationY, translationZ );
-        transformMatrix = m4.XRotateDeg( transformMatrix, XangleInDegrees );
-        transformMatrix = m4.YRotateDeg( transformMatrix, YangleInDegrees );
-        transformMatrix = m4.ZRotateDeg( transformMatrix, ZangleInDegrees );
+        transformMatrix = m4.XRotateDeg( transformMatrix, XAngleInDegrees );
+        transformMatrix = m4.YRotateDeg( transformMatrix, YAngleInDegrees );
+        transformMatrix = m4.ZRotateDeg( transformMatrix, ZAngleInDegrees );
         transformMatrix = m4.scale( transformMatrix, scaleX, scaleY, scaleZ );
         transformMatrix = m4.translate( transformMatrix,
           -setGeometryMeta.center.x, -setGeometryMeta.center.y, -setGeometryMeta.center.z );
@@ -439,11 +441,11 @@
       translateXElem.min = 0;
       translateXElem.max = gl.canvas.clientWidth;
       translateXElem.value = Math.floor( gl.canvas.clientWidth / 2 );
-      translationX = parseInt(translateXElem.value);
+      translationX = parseInt(translateXElem.value, 10);
 
       translateXElem.addEventListener('input', function () {
 
-        translationX = parseInt( translateXElem.value );
+        translationX = parseInt( translateXElem.value, 10 );
 
         animateRAFed( { immediate: 1 } );
 
@@ -454,11 +456,26 @@
       translateYElem.min = 0;
       translateYElem.max = gl.canvas.clientHeight;
       translateYElem.value = Math.floor( gl.canvas.clientHeight / 2 );
-      translationY = parseInt(translateYElem.value);
+      translationY = parseInt( translateYElem.value, 10 );
 
       translateYElem.addEventListener('input', function () {
 
-        translationY = parseInt( translateYElem.value );
+        translationY = parseInt( translateYElem.value, 10 );
+
+        animateRAFed( { immediate: 1 } );
+
+      }, false);
+
+      translateZElem = document.getElementById('translateZ');
+
+      translateZElem.min = -Math.min( gl.canvas.clientWidth, gl.canvas.clientHeight ) / 2;
+      translateZElem.max = -translateZElem.min;
+      translateZElem.value = 0;
+      translationZ = parseInt( translateZElem.value, 10 );
+
+      translateZElem.addEventListener('input', function () {
+
+        translationZ = parseInt( translateZElem.value, 10 );
 
         animateRAFed( { immediate: 1 } );
 
@@ -472,7 +489,7 @@
 
       scaleXElem.addEventListener('input', function () {
 
-        scaleX = parseInt( scaleXElem.value ) / 100;
+        scaleX = parseInt( scaleXElem.value, 10 ) / 100;
 
         animateRAFed( { immediate: 1 } );
 
@@ -492,6 +509,20 @@
 
       }, false);
 
+      scaleZElem = document.getElementById('scaleZ');
+
+      scaleZElem.min = -200;
+      scaleZElem.max = 200;
+      scaleZElem.value = 100;
+
+      scaleZElem.addEventListener('input', function () {
+
+        scaleZ = parseInt( scaleZElem.value, 10 ) / 100;
+
+        animateRAFed( { immediate: 1 } );
+
+      }, false);
+
       rotateXElem = document.getElementById('rotateX');
 
       rotateXElem.min = 0;
@@ -500,7 +531,7 @@
 
       rotateXElem.addEventListener('input', function () {
 
-        XangleInDegrees = parseInt( rotateXElem.value, 10 );
+        XAngleInDegrees = parseInt( rotateXElem.value, 10 );
 
         animateRAFed( { immediate: 1 } );
 
@@ -514,7 +545,7 @@
 
       rotateYElem.addEventListener('input', function () {
 
-        YangleInDegrees = parseInt( rotateYElem.value, 10 );
+        YAngleInDegrees = parseInt( rotateYElem.value, 10 );
 
         animateRAFed( { immediate: 1 } );
 
@@ -528,7 +559,7 @@
 
       rotateZElem.addEventListener('input', function () {
 
-        ZangleInDegrees = parseInt( rotateZElem.value, 10 );
+        ZAngleInDegrees = parseInt( rotateZElem.value, 10 );
 
         animateRAFed( { immediate: 1 } );
 
@@ -721,7 +752,7 @@
 
         translationX = Math.floor( gl.canvas.clientWidth / 2 );
         translationY = Math.floor( gl.canvas.clientHeight / 2 );
-        translationZ = Math.min( translationX, translationY );
+        translationZ = 0;
 
         translateXElem.value = translationX;
         translateYElem.value = translationY;
