@@ -661,11 +661,11 @@
 
         if ( animateRAFed( { rotateX: 'toggle' } ).rotateX ) {
 
-          animateXRotateElem.style.borderStyle = 'inset';
+          animateRotateXElem.style.borderStyle = 'inset';
 
         } else {
 
-          animateXRotateElem.style.borderStyle = '';
+          animateRotateXElem.style.borderStyle = '';
 
         }
       }, false );
@@ -676,11 +676,11 @@
 
         if ( animateRAFed( { rotateY: 'toggle' } ).rotateY ) {
 
-          animateYRotateElem.style.borderStyle = 'inset';
+          animateRotateYElem.style.borderStyle = 'inset';
 
         } else {
 
-          animateYRotateElem.style.borderStyle = '';
+          animateRotateYElem.style.borderStyle = '';
 
         }
       }, false );
@@ -691,11 +691,11 @@
 
         if ( animateRAFed( { rotateZ: 'toggle' } ).rotateZ ) {
 
-          animateZRotateElem.style.borderStyle = 'inset';
+          animateRotateZElem.style.borderStyle = 'inset';
 
         } else {
 
-          animateZRotateElem.style.borderStyle = '';
+          animateRotateZElem.style.borderStyle = '';
 
         }
       }, false );
