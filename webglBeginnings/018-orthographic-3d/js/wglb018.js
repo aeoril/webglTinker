@@ -492,15 +492,43 @@
 
       }, false);
 
-      rotateElem = document.getElementById('rotate');
+      rotateXElem = document.getElementById('rotateX');
 
-      rotateElem.min = 0;
-      rotateElem.max = 360;
-      rotateElem.value = 0;
+      rotateXElem.min = 0;
+      rotateXElem.max = 360;
+      rotateXElem.value = 0;
 
-      rotateElem.addEventListener('input', function () {
+      rotateXElem.addEventListener('input', function () {
 
-        angleInDegrees = parseInt( rotateElem.value, 10 );
+        XangleInDegrees = parseInt( rotateXElem.value, 10 );
+
+        animateRAFed( { immediate: 1 } );
+
+      }, false);
+
+      rotateYElem = document.getElementById('rotateY');
+
+      rotateYElem.min = 0;
+      rotateYElem.max = 360;
+      rotateYElem.value = 0;
+
+      rotateYElem.addEventListener('input', function () {
+
+        YangleInDegrees = parseInt( rotateYElem.value, 10 );
+
+        animateRAFed( { immediate: 1 } );
+
+      }, false);
+
+      rotateZElem = document.getElementById('rotateZ');
+
+      rotateZElem.min = 0;
+      rotateZElem.max = 360;
+      rotateZElem.value = 0;
+
+      rotateZElem.addEventListener('input', function () {
+
+        ZangleInDegrees = parseInt( rotateZElem.value, 10 );
 
         animateRAFed( { immediate: 1 } );
 
@@ -536,6 +564,21 @@
         }
       }, false );
 
+      var animateScaleZElem = document.getElementById( 'animateScaleZ' );
+
+      animateScaleZElem.addEventListener( 'click', function () {
+
+        if ( animateRAFed( { scaleZ: 'toggle' } ).scaleZ ) {
+
+          animateScaleZElem.style.borderStyle = 'inset';
+
+        } else {
+
+          animateScaleZElem.style.borderStyle = '';
+
+        }
+      }, false );
+
       var animateTranslateXElem = document.getElementById( 'animateTranslateX' );
 
       animateTranslateXElem.addEventListener( 'click', function () {
@@ -566,17 +609,62 @@
         }
       }, false );
 
-      var animateRotateElem = document.getElementById( 'animateRotate' );
+      var animateTranslateZElem = document.getElementById( 'animateTranslateZ' );
 
-      animateRotateElem.addEventListener( 'click', function () {
+      animateTranslateZElem.addEventListener( 'click', function () {
 
-        if ( animateRAFed( { rotate: 'toggle' } ).rotate ) {
+        if ( animateRAFed( { translateZ: 'toggle' } ).translateZ ) {
 
-          animateRotateElem.style.borderStyle = 'inset';
+          animateTranslateZElem.style.borderStyle = 'inset';
 
         } else {
 
-          animateRotateElem.style.borderStyle = '';
+          animateTranslateZElem.style.borderStyle = '';
+
+        }
+      }, false );
+
+      var animateRotateXElem = document.getElementById( 'animateRotateX' );
+
+      animateRotateXElem.addEventListener( 'click', function () {
+
+        if ( animateRAFed( { rotateX: 'toggle' } ).rotateX ) {
+
+          animateXRotateElem.style.borderStyle = 'inset';
+
+        } else {
+
+          animateXRotateElem.style.borderStyle = '';
+
+        }
+      }, false );
+
+      var animateRotateYElem = document.getElementById( 'animateRotateY' );
+
+      animateRotateYElem.addEventListener( 'click', function () {
+
+        if ( animateRAFed( { rotateY: 'toggle' } ).rotateY ) {
+
+          animateYRotateElem.style.borderStyle = 'inset';
+
+        } else {
+
+          animateYRotateElem.style.borderStyle = '';
+
+        }
+      }, false );
+
+      var animateRotateZElem = document.getElementById( 'animateRotateZ' );
+
+      animateRotateZElem.addEventListener( 'click', function () {
+
+        if ( animateRAFed( { rotateZ: 'toggle' } ).rotateZ ) {
+
+          animateZRotateElem.style.borderStyle = 'inset';
+
+        } else {
+
+          animateZRotateElem.style.borderStyle = '';
 
         }
       }, false );
