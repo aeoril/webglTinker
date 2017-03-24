@@ -146,15 +146,20 @@
 
     var scaleX;
     var scaleY;
-    var scalingMatrix;
+    var scaleZ;
 
-    var angleInDegrees;
-    var rotationMatrix;
+    var XAngleInDegrees;
+    var YAngleInDegrees;
+    var ZAngleInDegrees;
 
     var translationX;
     var translationY;
+    var translationZ;
+
     var projectionMatrix;
     var translationMatrix;
+    var rotationMatrix;
+    var scalingMatrix;
     var moveOriginMatrix;
 
     var matrixUniformLocation;
@@ -176,11 +181,13 @@
 
     var scaleXElem;
     var scaleYElem;
+    var scaleZElem;
 
     var rotateElem;
 
     var translateXElem;
     var translateYElem;
+    var translateZElem;
 
     var setColorsElem;
 
@@ -249,6 +256,11 @@
         translationY = Math.min( translationY, translateYElem.max );
         translateYElem.value = translationY;
 
+        translateZElem.max = Math.min( gl.canvas.clientWidth, gl.canvas.clientHeight );
+
+        translationZ = Math.min( translationZ, translateZElem.max );
+        translateZElem.value = translationZ;
+
       }
 
       if ( options.oneColor || options.oneRandomColor ||
@@ -293,6 +305,12 @@
 
       }
 
+      if ( options.translateZ ) {
+
+        translationZ += mathExtras.randIntInc( -1, 1 );
+
+      }
+
       if ( options.scaleX ) {
 
         scaleX += (Math.random() - 0.5) / 100;
@@ -305,9 +323,27 @@
 
       }
 
-      if ( options.rotate ) {
+      if ( options.scaleZ ) {
 
-        angleInDegrees += 0.1;
+        scaleZ += (Math.random() - 0.5) / 100;
+
+      }
+
+      if ( options.rotateX) {
+
+        XAngleInDegrees += 0.1;
+
+      }
+
+      if ( options.rotateY) {
+
+        YAngleInDegrees += 0.1;
+
+      }
+
+      if ( options.rotateZ) {
+
+        ZAngleInDegrees += 0.1;
 
       }
 
@@ -320,7 +356,7 @@
           gl.canvas.clientHeight);
 
         transformMatrix = m3.translate( projectionMatrix,
-          translationX, translationY );
+          translationX, translationY, trans );
         transformMatrix = m3.rotateDeg( transformMatrix, 360 - angleInDegrees );
         transformMatrix = m3.scale( transformMatrix, scaleX, scaleY );
         transformMatrix = m3.translate( transformMatrix,
@@ -588,27 +624,39 @@
 
       function reset () {
 
-        angleInDegrees = 0.0;
-
         translationX = Math.floor( gl.canvas.clientWidth / 2 );
         translationY = Math.floor( gl.canvas.clientHeight / 2 );
+        translationZ = Math.min( translationX, translationY );
 
         translateXElem.value = translationX;
         translateYElem.value = translationY;
+        translateZElem.value = translationZ;
 
         scaleX = 1;
         scaleY = 1;
+        scaleZ = 1;
+
         scaleXElem.value = 100;
         scaleYElem.value = 100;
+        scaleZElem.value = 100;
 
-        angleInDegrees = 0;
-        rotateElem.value = 0;
+        XAngleInDegrees = 0;
+        YAngleInDegrees = 0;
+        ZAngleInDegrees = 0;
+
+        rotateXElem.value = 0;
+        rotateYElem.value = 0;
+        rotateZElem.value = 0;
 
         animateScaleXElem.style.borderStyle = '';
         animateScaleYElem.style.borderStyle = '';
+        animateScaleZElem.style.borderStyle = '';
         animateTranslateXElem.style.borderStyle = '';
         animateTranslateYElem.style.borderStyle = '';
-        animateRotateElem.style.borderStyle = '';
+        animateTranslateZElem.style.borderStyle = '';
+        animateRotateXElem.style.borderStyle = '';
+        animateRotateYElem.style.borderStyle = '';
+        animateRotateZElem.style.borderStyle = '';
         oneColorElem.style.borderStyle = '';
         oneRandomColorElem.style.borderStyle = '';
 
@@ -620,9 +668,13 @@
           oneRandomColor: 0,
           scaleX: 0,
           scaleY: 0,
+          scaleZ: 0,
           translateX: 0,
           translateY: 0,
-          rotate: 0,
+          translateZ: 0,
+          rotateX: 0,
+          rotateY: 0,
+          rotateZ: 0
 
         } );
       }
