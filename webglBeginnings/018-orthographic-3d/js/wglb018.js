@@ -351,18 +351,21 @@
 
         gl.clear( gl.COLOR_BUFFER_BIT );
 
-        projectionMatrix = m3.projection(
+        projectionMatrix = m4.projection(
           gl.canvas.clientWidth,
-          gl.canvas.clientHeight);
+          gl.canvas.clientHeight,
+          Math.min( gl.canvas.clientWidth, gl.canvas.clientHeight ) );
 
-        transformMatrix = m3.translate( projectionMatrix,
-          translationX, translationY, trans );
-        transformMatrix = m3.rotateDeg( transformMatrix, 360 - angleInDegrees );
-        transformMatrix = m3.scale( transformMatrix, scaleX, scaleY );
-        transformMatrix = m3.translate( transformMatrix,
-          -setGeometryMeta.center.x, -setGeometryMeta.center.y );
+        transformMatrix = m4.translate( projectionMatrix,
+          translationX, translationY, translationZ );
+        transformMatrix = m4.XRotateDeg( transformMatrix, XangleInDegrees );
+        transformMatrix = m4.YRotateDeg( transformMatrix, YangleInDegrees );
+        transformMatrix = m4.ZRotateDeg( transformMatrix, ZangleInDegrees );
+        transformMatrix = m4.scale( transformMatrix, scaleX, scaleY, scaleZ );
+        transformMatrix = m4.translate( transformMatrix,
+          -setGeometryMeta.center.x, -setGeometryMeta.center.y, -setGeometryMeta.center.z );
 
-        gl.uniformMatrix3fv( matrixUniformLocation, false, transformMatrix );
+        gl.uniformMatrix4fv( matrixUniformLocation, false, transformMatrix );
 
         primitiveType = gl.TRIANGLES;
         offset = 0;
@@ -421,9 +424,13 @@
         oneRandomColor: 0,
         scaleY: 0,
         scaleX: 0,
+        scaleZ: 0,
         translateX: 0,
         translateY: 0,
-        rotate: 0,
+        translateZ: 0,
+        rotateX: 0,
+        rotateY: 0,
+        rotateZ: 0
 
       } );
 
