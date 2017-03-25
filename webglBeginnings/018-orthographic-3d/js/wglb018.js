@@ -42,58 +42,111 @@
       width * 0.301, height * 0.3, width * -0.4,
       width * 0.299, height * 0.3, width * -0.4,
 
-      // frame
+      // top frame
 
       // Triangle 1
-      width * 0.1, height * 0.0, 0.0,
-      width * 0.1, height * 0.1, 0.0,
-      width * 0.3, height * 0.0, 0.0,
+      width * 0.1, height * 0.0, width * 0.05,
+      width * 0.1, height * 0.1, width * 0.05,
+      width * 0.3, height * 0.0, width * 0.05,
 
       // Triangle 2
-      width * 0.3, height * 0.0, 0.0,
-      width * 0.1, height * 0.1, 0.0,
-      width * 0.5, height * 0.1, 0.0,
+      width * 0.3, height * 0.0, width * 0.05,
+      width * 0.1, height * 0.1, width * 0.05,
+      width * 0.5, height * 0.1, width * 0.05,
 
       // ...
-      width * 0.5, height * 0.1, 0.0,
-      width * 0.3, height * 0.0, 0.0,
-      width * 0.6, height * 0.0, 0.0,
+      width * 0.5, height * 0.1, width * 0.05,
+      width * 0.3, height * 0.0, width * 0.05,
+      width * 0.6, height * 0.0, width * 0.05,
 
-      width * 0.6, height * 0.0, 0.0,
-      width * 0.5, height * 0.1, 0.0,
-      width * 0.6, height * 0.3, 0.0,
+      width * 0.6, height * 0.0, width * 0.05,
+      width * 0.5, height * 0.1, width * 0.05,
+      width * 0.6, height * 0.3, width * 0.05,
 
-      width * 0.6, height * 0.3, 0.0,
-      width * 0.5, height * 0.1, 0.0,
-      width * 0.5, height * 0.5, 0.0,
+      width * 0.6, height * 0.3, width * 0.05,
+      width * 0.5, height * 0.1, width * 0.05,
+      width * 0.5, height * 0.5, width * 0.05,
 
-      width * 0.5, height * 0.5, 0.0,
-      width * 0.6, height * 0.3, 0.0,
-      width * 0.6, height * 0.6, 0.0,
+      width * 0.5, height * 0.5, width * 0.05,
+      width * 0.6, height * 0.3, width * 0.05,
+      width * 0.6, height * 0.6, width * 0.05,
 
-      width * 0.6,  height * 0.6, 0.0,
-      width * 0.5,  height * 0.5, 0.0,
-      width * 0.3,  height * 0.6, 0.0,
+      width * 0.6, height * 0.6, width * 0.05,
+      width * 0.5, height * 0.5, width * 0.05,
+      width * 0.3, height * 0.6, width * 0.05,
 
-      width * 0.3,  height *  0.6, 0.0,
-      width * 0.5,  height *  0.5, 0.0,
-      width * 0.1,  height *  0.5, 0.0,
+      width * 0.3, height * 0.6, width * 0.05,
+      width * 0.5, height * 0.5, width * 0.05,
+      width * 0.1, height * 0.5, width * 0.05,
 
-      width * 0.1,  height * 0.5, 0.0,
-      width * 0.3,  height * 0.6, 0.0,
-      width * 0.0,  height * 0.6, 0.0,
+      width * 0.1, height * 0.5, width * 0.05,
+      width * 0.3, height * 0.6, width * 0.05,
+      width * 0.0, height * 0.6, width * 0.05,
 
-      width * 0.0,  height * 0.6, 0.0,
-      width * 0.1,  height * 0.5, 0.0,
-      width * 0.0,  height * 0.3, 0.0,
+      width * 0.0, height * 0.6, width * 0.05,
+      width * 0.1, height * 0.5, width * 0.05,
+      width * 0.0, height * 0.3, width * 0.05,
 
-      width * 0.0,  height * 0.3, 0.0,
-      width * 0.1,  height * 0.5, 0.0,
-      width * 0.1,  height * 0.1, 0.0,
+      width * 0.0, height * 0.3, width * 0.05,
+      width * 0.1, height * 0.5, width * 0.05,
+      width * 0.1, height * 0.1, width * 0.05,
 
-      width * 0.1,  height * 0.1, 0.0,
-      width * 0.0,  height * 0.3, 0.0,
-      width * 0.0,  height * 0.0, 0.0
+      width * 0.1, height * 0.1, width * 0.05,
+      width * 0.0, height * 0.3, width * 0.05,
+      width * 0.0, height * 0.0, width * 0.05,
+
+      // bottom frame
+
+      // Triangle 1
+      width * 0.1, height * 0.0, -width * 0.05,
+      width * 0.1, height * 0.1, -width * 0.05,
+      width * 0.3, height * 0.0, -width * 0.05,
+
+      // Triangle 2
+      width * 0.3, height * 0.0, -width * 0.05,
+      width * 0.1, height * 0.1, -width * 0.05,
+      width * 0.5, height * 0.1, -width * 0.05,
+
+      // ...
+      width * 0.5, height * 0.1, -width * 0.05,
+      width * 0.3, height * 0.0, -width * 0.05,
+      width * 0.6, height * 0.0, -width * 0.05,
+
+      width * 0.6, height * 0.0, -width * 0.05,
+      width * 0.5, height * 0.1, -width * 0.05,
+      width * 0.6, height * 0.3, -width * 0.05,
+
+      width * 0.6, height * 0.3, -width * 0.05,
+      width * 0.5, height * 0.1, -width * 0.05,
+      width * 0.5, height * 0.5, -width * 0.05,
+
+      width * 0.5, height * 0.5, -width * 0.05,
+      width * 0.6, height * 0.3, -width * 0.05,
+      width * 0.6, height * 0.6, -width * 0.05,
+
+      width * 0.6, height * 0.6, -width * 0.05,
+      width * 0.5, height * 0.5, -width * 0.05,
+      width * 0.3, height * 0.6, -width * 0.05,
+
+      width * 0.3, height * 0.6, -width * 0.05,
+      width * 0.5, height * 0.5, -width * 0.05,
+      width * 0.1, height * 0.5, -width * 0.05,
+
+      width * 0.1, height * 0.5, -width * 0.05,
+      width * 0.3, height * 0.6, -width * 0.05,
+      width * 0.0, height * 0.6, -width * 0.05,
+
+      width * 0.0, height * 0.6, -width * 0.05,
+      width * 0.1, height * 0.5, -width * 0.05,
+      width * 0.0, height * 0.3, -width * 0.05,
+
+      width * 0.0, height * 0.3, -width * 0.05,
+      width * 0.1, height * 0.5, -width * 0.05,
+      width * 0.1, height * 0.1, -width * 0.05,
+
+      width * 0.1, height * 0.1, -width * 0.05,
+      width * 0.0, height * 0.3, -width * 0.05,
+      width * 0.0, height * 0.0, -width * 0.05
 
     ];
 
@@ -204,7 +257,7 @@
 
     var first = true;
 
-    var ANIMATE_MS = 42;
+    var ANIMATE_MS = 15;
 
     var resetElem;
 
@@ -380,7 +433,7 @@
 
       if ( resized || options.render ) {
 
-        gl.clear( gl.COLOR_BUFFER_BIT );
+        gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT );
 
         projectionMatrix = m4.projection(
           gl.canvas.clientWidth,
@@ -444,6 +497,8 @@
       gl.enableVertexAttribArray( colorAttributeLocation );
 
       gl.clearColor( 0, 0, 0, 0 );
+
+      gl.enable( gl.DEPTH_TEST );
 
       var animateRAFed = rAFAnimate( animate,
       {
