@@ -257,7 +257,7 @@
 
     var first = true;
 
-    var ANIMATE_MS = 15;
+    var ANIMATE_MS = 30;
 
     var resetElem;
 
