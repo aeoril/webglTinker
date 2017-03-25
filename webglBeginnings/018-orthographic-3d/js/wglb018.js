@@ -15,6 +15,35 @@
 
     var indices = [
 
+      // x axis
+      width * -0.1, height * 0.299, 0.0,
+      width *  0.7, height * 0.299, 0.0,
+      width *  0.7, height * 0.301, 0.0,
+
+      width *  0.7, height * 0.301, 0.0,
+      width * -0.1, height * 0.301, 0.0,
+      width * -0.1, height * 0.299, 0.0,
+
+      // y axis
+      width * 0.299, height * -0.1, 0.0,
+      width * 0.299, height *  0.7, 0.0,
+      width * 0.301, height *  0.7, 0.0,
+
+      width * 0.301, height *  0.7, 0.0,
+      width * 0.301, height * -0.1, 0.0,
+      width * 0.299, height * -0.1, 0.0,
+
+      // z axis
+      width * 0.299, height * 0.3, width * -0.4,
+      width * 0.299, height * 0.3, width *  0.4,
+      width * 0.301, height * 0.3, width *  0.4,
+
+      width * 0.301, height * 0.3, width *  0.4,
+      width * 0.301, height * 0.3, width * -0.4,
+      width * 0.299, height * 0.3, width * -0.4,
+
+      // frame
+
       // Triangle 1
       width * 0.1, height * 0.0, 0.0,
       width * 0.1, height * 0.1, 0.0,
