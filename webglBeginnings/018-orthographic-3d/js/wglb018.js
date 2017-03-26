@@ -444,7 +444,7 @@
           translationX, translationY, translationZ );
         transformMatrix = m4.XRotateDeg( transformMatrix, XAngleInDegrees );
         transformMatrix = m4.YRotateDeg( transformMatrix, YAngleInDegrees );
-        transformMatrix = m4.ZRotateDeg( transformMatrix, ZAngleInDegrees );
+        transformMatrix = m4.ZRotateDeg( transformMatrix, 360 - ZAngleInDegrees );
         transformMatrix = m4.scale( transformMatrix, scaleX, scaleY, scaleZ );
         transformMatrix = m4.translate( transformMatrix,
           -setGeometryMeta.center.x, -setGeometryMeta.center.y, -setGeometryMeta.center.z );
