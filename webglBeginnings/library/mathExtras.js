@@ -36,6 +36,52 @@ var mathExtras = ( function () {
 
       return Math.floor( Math.random() * ( max - min ) ) + min;
 
-    }
+    },
+
+    repeat: function ( fun1, fun2, count /*, ... */ ) {
+
+      var total = 0,
+      i,
+      args = [ ].slice.call( arguments, 3 );
+
+      for ( i = 0; i < count; i++ ) {
+
+        total = fun1( fun2, total, args );
+
+      }
+
+      return total;
+      
+    },
+
+    repeatAdd: repeat.bind( null, function ( fun, total, args ) {
+
+      return total + fun.apply( null, args );
+
+    }),
+
+    repeatSub: repeat.bind( null, function ( fun, total, args ) {
+
+      return total - fun.apply( null, args );
+
+    }),
+
+    repeatMul: repeat.bind( null, function ( fun, total, args ) {
+
+      return total * fun.apply( null, args );
+
+    }),
+
+    repeatDiv: repeat.bind( null, function ( fun, total, args ) {
+
+      if ( total === 0 ) {
+
+        total = 1;
+
+      }
+
+      return total / fun.apply( null, args );
+
+    })
   };
 }() );

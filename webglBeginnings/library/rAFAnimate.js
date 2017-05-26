@@ -59,7 +59,7 @@ function rAFAnimate ( animate, options ) {
 
         prevTimestamp = timestamp;
 
-        outOptions.ticks = parseInt( outOptions.timeDelta / options.ms, 10 );
+        outOptions.ticks = Math.round( outOptions.timeDelta / options.ms );
 
         Object.keys( options ).forEach( function ( key ) {
 
