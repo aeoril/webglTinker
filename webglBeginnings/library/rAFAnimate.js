@@ -10,16 +10,16 @@ function rAFAnimate ( animate, options ) {
   // eliminate side effects and external interference
   options = simpleCopy(options);
 
-  options.repeat = options.repeat || 0;
-  options.immediate = options.immediate || 0;
-  options.render = options.render || 0;
-  options.ms = options.ms || 0;
+  options.ms = options.MSPerTick || 0;
+  options.repeat = options.repeat || false;
 
   return ( function () {
 
     var ID = null;
 
     function innerAnimateRAFed( optionsUpdates ) {
+
+      var prevTimestamp;
 
       if ( optionsUpdates ) {
 
@@ -34,7 +34,6 @@ function rAFAnimate ( animate, options ) {
           if ( optionsUpdates[ key ] === 'toggle' ) {
 
             options[ key ] = options[ key ] === Infinity ? 0 : Infinity;
-            options.immediate = options.immediate || 1;
 
           } else {
 
@@ -43,32 +42,6 @@ function rAFAnimate ( animate, options ) {
           }
         });
       }
-
-      options.render = 0;
-
-      Object.keys( options ).forEach( function ( key ) {
-
-        if ( key === 'repeat' || key === 'ms' ) {
-
-          return;
-
-        }
-
-        if ( key !== 'render' && key !== 'immediate' ) {
-
-          if ( options[ key ] !== Infinity ) {
-
-            options.immediate = Math.max( options.immediate, options[ key ]);
-
-            options.render = Math.max( options.render, options.immediate );
-
-          } else {
-
-            options.render = Infinity;
-
-          }
-        }
-      });
 
       if ( ID ) {
 
@@ -80,25 +53,38 @@ function rAFAnimate ( animate, options ) {
 
         var outOptions = {};
 
+        outOptions.render = false;
+
+        outOptions.timeDelta = timestamp - ( prevTimestamp || timestamp );
+
+        prevTimestamp = timestamp;
+
+        outOptions.ticks = parseInt( outOptions.timeDelta / options.ms, 10 );
+
         Object.keys( options ).forEach( function ( key ) {
 
-          if ( key === 'ms' ) {
+          if ( key === 'repeat' || key === 'ms' ) {
 
-            outOptions.ms = options.ms;
+            return;
 
-          } else {
+          }
 
-            outOptions[ key ] = !!options[ key ];
+          outOptions[ key ] = !!options[ key ];
 
-            if ( options [ key ] > 0 ) {
+          if ( outOptions[ key ] ) {
 
-              options[ key ]--;
+            outOptions.render = true;
 
-            }
+          }
+
+          if ( options [ key ] > 0 ) {
+
+            options[ key ] -= options.ticks;
+
           }
         });
 
-        animate( timestamp, outOptions );
+        animate( outOptions );
 
         if ( options.repeat ) {
 
