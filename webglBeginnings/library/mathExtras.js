@@ -51,36 +51,36 @@ var mathExtras = ( function () {
       }
 
       return total;
-      
+
     },
 
-    repeatAdd: repeat.bind( null, function ( fun, total, args ) {
+    repeatAdd: repeat.bind( null, function ( fun, left, args ) {
 
-      return total + fun.apply( null, args );
-
-    }),
-
-    repeatSub: repeat.bind( null, function ( fun, total, args ) {
-
-      return total - fun.apply( null, args );
+      return left + fun.apply( null, args );
 
     }),
 
-    repeatMul: repeat.bind( null, function ( fun, total, args ) {
+    repeatSub: repeat.bind( null, function ( fun, left, args ) {
 
-      return total * fun.apply( null, args );
+      return left - fun.apply( null, args );
 
     }),
 
-    repeatDiv: repeat.bind( null, function ( fun, total, args ) {
+    repeatMul: repeat.bind( null, function ( fun, left, args ) {
 
-      if ( total === 0 ) {
+      return left * fun.apply( null, args );
 
-        total = 1;
+    }),
+
+    repeatDiv: repeat.bind( null, function ( fun, left, args ) {
+
+      if ( left === 0 ) {
+
+        left = 1;
 
       }
 
-      return total / fun.apply( null, args );
+      return left / fun.apply( null, args );
 
     })
   };
