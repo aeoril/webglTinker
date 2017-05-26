@@ -253,11 +253,12 @@
 
     var setGeometryMeta;
 
-    var prevTimestamp;
-
     var first = true;
 
-    var ANIMATE_MS = 30;
+    var MS_PER_TICK = ( 2 / 60 ) * 1000;
+
+    var TRANSLATE_DELTA = 1;
+    var SCALE_DIVISOR = 100;
 
     var resetElem;
 
@@ -278,7 +279,7 @@
     var oneColorElem;
     var oneRandomColorElem;
 
-    function animate ( timestamp, options ) {
+    function animate ( options ) {
 
       var resized;
 
@@ -299,23 +300,6 @@
       if ( resized || first ) {
 
         gl.viewport( 0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight );
-
-      }
-
-      prevTimestamp = prevTimestamp || timestamp;
-
-      if ( !resized && !options.immediate ) {
-
-        if ( timestamp - prevTimestamp < options.ms ) {
-
-          return;
-
-        }
-      }
-
-      prevTimestamp = timestamp;
-
-      if ( resized || first ) {
 
         gl.bindBuffer( gl.ARRAY_BUFFER, positionBuffer );
 
@@ -347,22 +331,21 @@
 
       }
 
-      if ( options.oneColor || options.oneRandomColor ||
-           options.setColors ) {
+      if ( options.setColors || options.setSequentialColors || options.setRandomColors || first ) {
 
         gl.bindBuffer( gl.ARRAY_BUFFER, colorBuffer );
 
-        if ( options.setColors || first ) {
+        if ( options.setSequentialColors ) {
 
-          colors = setColors( gl, setGeometryMeta.count );
+          setSequentialColors( gl, colors, options.ticks );
 
-        } else if (options.oneColor) {
+        } else if ( options.setRandomColors ) {
 
-          oneColor( gl, colors );
+          setRandomColors( gl, colors, options.ticks );
 
         } else {
 
-          oneRandomColor( gl, colors );
+          colors = setColors( gl, setGeometryMeta.count );
 
         }
 
@@ -379,55 +362,61 @@
 
       if ( options.translateX ) {
 
-        translationX += mathExtras.randIntInc( -1, 1 );
+        translationX += mathExtras.repeatAdd( mathExtras.randIntInc,
+          options.ticks, -TRANSLATE_DELTA, TRANSLATE_DELTA );
 
       }
 
       if ( options.translateY ) {
 
-        translationY += mathExtras.randIntInc( -1, 1 );
+        translationY += mathExtras.repeatAdd( mathExtras.randIntInc,
+          options.ticks, -TRANSLATE_DELTA, TRANSLATE_DELTA );
 
       }
 
       if ( options.translateZ ) {
 
-        translationZ += mathExtras.randIntInc( -1, 1 );
+        translationZ += mathExtras.repeatAdd( mathExtras.randIntInc,
+          options.ticks, -TRANSLATE_DELTA, TRANSLATE_DELTA );
 
       }
 
       if ( options.scaleX ) {
 
-        scaleX += (Math.random() - 0.5) / 100;
+        scaleX += mathExtras.repeatAdd ( function ( ) { return ( Math.random() - 0.5 ) / SCALE_DIVISOR; },
+          options.ticks);
 
       }
 
       if ( options.scaleY ) {
 
-        scaleY += (Math.random() - 0.5) / 100;
+        scaleY += mathExtras.repeatAdd ( function ( ) { return ( Math.random() - 0.5 ) / SCALE_DIVISOR; },
+          options.ticks);
 
       }
 
       if ( options.scaleZ ) {
 
-        scaleZ += (Math.random() - 0.5) / 100;
+        scaleZ += mathExtras.repeatAdd ( function ( ) { return ( Math.random() - 0.5 ) / SCALE_DIVISOR; },
+          options.ticks);
 
       }
 
-      if ( options.rotateX) {
+      if ( options.rotateX ) {
 
-        XAngleInDegrees += 0.1;
-
-      }
-
-      if ( options.rotateY) {
-
-        YAngleInDegrees += 0.1;
+        XAngleInDegrees += degreeChangePerMS * optons.deltaTime;
 
       }
 
-      if ( options.rotateZ) {
+      if ( options.rotateY ) {
 
-        ZAngleInDegrees += 0.1;
+        YAngleInDegrees += degreeChangePerMS * options.deltaTime;
+
+      }
+
+      if ( options.rotateZ ) {
+
+        ZAngleInDegrees += degreeChangePerMS * options.deltaTime;
 
       }
 
@@ -504,7 +493,7 @@
       {
 
         repeat: Infinity,
-        ms: ANIMATE_MS,
+        ms: MS_PER_TICK,
         setColors: 1,
         oneColor: 0,
         oneRandomColor: 0,
@@ -874,8 +863,8 @@
         {
 
           setColors: 1,
-          oneColor: 0,
-          oneRandomColor: 0,
+          setSequentialColors: 0,
+          setRandomColors: 0,
           scaleX: 0,
           scaleY: 0,
           scaleZ: 0,
