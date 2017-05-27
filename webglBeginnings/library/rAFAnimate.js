@@ -7,13 +7,14 @@ function rAFAnimate ( animate, options ) {
 
   'use strict';
 
+  var startTime = -1;
   var prevTimestamp;
   var ticksLeftovers = 0;
 
   // eliminate side effects and external interference
   options = simpleCopy(options);
 
-  options.ms = options.ms || 0;
+  options.msPerTick = options.msPerTick || 0;
   options.repeat = options.repeat || false;
 
   return ( function () {
@@ -21,6 +22,8 @@ function rAFAnimate ( animate, options ) {
     var ID = null;
 
     function innerAnimateRAFed( optionsUpdates ) {
+
+      var immediates = { };
 
       if ( optionsUpdates ) {
 
@@ -36,9 +39,13 @@ function rAFAnimate ( animate, options ) {
 
             options[ key ] = options[ key ] === Infinity ? 0 : Infinity;
 
+          } else if ( optionsUpdates[ key ] === 'immediate' ) {
+
+            immediates[ key ] = options[ key ];
+
           } else {
 
-            options[key] = optionsUpdates[key];
+            options[ key ] = optionsUpdates[ key ];
 
           }
         });
@@ -57,6 +64,14 @@ function rAFAnimate ( animate, options ) {
 
         outOptions.render = false;
 
+        if ( startTime < 0 ) {
+
+          startTime = timestamp;
+
+        }
+
+        outOptions.startTime = startTime;
+        outOptions.timestamp = timestamp;
         outOptions.deltaTime = timestamp - ( prevTimestamp || timestamp );
 
         prevTimestamp = timestamp;
@@ -69,33 +84,31 @@ function rAFAnimate ( animate, options ) {
 
           temp = outOptions.deltaTime + ticksLeftovers;
 
-          outOptions.ticks = Math.trunc( temp / options.ms );
+          outOptions.ticks = Math.trunc( temp / options.msPerTick );
 
-          ticksLeftovers = temp - outOptions.ticks * options.ms;
+          ticksLeftovers = temp - outOptions.ticks * options.msPerTick;
 
         }
 
         Object.keys( options ).forEach( function ( key ) {
 
-          if ( key === 'repeat' || key === 'ms' ) {
+          if ( key === 'repeat' || key === 'msPerTick' ) {
 
             return;
 
           }
 
-          if ( options[ key ] === 'immediate' ) {
-
-            options[ key ] = 0;
+          if ( typeof immediates[ key ] !== 'undefined' ) {
 
             outOptions [ key ] = true;
 
-            outOptions.render = true;
+            options[ key ] = immediates[ key ];
 
-            return;
+          } else {
+
+            outOptions[ key ] = !!options[ key ];
 
           }
-
-          outOptions[ key ] = !!options[ key ];
 
           if ( outOptions[ key ] ) {
 
@@ -115,6 +128,8 @@ function rAFAnimate ( animate, options ) {
 
           }
         });
+
+        immediates = { };
 
         animate( outOptions );
 
