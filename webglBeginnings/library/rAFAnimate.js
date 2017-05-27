@@ -104,6 +104,8 @@ function rAFAnimate ( animate, options ) {
 
             options[ key ] = immediates[ key ];
 
+            delete immediates[ key ];
+
           } else {
 
             outOptions[ key ] = !!options[ key ];
@@ -128,8 +130,6 @@ function rAFAnimate ( animate, options ) {
 
           }
         });
-
-        immediates = { };
 
         animate( outOptions );
 
