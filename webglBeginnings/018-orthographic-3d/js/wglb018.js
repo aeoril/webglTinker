@@ -263,12 +263,13 @@
 
     var first = true;
 
+    var SPEED_FACTOR = 2;
 
     var MS_PER_TICK = ( SPEED_FACTOR / 60 ) * 1000;
 
     var TRANSLATE_DELTA = 1;
     var SCALE_DIVISOR = 100;
-    var DEGREE_CHANGE_PER_MS = 3 / (SPEED_FACTOR * 1000);
+    var DEGREE_CHANGE_PER_MS = 5 / (SPEED_FACTOR * 1000);
 
     var resetElem;
 
@@ -501,8 +502,8 @@
       {
 
         repeat: Infinity,
-        ms: MS_PER_TICK,
-        setColors: 'immediate',
+        msPerTick: MS_PER_TICK,
+        setColors: 0,
         setSequentialColors: 0,
         setRandomColors: 0,
         scaleY: 0,
@@ -889,8 +890,6 @@
       resetElem.addEventListener( 'click', reset, false );
 
       reset();
-
-      animateRAFed();
 
     }
 
