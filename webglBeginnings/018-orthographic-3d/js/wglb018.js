@@ -263,11 +263,12 @@
 
     var first = true;
 
-    var MS_PER_TICK = ( .33 / 60 ) * 1000;
+
+    var MS_PER_TICK = ( SPEED_FACTOR / 60 ) * 1000;
 
     var TRANSLATE_DELTA = 1;
     var SCALE_DIVISOR = 100;
-    var DEGREE_CHANGE_PER_MS = 3 / 1000;
+    var DEGREE_CHANGE_PER_MS = 3 / (SPEED_FACTOR * 1000);
 
     var resetElem;
 
