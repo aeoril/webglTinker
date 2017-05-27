@@ -181,23 +181,31 @@
 
   var triangleToUpdate = 0;
 
-  function oneColor( gl, colors ) {
+  function setSequentialColors( gl, colors, count ) {
 
-    colors.splice( triangleToUpdate * 4, 4,
-      mathExtras.randInt( 256 ), mathExtras.randInt( 256 ),
-      mathExtras.randInt( 256 ), 255);
+    for ( var ii = 0; ii < count; ii++ ) {
+
+      colors.splice( triangleToUpdate * 4, 4,
+        mathExtras.randInt( 256 ), mathExtras.randInt( 256 ),
+        mathExtras.randInt( 256 ), 255);
+
+      triangleToUpdate = ( ++triangleToUpdate ) % Math.floor( colors.length / 4 );
+
+    }
 
     gl.bufferData( gl.ARRAY_BUFFER, new Uint8Array( colors ), gl.STATIC_DRAW );
 
-    triangleToUpdate = (++triangleToUpdate) % Math.floor(colors.length / 4);
-
   }
 
-  function oneRandomColor( gl, colors ) {
+  function setRandomColors( gl, colors, count ) {
 
-    colors.splice( mathExtras.randInt( colors.length / 4 ) * 4, 4,
-      mathExtras.randInt( 256 ), mathExtras.randInt( 256 ),
-      mathExtras.randInt( 256 ), 255);
+    for ( var ii = 0; ii < count; ii++ ) {
+
+      colors.splice( mathExtras.randInt( colors.length / 4 ) * 4, 4,
+        mathExtras.randInt( 256 ), mathExtras.randInt( 256 ),
+        mathExtras.randInt( 256 ), 255);
+
+    }
 
     gl.bufferData( gl.ARRAY_BUFFER, new Uint8Array( colors ), gl.STATIC_DRAW );
 
@@ -255,10 +263,11 @@
 
     var first = true;
 
-    var MS_PER_TICK = ( 2 / 60 ) * 1000;
+    var MS_PER_TICK = ( .33 / 60 ) * 1000;
 
     var TRANSLATE_DELTA = 1;
     var SCALE_DIVISOR = 100;
+    var DEGREE_CHANGE_PER_MS = 3 / 1000;
 
     var resetElem;
 
@@ -274,10 +283,8 @@
     var translateYElem;
     var translateZElem;
 
-    var setColorsElem;
-
-    var oneColorElem;
-    var oneRandomColorElem;
+    var setSequentialColorsElem;
+    var setRandomColorsElem;
 
     function animate ( options ) {
 
@@ -404,19 +411,19 @@
 
       if ( options.rotateX ) {
 
-        XAngleInDegrees += degreeChangePerMS * optons.deltaTime;
+        XAngleInDegrees += DEGREE_CHANGE_PER_MS * options.deltaTime;
 
       }
 
       if ( options.rotateY ) {
 
-        YAngleInDegrees += degreeChangePerMS * options.deltaTime;
+        YAngleInDegrees += DEGREE_CHANGE_PER_MS * options.deltaTime;
 
       }
 
       if ( options.rotateZ ) {
 
-        ZAngleInDegrees += degreeChangePerMS * options.deltaTime;
+        ZAngleInDegrees += DEGREE_CHANGE_PER_MS * options.deltaTime;
 
       }
 
@@ -494,9 +501,9 @@
 
         repeat: Infinity,
         ms: MS_PER_TICK,
-        setColors: 1,
-        oneColor: 0,
-        oneRandomColor: 0,
+        setColors: 'immediate',
+        setSequentialColors: 0,
+        setRandomColors: 0,
         scaleY: 0,
         scaleX: 0,
         scaleZ: 0,
@@ -520,7 +527,7 @@
 
         translationX = parseInt( translateXElem.value, 10 );
 
-        animateRAFed( { immediate: 1 } );
+        animateRAFed( { translateX: "immediate" } );
 
       });
 
@@ -535,7 +542,7 @@
 
         translationY = parseInt( translateYElem.value, 10 );
 
-        animateRAFed( { immediate: 1 } );
+        animateRAFed( { translateY: "immediate" } );
 
       }, false);
 
@@ -550,7 +557,7 @@
 
         translationZ = parseInt( translateZElem.value, 10 );
 
-        animateRAFed( { immediate: 1 } );
+        animateRAFed( { translateZ: "immediate" } );
 
       }, false);
 
@@ -564,7 +571,7 @@
 
         scaleX = parseInt( scaleXElem.value, 10 ) / 100;
 
-        animateRAFed( { immediate: 1 } );
+        animateRAFed( { scaleX: "immediate" } );
 
       }, false);
 
@@ -578,7 +585,7 @@
 
         scaleY = parseInt( scaleYElem.value, 10 ) / 100;
 
-        animateRAFed( { immediate: 1 } );
+        animateRAFed( { scaleY: "immediate" } );
 
       }, false);
 
@@ -592,7 +599,7 @@
 
         scaleZ = parseInt( scaleZElem.value, 10 ) / 100;
 
-        animateRAFed( { immediate: 1 } );
+        animateRAFed( { scaleZ: "immediate" } );
 
       }, false);
 
@@ -606,7 +613,7 @@
 
         XAngleInDegrees = parseInt( rotateXElem.value, 10 );
 
-        animateRAFed( { immediate: 1 } );
+        animateRAFed( { rotateX: "immediate" } );
 
       }, false);
 
@@ -620,7 +627,7 @@
 
         YAngleInDegrees = parseInt( rotateYElem.value, 10 );
 
-        animateRAFed( { immediate: 1 } );
+        animateRAFed( { rotateY: "immediate" } );
 
       }, false);
 
@@ -634,7 +641,7 @@
 
         ZAngleInDegrees = parseInt( rotateZElem.value, 10 );
 
-        animateRAFed( { immediate: 1 } );
+        animateRAFed( { rotateZ: "immediate" } );
 
       }, false);
 
@@ -773,48 +780,48 @@
         }
       }, false );
 
-      var oneColorElem = document.getElementById( 'oneColor' );
+      var setSequentialColorsElem = document.getElementById( 'setSequentialColors' );
 
-      oneColorElem.addEventListener( 'click', function () {
+      setSequentialColorsElem.addEventListener( 'click', function () {
 
-        var options = animateRAFed( { oneColor: 'toggle' } );
+        var options = animateRAFed( { setSequentialColors: 'toggle' } );
 
-        if (options.oneColor ) {
+        if (options.setSequentialColors ) {
 
-          oneColorElem.style.borderStyle = 'inset';
+          setSequentialColorsElem.style.borderStyle = 'inset';
 
-          if ( options.oneRandomColor ) {
+          if ( options.setRandomColors ) {
 
-            animateRAFed( { oneRandomColor: 0 } );
-            oneRandomColorElem.style.borderStyle = '';
+            animateRAFed( { setRandomColors: 0 } );
+            setRandomColorsElem.style.borderStyle = '';
 
           }
         } else {
 
-          oneColorElem.style.borderStyle = '';
+          setSequentialColorsElem.style.borderStyle = '';
 
         }
       }, false );
 
-      var oneRandomColorElem = document.getElementById( 'oneRandomColor' );
+      var setRandomColorsElem = document.getElementById( 'setRandomColors' );
 
-      oneRandomColorElem.addEventListener( 'click', function () {
+      setRandomColorsElem.addEventListener( 'click', function () {
 
-        var options = animateRAFed( { oneRandomColor: 'toggle' } );
+        var options = animateRAFed( { setRandomColors: 'toggle' } );
 
-        if (options.oneRandomColor ) {
+        if (options.setRandomColors ) {
 
-          oneRandomColorElem.style.borderStyle = 'inset';
+          setRandomColorsElem.style.borderStyle = 'inset';
 
-          if ( options.oneColor ) {
+          if ( options.setSequentialColors ) {
 
-            animateRAFed( { oneColor: 0 } );
-            oneColorElem.style.borderStyle = '';
+            animateRAFed( { setSequentialColors: 0 } );
+            setSequentialColorsElem.style.borderStyle = '';
 
           }
         } else {
 
-          oneRandomColorElem.style.borderStyle = '';
+          setRandomColorsElem.style.borderStyle = '';
 
         }
       }, false );
@@ -856,13 +863,13 @@
         animateRotateXElem.style.borderStyle = '';
         animateRotateYElem.style.borderStyle = '';
         animateRotateZElem.style.borderStyle = '';
-        oneColorElem.style.borderStyle = '';
-        oneRandomColorElem.style.borderStyle = '';
+        setSequentialColorsElem.style.borderStyle = '';
+        setRandomColorsElem.style.borderStyle = '';
 
         animateRAFed(
         {
 
-          setColors: 1,
+          setColors: 'immediate',
           setSequentialColors: 0,
           setRandomColors: 0,
           scaleX: 0,

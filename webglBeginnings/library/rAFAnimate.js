@@ -7,10 +7,13 @@ function rAFAnimate ( animate, options ) {
 
   'use strict';
 
+  var prevTimestamp;
+  var ticksLeftovers = 0;
+
   // eliminate side effects and external interference
   options = simpleCopy(options);
 
-  options.ms = options.MSPerTick || 0;
+  options.ms = options.ms || 0;
   options.repeat = options.repeat || false;
 
   return ( function () {
@@ -18,8 +21,6 @@ function rAFAnimate ( animate, options ) {
     var ID = null;
 
     function innerAnimateRAFed( optionsUpdates ) {
-
-      var prevTimestamp;
 
       if ( optionsUpdates ) {
 
@@ -52,18 +53,43 @@ function rAFAnimate ( animate, options ) {
       ID = window.requestAnimationFrame( function rAFCallee( timestamp ) {
 
         var outOptions = {};
+        var temp;
 
         outOptions.render = false;
 
-        outOptions.timeDelta = timestamp - ( prevTimestamp || timestamp );
+        outOptions.deltaTime = timestamp - ( prevTimestamp || timestamp );
 
         prevTimestamp = timestamp;
 
-        outOptions.ticks = Math.round( outOptions.timeDelta / options.ms );
+        if ( outOptions.deltaTime === 0 ) {
+
+          outOptions.ticks = 0;
+
+        } else {
+
+          temp = outOptions.deltaTime + ticksLeftovers;
+
+          outOptions.ticks = Math.trunc( temp / options.ms );
+
+          ticksLeftovers = temp - outOptions.ticks * options.ms;
+
+        }
 
         Object.keys( options ).forEach( function ( key ) {
 
           if ( key === 'repeat' || key === 'ms' ) {
+
+            return;
+
+          }
+
+          if ( options[ key ] === 'immediate' ) {
+
+            options[ key ] = 0;
+
+            outOptions [ key ] = true;
+
+            outOptions.render = true;
 
             return;
 
@@ -79,7 +105,13 @@ function rAFAnimate ( animate, options ) {
 
           if ( options [ key ] > 0 ) {
 
-            options[ key ] -= options.ticks;
+            options[ key ] -= outOptions.ticks;
+
+            if ( options[ key ] < 0 ) {
+
+              options[ key ] = 0;
+
+            }
 
           }
         });

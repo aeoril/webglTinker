@@ -7,7 +7,7 @@ var mathExtras = ( function () {
 
   'use strict';
 
-  return {
+  var self = {
 
     // Random integer from 0 to numInts - 1, inclusive
     // numInts may be negative - gives numInts + 1 to 0, inclusive
@@ -40,11 +40,11 @@ var mathExtras = ( function () {
 
     repeat: function ( fun1, fun2, count /*, ... */ ) {
 
-      var total = 0,
-      i,
-      args = [ ].slice.call( arguments, 3 );
+      var total = 0;
 
-      for ( i = 0; i < count; i++ ) {
+      var args = [ ].slice.call( arguments, 3 );
+
+      for ( var ii = 0; ii < count; ii++ ) {
 
         total = fun1( fun2, total, args );
 
@@ -52,36 +52,39 @@ var mathExtras = ( function () {
 
       return total;
 
-    },
-
-    repeatAdd: repeat.bind( null, function ( fun, left, args ) {
-
-      return left + fun.apply( null, args );
-
-    }),
-
-    repeatSub: repeat.bind( null, function ( fun, left, args ) {
-
-      return left - fun.apply( null, args );
-
-    }),
-
-    repeatMul: repeat.bind( null, function ( fun, left, args ) {
-
-      return left * fun.apply( null, args );
-
-    }),
-
-    repeatDiv: repeat.bind( null, function ( fun, left, args ) {
-
-      if ( left === 0 ) {
-
-        left = 1;
-
-      }
-
-      return left / fun.apply( null, args );
-
-    })
+    }
   };
+
+  self.repeatAdd = self.repeat.bind( null, function ( fun, left, args ) {
+
+    return left + fun.apply( null, args );
+
+  });
+
+  self.repeatSub = self.repeat.bind( null, function ( fun, left, args ) {
+
+    return left - fun.apply( null, args );
+
+  });
+
+  self.repeatMul = self.repeat.bind( null, function ( fun, left, args ) {
+
+    return left * fun.apply( null, args );
+
+  });
+
+  self.repeatDiv = self.repeat.bind( null, function ( fun, left, args ) {
+
+    if ( left === 0 ) {
+
+      left = 1;
+
+    }
+
+    return left / fun.apply( null, args );
+
+  });
+
+  return self;
+
 }() );
