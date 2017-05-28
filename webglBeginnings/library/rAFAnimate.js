@@ -14,7 +14,7 @@ function rAFAnimate ( animate, options ) {
   // eliminate side effects and external interference
   options = simpleCopy(options);
 
-  options.msPerTick = options.msPerTick || 0;
+  options.msPerTick = options.msPerTick || 1.0 / 60.0;
   options.repeat = options.repeat || false;
 
   return ( function () {
