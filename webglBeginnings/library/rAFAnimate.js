@@ -16,14 +16,13 @@ function rAFAnimate ( animate, options ) {
 
   options.msPerTick = options.msPerTick || 1.0 / 60.0;
   options.repeat = options.repeat || false;
+  options.render = false;
 
   return ( function () {
 
     var ID = null;
 
     function innerAnimateRAFed( optionsUpdates ) {
-
-      var immediates = { };
 
       if ( optionsUpdates ) {
 
@@ -38,10 +37,6 @@ function rAFAnimate ( animate, options ) {
           if ( optionsUpdates[ key ] === 'toggle' ) {
 
             options[ key ] = options[ key ] === Infinity ? 0 : Infinity;
-
-          } else if ( optionsUpdates[ key ] === 'immediate' ) {
-
-            immediates[ key ] = options[ key ];
 
           } else {
 
@@ -62,7 +57,8 @@ function rAFAnimate ( animate, options ) {
         var outOptions = {};
         var temp;
 
-        outOptions.render = false;
+        outOptions.render = options.render;
+        options.render = false;
 
         if ( startTime < 0 ) {
 
@@ -92,25 +88,13 @@ function rAFAnimate ( animate, options ) {
 
         Object.keys( options ).forEach( function ( key ) {
 
-          if ( key === 'repeat' || key === 'msPerTick' ) {
+          if ( key === 'repeat' || key === 'msPerTick' || key === 'render' ) {
 
             return;
 
           }
 
-          if ( typeof immediates[ key ] !== 'undefined' ) {
-
-            outOptions [ key ] = true;
-
-            options[ key ] = immediates[ key ];
-
-            delete immediates[ key ];
-
-          } else {
-
-            outOptions[ key ] = !!options[ key ];
-
-          }
+          outOptions[ key ] = !!options[ key ];
 
           if ( outOptions[ key ] ) {
 
@@ -118,6 +102,12 @@ function rAFAnimate ( animate, options ) {
 
           }
 
+          if ( options[ key ] === 'immediate' ) {
+
+            options[ key ] = 0;
+
+          }
+          
           if ( options [ key ] > 0 ) {
 
             options[ key ] -= outOptions.ticks;
@@ -150,5 +140,5 @@ function rAFAnimate ( animate, options ) {
 
     return innerAnimateRAFed;
 
-  }() );
+  }( ) );
 }

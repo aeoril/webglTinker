@@ -265,7 +265,7 @@
 
     var SPEED_FACTOR = 2;
 
-    var MS_PER_TICK = ( SPEED_FACTOR / 60 ) * 1000;
+    var MS_PER_TICK = ( SPEED_FACTOR * 1000 ) / 60;
 
     var TRANSLATE_DELTA = 1;
     var SCALE_DIVISOR = 100;
@@ -529,7 +529,7 @@
 
         translationX = parseInt( translateXElem.value, 10 );
 
-        animateRAFed( { translateX: "immediate" } );
+        animateRAFed( { render: true } );
 
       });
 
@@ -544,7 +544,7 @@
 
         translationY = parseInt( translateYElem.value, 10 );
 
-        animateRAFed( { translateY: "immediate" } );
+        animateRAFed( { render: true } );
 
       }, false);
 
@@ -559,7 +559,7 @@
 
         translationZ = parseInt( translateZElem.value, 10 );
 
-        animateRAFed( { translateZ: "immediate" } );
+        animateRAFed( { render: true } );
 
       }, false);
 
@@ -573,7 +573,7 @@
 
         scaleX = parseInt( scaleXElem.value, 10 ) / 100;
 
-        animateRAFed( { scaleX: "immediate" } );
+        animateRAFed( { render: true } );
 
       }, false);
 
@@ -587,7 +587,7 @@
 
         scaleY = parseInt( scaleYElem.value, 10 ) / 100;
 
-        animateRAFed( { scaleY: "immediate" } );
+        animateRAFed( { render: true } );
 
       }, false);
 
@@ -601,7 +601,7 @@
 
         scaleZ = parseInt( scaleZElem.value, 10 ) / 100;
 
-        animateRAFed( { scaleZ: "immediate" } );
+        animateRAFed( { render: true } );
 
       }, false);
 
@@ -615,7 +615,7 @@
 
         XAngleInDegrees = parseInt( rotateXElem.value, 10 );
 
-        animateRAFed( { rotateX: "immediate" } );
+        animateRAFed( { render: true } );
 
       }, false);
 
@@ -629,7 +629,7 @@
 
         YAngleInDegrees = parseInt( rotateYElem.value, 10 );
 
-        animateRAFed( { rotateY: "immediate" } );
+        animateRAFed( { render: true } );
 
       }, false);
 
@@ -643,7 +643,7 @@
 
         ZAngleInDegrees = parseInt( rotateZElem.value, 10 );
 
-        animateRAFed( { rotateZ: "immediate" } );
+        animateRAFed( { render: true } );
 
       }, false);
 
