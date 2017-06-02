@@ -52,6 +52,26 @@ var mathExtras = ( function () {
 
       return total;
 
+    },
+
+    clamp:  function ( val, min, max ) {
+
+      if ( val < min ) {
+
+        val = min;
+
+        return val;
+
+      }
+
+      while ( val > max ) {
+
+        val -= ( max - min );
+
+      }
+
+      return val;
+
     }
   };
 
