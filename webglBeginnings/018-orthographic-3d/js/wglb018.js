@@ -417,7 +417,7 @@
       if ( options.rotateX ) {
 
         XAngleInDegrees += DEGREE_CHANGE_PER_MS * options.deltaTime;
-        XAngleInDegrees = mathExtras.clamp( XAngleInDegrees, MIN_ANGLE, MAX_ANGLE );
+        XAngleInDegrees = mathExtras.clampWrap( XAngleInDegrees, MIN_ANGLE, MAX_ANGLE );
         rotateXElem.value = XAngleInDegrees;
 
       }
@@ -425,7 +425,7 @@
       if ( options.rotateY ) {
 
         YAngleInDegrees += DEGREE_CHANGE_PER_MS * options.deltaTime;
-        YAngleInDegrees = mathExtras.clamp( YAngleInDegrees, MIN_ANGLE, MAX_ANGLE );
+        YAngleInDegrees = mathExtras.clampWrap( YAngleInDegrees, MIN_ANGLE, MAX_ANGLE );
         rotateYElem.value = YAngleInDegrees;
 
       }
@@ -433,7 +433,7 @@
       if ( options.rotateZ ) {
 
         ZAngleInDegrees += DEGREE_CHANGE_PER_MS * options.deltaTime;
-        ZAngleInDegrees = mathExtras.clamp( ZAngleInDegrees, MIN_ANGLE, MAX_ANGLE );
+        ZAngleInDegrees = mathExtras.clampWrap( ZAngleInDegrees, MIN_ANGLE, MAX_ANGLE );
         rotateZElem.value = ZAngleInDegrees;
 
       }

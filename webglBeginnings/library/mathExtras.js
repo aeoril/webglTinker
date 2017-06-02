@@ -54,7 +54,7 @@ var mathExtras = ( function () {
 
     },
 
-    clamp:  function ( val, min, max ) {
+    clampWrap:  function ( val, min, max ) {
 
       if ( val < min ) {
 
