@@ -263,7 +263,7 @@
 
     var first = true;
 
-    var SPEED_FACTOR = .5;
+    var SPEED_FACTOR = 0.5;
 
     var MS_PER_TICK = ( SPEED_FACTOR * 1000 ) / 60;
 
@@ -457,7 +457,7 @@
         projectionMatrix = m4.projection(
           gl.canvas.clientWidth,
           gl.canvas.clientHeight,
-          Math.min( gl.canvas.clientWidth, gl.canvas.clientHeight ) );
+          2 * Math.min( gl.canvas.clientWidth, gl.canvas.clientHeight ) );
 
         transformMatrix = m4.translate( projectionMatrix,
           translationX, translationY, translationZ );
