@@ -54,7 +54,39 @@ var mathExtras = ( function () {
 
     },
 
+    clamp:  function ( val, min, max ) {
+
+      if ( typeof min === 'string' ) {
+        min = parseFloat( min );
+      }
+
+      if ( typeof max === 'string' ) {
+        max = parseFloat( max );
+      }
+
+      if ( val < min ) {
+
+        val = min;
+
+      } else if ( val > max ) {
+
+        val = max;
+
+      }
+
+      return val;
+
+    },
+
     clampWrap:  function ( val, min, max ) {
+
+      if ( typeof min === 'string' ) {
+        min = parseFloat( min );
+      }
+
+      if ( typeof max === 'string' ) {
+        max = parseFloat( max );
+      }
 
       if ( val < min ) {
 

@@ -263,7 +263,7 @@
 
     var first = true;
 
-    var SPEED_FACTOR = 2;
+    var SPEED_FACTOR = .5;
 
     var MS_PER_TICK = ( SPEED_FACTOR * 1000 ) / 60;
 
@@ -376,6 +376,8 @@
 
         translationX += mathExtras.repeatAdd( mathExtras.randIntInc,
           options.ticks, -TRANSLATE_DELTA, TRANSLATE_DELTA );
+        translationX = mathExtras.clamp( translationX, translateXElem.min, translateXElem.max );
+        translateXElem.value = translationX;
 
       }
 
@@ -383,6 +385,8 @@
 
         translationY += mathExtras.repeatAdd( mathExtras.randIntInc,
           options.ticks, -TRANSLATE_DELTA, TRANSLATE_DELTA );
+        translationY = mathExtras.clamp( translationY, translateYElem.min, translateYElem.max );
+        translateYElem.value = translationY;
 
       }
 
@@ -390,6 +394,8 @@
 
         translationZ += mathExtras.repeatAdd( mathExtras.randIntInc,
           options.ticks, -TRANSLATE_DELTA, TRANSLATE_DELTA );
+        translationZ = mathExtras.clamp( translationZ, translateZElem.min, translateZElem.max );
+        translateZElem.value = translationZ;
 
       }
 
@@ -397,6 +403,8 @@
 
         scaleX += mathExtras.repeatAdd ( function ( ) { return ( Math.random() - 0.5 ) / SCALE_DIVISOR; },
           options.ticks);
+        scaleX = mathExtras.clamp( scaleX, scaleXElem.min, scaleXElem.max );
+        scaleXElem.value = scaleX * 100;
 
       }
 
@@ -404,6 +412,8 @@
 
         scaleY += mathExtras.repeatAdd ( function ( ) { return ( Math.random() - 0.5 ) / SCALE_DIVISOR; },
           options.ticks);
+        scaleY = mathExtras.clamp( scaleY, scaleYElem.min, scaleYElem.max );
+        scaleYElem.value = scaleY * 100;
 
       }
 
@@ -411,6 +421,8 @@
 
         scaleZ += mathExtras.repeatAdd ( function ( ) { return ( Math.random() - 0.5 ) / SCALE_DIVISOR; },
           options.ticks);
+        scaleZ = mathExtras.clamp( scaleZ, scaleZElem.min, scaleZElem.max );
+        scaleZElem.value = scaleZ * 100;
 
       }
 
