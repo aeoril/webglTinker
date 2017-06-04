@@ -246,6 +246,12 @@
     var translationY;
     var translationZ;
 
+    var speed;
+
+    var msPerTick;
+
+    var animateRAFed;
+
     var projectionMatrix;
     var translationMatrix;
     var rotationMatrix;
@@ -263,13 +269,12 @@
 
     var first = true;
 
-    var SPEED_FACTOR = 0.5;
-
-    var MS_PER_TICK = ( SPEED_FACTOR * 1000 ) / 60;
+    var SPEED_FACTOR = 60;
+    var MIN_SPEED_FACTOR = 3;
+    var MAX_SPEED_FACTOR = 300;
 
     var TRANSLATE_DELTA = 1;
     var SCALE_DIVISOR = 100;
-    var DEGREE_CHANGE_PER_MS = 5 / (SPEED_FACTOR * 1000);
 
     var MIN_ANGLE = 0.0;
     var MAX_ANGLE = 360.0;
@@ -288,8 +293,22 @@
     var translateYElem;
     var translateZElem;
 
+    var speedElem;
+
+    var degreeChangePerMS;
+
     var setSequentialColorsElem;
     var setRandomColorsElem;
+
+    function updateSpeedReliant ( speed ) {
+
+      msPerTick = 3000 / mathExtras.clamp( speed, 20, 200 );
+
+      degreeChangePerMS = speed / 5000;
+
+      animateRAFed( { msPerTick: msPerTick } );
+
+    }
 
     function animate ( options ) {
 
@@ -428,7 +447,7 @@
 
       if ( options.rotateX ) {
 
-        XAngleInDegrees += DEGREE_CHANGE_PER_MS * options.deltaTime;
+        XAngleInDegrees += degreeChangePerMS * options.deltaTime;
         XAngleInDegrees = mathExtras.clampWrap( XAngleInDegrees, MIN_ANGLE, MAX_ANGLE );
         rotateXElem.value = XAngleInDegrees;
 
@@ -436,7 +455,7 @@
 
       if ( options.rotateY ) {
 
-        YAngleInDegrees += DEGREE_CHANGE_PER_MS * options.deltaTime;
+        YAngleInDegrees += degreeChangePerMS * options.deltaTime;
         YAngleInDegrees = mathExtras.clampWrap( YAngleInDegrees, MIN_ANGLE, MAX_ANGLE );
         rotateYElem.value = YAngleInDegrees;
 
@@ -444,7 +463,7 @@
 
       if ( options.rotateZ ) {
 
-        ZAngleInDegrees += DEGREE_CHANGE_PER_MS * options.deltaTime;
+        ZAngleInDegrees += degreeChangePerMS * options.deltaTime;
         ZAngleInDegrees = mathExtras.clampWrap( ZAngleInDegrees, MIN_ANGLE, MAX_ANGLE );
         rotateZElem.value = ZAngleInDegrees;
 
@@ -519,11 +538,11 @@
 
       gl.enable( gl.DEPTH_TEST );
 
-      var animateRAFed = rAFAnimate( animate,
+      animateRAFed = rAFAnimate( animate,
       {
 
         repeat: Infinity,
-        msPerTick: MS_PER_TICK,
+        msPerTick: msPerTick,
         setColors: 0,
         setSequentialColors: 0,
         setRandomColors: 0,
@@ -628,8 +647,8 @@
 
       rotateXElem = document.getElementById('rotateX');
 
-      rotateXElem.min = 0;
-      rotateXElem.max = 360;
+      rotateXElem.min = MIN_ANGLE;
+      rotateXElem.max = MAX_ANGLE;
       rotateXElem.value = 0;
 
       rotateXElem.addEventListener('input', function () {
@@ -642,8 +661,8 @@
 
       rotateYElem = document.getElementById('rotateY');
 
-      rotateYElem.min = 0;
-      rotateYElem.max = 360;
+      rotateYElem.min = MIN_ANGLE;
+      rotateYElem.max = MAX_ANGLE;
       rotateYElem.value = 0;
 
       rotateYElem.addEventListener('input', function () {
@@ -656,8 +675,8 @@
 
       rotateZElem = document.getElementById('rotateZ');
 
-      rotateZElem.min = 0;
-      rotateZElem.max = 360;
+      rotateZElem.min = MIN_ANGLE;
+      rotateZElem.max = MAX_ANGLE;
       rotateZElem.value = 0;
 
       rotateZElem.addEventListener('input', function () {
@@ -826,6 +845,20 @@
         }
       }, false );
 
+      speedElem = document.getElementById( 'speed' );
+
+      speedElem.min = MIN_SPEED_FACTOR;
+      speedElem.max = MAX_SPEED_FACTOR;
+      speedElem.value = SPEED_FACTOR;
+
+      speedElem.addEventListener('input', function () {
+
+        speed = parseInt( speedElem.value, 10 );
+
+        updateSpeedReliant( speed );
+
+      }, false);
+
       var setRandomColorsElem = document.getElementById( 'setRandomColors' );
 
       setRandomColorsElem.addEventListener( 'click', function () {
@@ -877,6 +910,12 @@
         rotateYElem.value = 0;
         rotateZElem.value = 0;
 
+        speed = SPEED_FACTOR;
+
+        speedElem.value = speed;
+
+        updateSpeedReliant( speed );
+
         animateScaleXElem.style.borderStyle = '';
         animateScaleYElem.style.borderStyle = '';
         animateScaleZElem.style.borderStyle = '';
@@ -892,6 +931,7 @@
         animateRAFed(
         {
 
+          msPerTick: msPerTick,
           setColors: 'immediate',
           setSequentialColors: 0,
           setRandomColors: 0,
