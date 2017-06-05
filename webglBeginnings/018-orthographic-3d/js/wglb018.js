@@ -269,7 +269,7 @@
 
     var first = true;
 
-    var SPEED_FACTOR = 60;
+    var SPEED_FACTOR = 15;
     var MIN_SPEED_FACTOR = 3;
     var MAX_SPEED_FACTOR = 300;
 
@@ -302,9 +302,10 @@
 
     function updateSpeedReliant ( speed ) {
 
-      msPerTick = 3000 / mathExtras.clamp( speed, 20, 200 );
+      msPerTick = 100.0 / Math.pow(speed, 0.3);
+      //msPerTick = 1000 / mathExtras.clamp( Math.pow(speed, 0.8), 10, 200 );
 
-      degreeChangePerMS = speed / 5000;
+      degreeChangePerMS = speed / 4000;
 
       animateRAFed( { msPerTick: msPerTick } );
 
