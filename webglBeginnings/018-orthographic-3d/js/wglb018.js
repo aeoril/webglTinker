@@ -15,34 +15,60 @@
 
     var indices = [
 
-      // x axis
-      width * -0.1, height * 0.299, 0.0,
-      width *  0.7, height * 0.299, 0.0,
-      width *  0.7, height * 0.301, 0.0,
-
-      width *  0.7, height * 0.301, 0.0,
-      width * -0.1, height * 0.301, 0.0,
-      width * -0.1, height * 0.299, 0.0,
-
-      // y axis
-      width * 0.299, height * -0.1, 0.0,
-      width * 0.299, height *  0.7, 0.0,
-      width * 0.301, height *  0.7, 0.0,
-
-      width * 0.301, height *  0.7, 0.0,
-      width * 0.301, height * -0.1, 0.0,
-      width * 0.299, height * -0.1, 0.0,
-
-      // z axis
-      width * 0.299, height * 0.3, width * -0.4,
-      width * 0.299, height * 0.3, width *  0.4,
-      width * 0.301, height * 0.3, width *  0.4,
-
-      width * 0.301, height * 0.3, width *  0.4,
-      width * 0.301, height * 0.3, width * -0.4,
-      width * 0.299, height * 0.3, width * -0.4,
-
       // top frame
+
+      // Triangle 1
+      width * 0.1, height * 0.0, -width * 0.05,
+      width * 0.1, height * 0.1, -width * 0.05,
+      width * 0.3, height * 0.0, -width * 0.05,
+
+      // Triangle 2
+      width * 0.3, height * 0.0, -width * 0.05,
+      width * 0.1, height * 0.1, -width * 0.05,
+      width * 0.5, height * 0.1, -width * 0.05,
+
+      // ...
+      width * 0.5, height * 0.1, -width * 0.05,
+      width * 0.3, height * 0.0, -width * 0.05,
+      width * 0.6, height * 0.0, -width * 0.05,
+
+      width * 0.6, height * 0.0, -width * 0.05,
+      width * 0.5, height * 0.1, -width * 0.05,
+      width * 0.6, height * 0.3, -width * 0.05,
+
+      width * 0.6, height * 0.3, -width * 0.05,
+      width * 0.5, height * 0.1, -width * 0.05,
+      width * 0.5, height * 0.5, -width * 0.05,
+
+      width * 0.5, height * 0.5, -width * 0.05,
+      width * 0.6, height * 0.3, -width * 0.05,
+      width * 0.6, height * 0.6, -width * 0.05,
+
+      width * 0.6, height * 0.6, -width * 0.05,
+      width * 0.5, height * 0.5, -width * 0.05,
+      width * 0.3, height * 0.6, -width * 0.05,
+
+      width * 0.3, height * 0.6, -width * 0.05,
+      width * 0.5, height * 0.5, -width * 0.05,
+      width * 0.1, height * 0.5, -width * 0.05,
+
+      width * 0.1, height * 0.5, -width * 0.05,
+      width * 0.3, height * 0.6, -width * 0.05,
+      width * 0.0, height * 0.6, -width * 0.05,
+
+      width * 0.0, height * 0.6, -width * 0.05,
+      width * 0.1, height * 0.5, -width * 0.05,
+      width * 0.0, height * 0.3, -width * 0.05,
+
+      width * 0.0, height * 0.3, -width * 0.05,
+      width * 0.1, height * 0.5, -width * 0.05,
+      width * 0.1, height * 0.1, -width * 0.05,
+
+      width * 0.1, height * 0.1, -width * 0.05,
+      width * 0.0, height * 0.3, -width * 0.05,
+      width * 0.0, height * 0.0, -width * 0.05,
+
+      // bottom frame
 
       // Triangle 1
       width * 0.1, height * 0.0, width * 0.05,
@@ -95,58 +121,32 @@
       width * 0.0, height * 0.3, width * 0.05,
       width * 0.0, height * 0.0, width * 0.05,
 
-      // bottom frame
+      // x axis
+      width * -0.1, height * 0.299, 0.0,
+      width *  0.7, height * 0.299, 0.0,
+      width *  0.7, height * 0.301, 0.0,
 
-      // Triangle 1
-      width * 0.1, height * 0.0, -width * 0.05,
-      width * 0.1, height * 0.1, -width * 0.05,
-      width * 0.3, height * 0.0, -width * 0.05,
+      width *  0.7, height * 0.301, 0.0,
+      width * -0.1, height * 0.301, 0.0,
+      width * -0.1, height * 0.299, 0.0,
 
-      // Triangle 2
-      width * 0.3, height * 0.0, -width * 0.05,
-      width * 0.1, height * 0.1, -width * 0.05,
-      width * 0.5, height * 0.1, -width * 0.05,
+      // y axis
+      width * 0.299, height * -0.1, 0.0,
+      width * 0.299, height *  0.7, 0.0,
+      width * 0.301, height *  0.7, 0.0,
 
-      // ...
-      width * 0.5, height * 0.1, -width * 0.05,
-      width * 0.3, height * 0.0, -width * 0.05,
-      width * 0.6, height * 0.0, -width * 0.05,
+      width * 0.301, height *  0.7, 0.0,
+      width * 0.301, height * -0.1, 0.0,
+      width * 0.299, height * -0.1, 0.0,
 
-      width * 0.6, height * 0.0, -width * 0.05,
-      width * 0.5, height * 0.1, -width * 0.05,
-      width * 0.6, height * 0.3, -width * 0.05,
+      // z axis
+      width * 0.299, height * 0.3, width * -0.4,
+      width * 0.299, height * 0.3, width *  0.4,
+      width * 0.301, height * 0.3, width *  0.4,
 
-      width * 0.6, height * 0.3, -width * 0.05,
-      width * 0.5, height * 0.1, -width * 0.05,
-      width * 0.5, height * 0.5, -width * 0.05,
-
-      width * 0.5, height * 0.5, -width * 0.05,
-      width * 0.6, height * 0.3, -width * 0.05,
-      width * 0.6, height * 0.6, -width * 0.05,
-
-      width * 0.6, height * 0.6, -width * 0.05,
-      width * 0.5, height * 0.5, -width * 0.05,
-      width * 0.3, height * 0.6, -width * 0.05,
-
-      width * 0.3, height * 0.6, -width * 0.05,
-      width * 0.5, height * 0.5, -width * 0.05,
-      width * 0.1, height * 0.5, -width * 0.05,
-
-      width * 0.1, height * 0.5, -width * 0.05,
-      width * 0.3, height * 0.6, -width * 0.05,
-      width * 0.0, height * 0.6, -width * 0.05,
-
-      width * 0.0, height * 0.6, -width * 0.05,
-      width * 0.1, height * 0.5, -width * 0.05,
-      width * 0.0, height * 0.3, -width * 0.05,
-
-      width * 0.0, height * 0.3, -width * 0.05,
-      width * 0.1, height * 0.5, -width * 0.05,
-      width * 0.1, height * 0.1, -width * 0.05,
-
-      width * 0.1, height * 0.1, -width * 0.05,
-      width * 0.0, height * 0.3, -width * 0.05,
-      width * 0.0, height * 0.0, -width * 0.05
+      width * 0.301, height * 0.3, width *  0.4,
+      width * 0.301, height * 0.3, width * -0.4,
+      width * 0.299, height * 0.3, width * -0.4
 
     ];
 
