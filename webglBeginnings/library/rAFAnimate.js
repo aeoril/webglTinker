@@ -15,8 +15,6 @@ function rAFAnimate ( animate, options ) {
   options = simpleCopy(options);
 
   options.msPerTick = options.msPerTick || 1.0 / 60.0;
-  options.repeat = options.repeat || false;
-  options.render = false;
 
   return ( function () {
 
@@ -88,7 +86,7 @@ function rAFAnimate ( animate, options ) {
 
         Object.keys( options ).forEach( function ( key ) {
 
-          if ( key === 'repeat' || key === 'msPerTick' || key === 'render' ) {
+          if ( key === 'msPerTick' || key === 'render' ) {
 
             return;
 
@@ -107,7 +105,7 @@ function rAFAnimate ( animate, options ) {
             options[ key ] = 0;
 
           }
-          
+
           if ( options [ key ] > 0 ) {
 
             options[ key ] -= outOptions.ticks;
