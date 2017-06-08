@@ -61,12 +61,13 @@ function rAFAnimate ( animate, options ) {
         if ( startTime < 0 ) {
 
           startTime = timestamp;
+          prevTimestamp = timestamp;
 
         }
 
         outOptions.startTime = startTime;
         outOptions.timestamp = timestamp;
-        outOptions.deltaTime = timestamp - ( prevTimestamp || timestamp );
+        outOptions.deltaTime = timestamp - prevTimestamp;
 
         prevTimestamp = timestamp;
 
