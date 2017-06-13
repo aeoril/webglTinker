@@ -95,7 +95,7 @@ function rAFAnimate ( animate, options ) {
 
           outOptions[ key ] = !!options[ key ];
 
-          if ( outOptions[ key ] ) {
+          if ( key !== 'repeat' && outOptions[ key ] ) {
 
             outOptions.render = true;
 

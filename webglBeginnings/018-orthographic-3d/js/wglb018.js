@@ -887,6 +887,8 @@
 
       function reset () {
 
+        triangleToUpdate = 0;
+        
         translationX = Math.floor( gl.canvas.clientWidth / 2 );
         translationY = Math.floor( gl.canvas.clientHeight / 2 );
         translationZ = 0;
