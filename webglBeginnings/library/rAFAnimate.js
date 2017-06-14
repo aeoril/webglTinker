@@ -9,12 +9,13 @@ function rAFAnimate ( animate, options ) {
 
   var startTime = -1;
   var prevTimestamp;
-  var ticksLeftovers = 0;
+  var ticksLeftovers;
 
   // eliminate side effects and external interference
   options = simpleCopy(options);
 
   options.msPerTick = options.msPerTick || 1.0 / 60.0;
+  options.repeat = options.repeat || 0;
 
   return ( function () {
 
@@ -52,7 +53,7 @@ function rAFAnimate ( animate, options ) {
 
       ID = window.requestAnimationFrame( function rAFCallee( timestamp ) {
 
-        var outOptions = {};
+        var outOptions = { };
         var temp;
 
         outOptions.render = options.render;
@@ -62,6 +63,7 @@ function rAFAnimate ( animate, options ) {
 
           startTime = timestamp;
           prevTimestamp = timestamp;
+          ticksLeftovers = 0;
 
         }
 
@@ -71,19 +73,9 @@ function rAFAnimate ( animate, options ) {
 
         prevTimestamp = timestamp;
 
-        if ( outOptions.deltaTime === 0 ) {
-
-          outOptions.ticks = 0;
-
-        } else {
-
-          temp = outOptions.deltaTime + ticksLeftovers;
-
-          outOptions.ticks = Math.trunc( temp / options.msPerTick );
-
-          ticksLeftovers = temp - outOptions.ticks * options.msPerTick;
-
-        }
+        temp = outOptions.deltaTime + ticksLeftovers;
+        outOptions.ticks = Math.trunc( temp / options.msPerTick );
+        ticksLeftovers = temp - outOptions.ticks * options.msPerTick;
 
         Object.keys( options ).forEach( function ( key ) {
 
@@ -120,7 +112,11 @@ function rAFAnimate ( animate, options ) {
           }
         });
 
-        animate( outOptions );
+        if ( outOptions.repeat ) {
+
+          animate( outOptions );
+
+        }
 
         if ( options.repeat ) {
 
@@ -129,6 +125,8 @@ function rAFAnimate ( animate, options ) {
         } else {
 
           ID = null;
+
+          startTime = -1;
 
         }
       } );
