@@ -49,6 +49,7 @@ function rAFAnimate ( animate, options ) {
 
         window.cancelAnimationFrame(ID);
 
+        ID = null;
 
       }
 

@@ -79,8 +79,11 @@ window.addEventListener('load', function ( ) {
         'immediate msPerTick (calculated): ' + msPerTickImmediate.toFixed( 2 ).padStart( 9, '0' );
     }
 
-    outputElem.innerText = outputString;
+    if ( options.render ) {
 
+      outputElem.innerText = outputString;
+
+    }
   }
 
   function toggle ( elem, key ) {
@@ -109,8 +112,10 @@ window.addEventListener('load', function ( ) {
 
     if ( toggle( this, 'repeat' ).repeat ) {
 
+      ticks = 0;
       ticksTTL = 0;
       framesPerTickCounter = -1;
+      ticksPerFrame = 0;
       framesPerTick = 0;
       msPerTickImmediate = 0;
       msPerTickAverage = 0;
