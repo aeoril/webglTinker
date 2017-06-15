@@ -545,7 +545,7 @@
       animateRAFed = rAFAnimate( animate,
       {
 
-        repeat: Infinity,
+        run: Infinity,
         msPerTick: msPerTick,
         setColors: 0,
         setSequentialColors: 0,
