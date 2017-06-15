@@ -15,7 +15,7 @@ function rAFAnimate ( animate, options ) {
   options = simpleCopy(options);
 
   options.msPerTick = options.msPerTick || 1.0 / 60.0;
-  options.repeat = options.repeat || 0;
+  options.run = options.run || 0;
 
   return ( function () {
 
@@ -89,7 +89,7 @@ function rAFAnimate ( animate, options ) {
 
           outOptions[ key ] = !!options[ key ];
 
-          if ( key !== 'repeat' && outOptions[ key ] ) {
+          if ( key !== 'run' && outOptions[ key ] ) {
 
             outOptions.render = true;
 
@@ -114,13 +114,13 @@ function rAFAnimate ( animate, options ) {
           }
         });
 
-        if ( outOptions.repeat ) {
+        if ( outOptions.run ) {
 
           animate( outOptions );
 
         }
 
-        if ( options.repeat ) {
+        if ( options.run ) {
 
           ID = window.requestAnimationFrame( rAFCallee );
 

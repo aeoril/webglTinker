@@ -112,7 +112,7 @@ window.addEventListener('load', function ( ) {
   showTicksElem.addEventListener( 'click', function ( ) { toggle( this, 'showTicks' ); }, false );
   runElem.addEventListener( 'click', function ( ) {
 
-    if ( toggle( this, 'repeat' ).repeat ) {
+    if ( toggle( this, 'run' ).run ) {
 
       ticks = 0;
       ticksTTL = 0;

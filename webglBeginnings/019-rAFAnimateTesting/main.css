@@ -1,5 +1,6 @@
 #output {
   font-family: "Lucida Console", Monaco, monospace;
+  font-size: 12pt;
   margin-top: 10px;
 }
 
@@ -9,5 +10,11 @@
 }
 
 fieldset {
-  width: 320px;
+  width: 270px;
+}
+
+@media screen and (max-width: 450px) {
+  #output {
+    font-size: 3.4vw;
+  }
 }
