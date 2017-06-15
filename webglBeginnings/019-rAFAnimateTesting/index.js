@@ -6,12 +6,13 @@ window.addEventListener('load', function ( ) {
   var showTimesElem = document.getElementById( 'showTimes' );
   var showTicksElem = document.getElementById( 'showTicks' );
   var runElem = document.getElementById( 'run' );
-  var msPerTickElem = document.getElementById( 'msPerTick')
+  var msPerTickElem = document.getElementById( 'msPerTick');
   var msElem = document.getElementById( 'ms' );
   var framesElem = document.getElementById( 'frames' );
   var submitElem = document.getElementById( 'submit' );
 
 
+  var fps = 0;
   var ticks = 0;
   var ticksTTL = 0;
   var framesPerTickCounter = -1;
@@ -38,6 +39,7 @@ window.addEventListener('load', function ( ) {
 
       framesPerTickCounter++;
 
+      fps = 1000 / options.deltaTime;
       ticks = options.ticks;
       ticksPerFrame = ticks / framesPerTickCounter;
       framesPerTick = framesPerTickCounter / options.ticks;
@@ -60,7 +62,7 @@ window.addEventListener('load', function ( ) {
         'timestamp ......................: ' + options.timestamp.toFixed( 2 ).padStart( 9, '0' ) + '\n' +
         'startTime ......................: ' + options.startTime.toFixed( 2 ).padStart( 9, '0' ) + '\n' +
         'deltaTime ......................: ' + options.deltaTime.toFixed( 2 ).padStart( 9, '0' ) + '\n' +
-        'fps ............................: ' + ( 1000 / options.deltaTime ).toFixed( 2 ).padStart( 9, '0' ) + '\n\n';
+        'fps ............................: ' + fps.toFixed( 2 ).padStart( 9, '0' ) + '\n\n';
 
     } else {
 

@@ -363,7 +363,7 @@
 
       }
 
-      if ( options.setColors || options.setSequentialColors || options.setRandomColors || first ) {
+      if ( ( options.ticks && ( options.setColors || options.setSequentialColors || options.setRandomColors ) ) || first ) {
 
         gl.bindBuffer( gl.ARRAY_BUFFER, colorBuffer );
 
@@ -392,58 +392,61 @@
 
       }
 
-      if ( options.translateX ) {
+      if ( options.ticks ) {
 
-        translationX += mathExtras.repeatAdd( mathExtras.randIntInc,
-          options.ticks, -TRANSLATE_DELTA, TRANSLATE_DELTA );
-        translationX = mathExtras.clamp( translationX, translateXElem.min, translateXElem.max );
-        translateXElem.value = translationX;
+        if ( options.translateX ) {
 
-      }
+          translationX += mathExtras.repeatAdd( mathExtras.randIntInc,
+            options.ticks, -TRANSLATE_DELTA, TRANSLATE_DELTA );
+          translationX = mathExtras.clamp( translationX, translateXElem.min, translateXElem.max );
+          translateXElem.value = translationX;
 
-      if ( options.translateY ) {
+        }
 
-        translationY += mathExtras.repeatAdd( mathExtras.randIntInc,
-          options.ticks, -TRANSLATE_DELTA, TRANSLATE_DELTA );
-        translationY = mathExtras.clamp( translationY, translateYElem.min, translateYElem.max );
-        translateYElem.value = translationY;
+        if ( options.translateY ) {
 
-      }
+          translationY += mathExtras.repeatAdd( mathExtras.randIntInc,
+            options.ticks, -TRANSLATE_DELTA, TRANSLATE_DELTA );
+          translationY = mathExtras.clamp( translationY, translateYElem.min, translateYElem.max );
+          translateYElem.value = translationY;
 
-      if ( options.translateZ ) {
+        }
 
-        translationZ += mathExtras.repeatAdd( mathExtras.randIntInc,
-          options.ticks, -TRANSLATE_DELTA, TRANSLATE_DELTA );
-        translationZ = mathExtras.clamp( translationZ, translateZElem.min, translateZElem.max );
-        translateZElem.value = translationZ;
+        if ( options.translateZ ) {
 
-      }
+          translationZ += mathExtras.repeatAdd( mathExtras.randIntInc,
+            options.ticks, -TRANSLATE_DELTA, TRANSLATE_DELTA );
+          translationZ = mathExtras.clamp( translationZ, translateZElem.min, translateZElem.max );
+          translateZElem.value = translationZ;
 
-      if ( options.scaleX ) {
+        }
 
-        scaleX += mathExtras.repeatAdd ( function ( ) { return ( Math.random() - 0.5 ) / SCALE_DIVISOR; },
-          options.ticks);
-        scaleX = mathExtras.clamp( scaleX, scaleXElem.min, scaleXElem.max );
-        scaleXElem.value = scaleX * 100;
+        if ( options.scaleX ) {
 
-      }
+          scaleX += mathExtras.repeatAdd ( function ( ) { return ( Math.random() - 0.5 ) / SCALE_DIVISOR; },
+            options.ticks);
+          scaleX = mathExtras.clamp( scaleX, scaleXElem.min, scaleXElem.max );
+          scaleXElem.value = scaleX * 100;
 
-      if ( options.scaleY ) {
+        }
 
-        scaleY += mathExtras.repeatAdd ( function ( ) { return ( Math.random() - 0.5 ) / SCALE_DIVISOR; },
-          options.ticks);
-        scaleY = mathExtras.clamp( scaleY, scaleYElem.min, scaleYElem.max );
-        scaleYElem.value = scaleY * 100;
+        if ( options.scaleY ) {
 
-      }
+          scaleY += mathExtras.repeatAdd ( function ( ) { return ( Math.random() - 0.5 ) / SCALE_DIVISOR; },
+            options.ticks);
+          scaleY = mathExtras.clamp( scaleY, scaleYElem.min, scaleYElem.max );
+          scaleYElem.value = scaleY * 100;
 
-      if ( options.scaleZ ) {
+        }
 
-        scaleZ += mathExtras.repeatAdd ( function ( ) { return ( Math.random() - 0.5 ) / SCALE_DIVISOR; },
-          options.ticks);
-        scaleZ = mathExtras.clamp( scaleZ, scaleZElem.min, scaleZElem.max );
-        scaleZElem.value = scaleZ * 100;
+        if ( options.scaleZ ) {
 
+          scaleZ += mathExtras.repeatAdd ( function ( ) { return ( Math.random() - 0.5 ) / SCALE_DIVISOR; },
+            options.ticks);
+          scaleZ = mathExtras.clamp( scaleZ, scaleZElem.min, scaleZElem.max );
+          scaleZElem.value = scaleZ * 100;
+
+        }
       }
 
       if ( options.rotateX ) {
@@ -888,7 +891,7 @@
       function reset () {
 
         triangleToUpdate = 0;
-        
+
         translationX = Math.floor( gl.canvas.clientWidth / 2 );
         translationY = Math.floor( gl.canvas.clientHeight / 2 );
         translationZ = 0;
