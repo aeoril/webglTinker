@@ -45,9 +45,10 @@ function rAFAnimate ( animate, options ) {
         });
       }
 
-      if ( ID ) {
+      if ( ID !== null ) {
 
         window.cancelAnimationFrame(ID);
+
 
       }
 
