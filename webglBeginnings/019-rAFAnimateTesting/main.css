@@ -4,9 +4,12 @@
   margin-top: 10px;
 }
 
-#ms,
-#frames {
+#ms {
   width: 55px;
+}
+
+#frames {
+  width: 30px;
 }
 
 fieldset {
