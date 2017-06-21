@@ -41,6 +41,8 @@ function rAFAnimate ( animate, options ) {
     // the animate function via rAF, either with or without updating options
     function innerAnimateRAFed( optionsUpdates ) {
 
+      var immediates = { };
+
       if ( optionsUpdates ) {
 
         Object.keys( optionsUpdates ).forEach( function( key ) {
@@ -55,6 +57,11 @@ function rAFAnimate ( animate, options ) {
           if ( optionsUpdates[ key ] === 'toggle' ) {
 
             options[ key ] = options[ key ] === Infinity ? 0 : Infinity;
+
+          } else if ( optionsUpdates [ key ] === 'immediate' ) {
+
+            immediates[ key ] = options[ key ];
+            options[ key ] = optionsUpdates[ key ];
 
           } else {
 
@@ -108,9 +115,17 @@ function rAFAnimate ( animate, options ) {
 
           if ( options[ key ] === 'immediate' ) {
 
-            outOptions[ key ] = !!options[ key ];
+            options[ key ] = immediates[ key ];
 
-          } else {
+            outOptions[ key ] = true;
+
+            if ( outOptions.run !== 'immediate' ) {
+
+              outOptions.run = !!options.run || 'immediate';
+
+            }
+
+          } else if ( outOptions[ key ] !== 'immediate' ) {
 
             outOptions[ key ] = !!options[ key ] && options.run;
 
@@ -119,14 +134,6 @@ function rAFAnimate ( animate, options ) {
           if ( key !== 'run' && outOptions[ key ] ) {
 
             outOptions.render = true;
-
-          }
-
-          if ( options[ key ] === 'immediate' ) {
-
-            options[ key ] = 0;
-
-            outOptions.run = !!( options.run || 1 );
 
           }
 

@@ -36,27 +36,30 @@ window.addEventListener('load', function ( ) {
 
     var outputString;
 
-    ticksTTL += options.ticks;
+    if ( options.run !== 'immediate' ) {
 
-    if (options.ticks) {
+      ticksTTL += options.ticks;
 
-      framesPerTickCounter++;
+      if (options.ticks) {
 
-      fps = 1000 / options.deltaTime;
-      ticks = options.ticks;
-      ticksPerFrame = ticks / framesPerTickCounter;
-      framesPerTick = framesPerTickCounter / options.ticks;
-      timeSinceLastTick += options.deltaTime;
-      msPerTickImmediate = timeSinceLastTick / options.ticks;
-      msPerTickAverage = ( options.timestamp - options.startTime ) / ticksTTL;
-      timeSinceLastTick = 0;
-      framesPerTickCounter = 0;
+        framesPerTickCounter++;
 
-    } else {
+        fps = 1000 / options.deltaTime;
+        ticks = options.ticks;
+        ticksPerFrame = ticks / framesPerTickCounter;
+        framesPerTick = framesPerTickCounter / options.ticks;
+        timeSinceLastTick += options.deltaTime;
+        msPerTickImmediate = timeSinceLastTick / options.ticks;
+        msPerTickAverage = ( options.timestamp - options.startTime ) / ticksTTL;
+        timeSinceLastTick = 0;
+        framesPerTickCounter = 0;
 
-      timeSinceLastTick += options.deltaTime;
-      framesPerTickCounter++;
+      } else {
 
+        timeSinceLastTick += options.deltaTime;
+        framesPerTickCounter++;
+
+      }
     }
 
     if ( options.showTimes) {
@@ -94,10 +97,11 @@ window.addEventListener('load', function ( ) {
   function toggle ( elem, key ) {
 
     var options = { };
+    var showOptions = { };
 
-    options[key] = 'toggle';
+    options[ key ] = 'toggle';
 
-    if ( animateRAFed( options )[key] ) {
+    if ( ( options = animateRAFed( options ) )[ key ] ) {
 
       elem.style.borderStyle = 'inset';
 
@@ -107,7 +111,32 @@ window.addEventListener('load', function ( ) {
 
     }
 
-    return options;
+    if ( key !== 'run' ) {
+
+      if ( options.showTimes ) {
+
+        showOptions.showTimes = 'immediate';
+
+      }
+
+      if ( options.showTicks ) {
+
+        showOptions.showTicks = 'immediate';
+
+      }
+
+      if ( !options.run ) {
+
+        showOptions.run = 'immediate';
+        showOptions.render = true;
+
+      }
+
+      animateRAFed( showOptions );
+
+    }
+
+    return simpleCopy( options );
 
   }
 
