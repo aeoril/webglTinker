@@ -1,7 +1,5 @@
-/**
- * @author aeoril | https://www.ic3dimensions.com
- * Copyright © 2017 by IC3 Dimensions.  MIT License. See LICENSE.md
- */
+// @author aeoril | https://www.ic3dimensions.com
+// Copyright © 2017 by IC3 Dimensions.  MIT License. See LICENSE.md
 
 function rAFAnimate ( animate, options ) {
 
