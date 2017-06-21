@@ -125,9 +125,8 @@ window.addEventListener('load', function ( ) {
 
       }
 
-      if ( !options.run ) {
+      if ( !( options.showTimes || options.showTicks || options.run ) ) {
 
-        showOptions.run = 'immediate';
         showOptions.render = true;
 
       }

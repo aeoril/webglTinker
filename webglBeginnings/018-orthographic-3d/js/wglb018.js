@@ -173,7 +173,7 @@
 
     }
 
-    gl.bufferData( gl.ARRAY_BUFFER, new Uint8Array( colors ), gl.STATIC_DRAW );
+    //gl.bufferData( gl.ARRAY_BUFFER, new Uint8Array( colors ), gl.STATIC_DRAW );
 
     return colors;
 
@@ -193,7 +193,7 @@
 
     }
 
-    gl.bufferData( gl.ARRAY_BUFFER, new Uint8Array( colors ), gl.STATIC_DRAW );
+    //gl.bufferData( gl.ARRAY_BUFFER, new Uint8Array( colors ), gl.STATIC_DRAW );
 
   }
 
@@ -207,7 +207,7 @@
 
     }
 
-    gl.bufferData( gl.ARRAY_BUFFER, new Uint8Array( colors ), gl.STATIC_DRAW );
+    //gl.bufferData( gl.ARRAY_BUFFER, new Uint8Array( colors ), gl.STATIC_DRAW );
 
   }
 
@@ -363,7 +363,7 @@
 
       }
 
-      if ( ( options.ticks && ( options.setColors || options.setSequentialColors || options.setRandomColors ) ) || first ) {
+      if ( options.setColors || ( options.ticks && ( options.setSequentialColors || options.setRandomColors ) ) ) {
 
         gl.bindBuffer( gl.ARRAY_BUFFER, colorBuffer );
 
@@ -380,6 +380,8 @@
           colors = setColors( gl, setGeometryMeta.count );
 
         }
+
+        gl.bufferData( gl.ARRAY_BUFFER, new Uint8Array( colors ), gl.STATIC_DRAW );
 
         size = 4;
         type = gl.UNSIGNED_BYTE;

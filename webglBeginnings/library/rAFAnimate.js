@@ -45,6 +45,12 @@ function rAFAnimate ( animate, options ) {
 
       if ( optionsUpdates ) {
 
+        if ( optionsUpdates.render ) {
+
+          optionsUpdates.run = optionsUpdates.run || 'immediate';
+
+        }
+
         Object.keys( optionsUpdates ).forEach( function( key ) {
 
           // Only default options or options explicitly set initially allowed
@@ -127,7 +133,7 @@ function rAFAnimate ( animate, options ) {
 
           } else if ( outOptions[ key ] !== 'immediate' ) {
 
-            outOptions[ key ] = !!options[ key ] && options.run;
+            outOptions[ key ] = !!options[ key ] && !!options.run;
 
           }
 
