@@ -5,6 +5,7 @@ function rAFAnimate ( animate, options ) {
 
   'use strict';
 
+  // startTime < 0 resets time (these three variables - see below)
   var startTime = -1;
   var prevTimestamp;
   var ticksLeftovers;
@@ -12,19 +13,39 @@ function rAFAnimate ( animate, options ) {
   // eliminate side effects and external interference
   options = simpleCopy(options);
 
+  // options parameter (an object) defines which options exist
+
+  // Valid values for options (except msPerTick and render) are:
+  //  - 0: do not execute this option in animate
+  //  - Positive integer: execute this option for [integer] ticks
+  //  - Infinity - execute this option forever, until changed using optionsUpdates
+  //  - 'toggle' - toggle option between 0 and Infinity
+  //  - 'immediate' - cause a 1-off execution of the option, even if run === 0
+
+  // msPerTick is a float, indicating how many milliseconds for each tick
+
+  // render is true or false.  It indicates whether to render the animation.
+  // render can be explicity set to cause a render even if no options are active
+  // otherwise, if any option is active it will automatically be set true
+
+  // the following three always exist
   options.msPerTick = options.msPerTick || 1.0 / 60.0;
   options.run = options.run || 0;
+  options.render = false;
 
   return ( function () {
 
-    var ID = null;
+    var id = null;
 
+    // This function is returned.  It is normally saved to initiate running
+    // the animate function via rAF, either with or without updating options
     function innerAnimateRAFed( optionsUpdates ) {
 
       if ( optionsUpdates ) {
 
         Object.keys( optionsUpdates ).forEach( function( key ) {
 
+          // Only default options or options explicitly set initially allowed
           if ( !( key in options ) ) {
 
             throw new RangeError( key + ' is not a valid option' );
@@ -43,15 +64,15 @@ function rAFAnimate ( animate, options ) {
         });
       }
 
-      if ( ID !== null ) {
+      if ( id !== null ) {
 
-        window.cancelAnimationFrame(ID);
+        window.cancelAnimationFrame(id);
 
-        ID = null;
+        id = null;
 
       }
 
-      ID = window.requestAnimationFrame( function rAFCallee( timestamp ) {
+      id = window.requestAnimationFrame( function rAFCallee( timestamp ) {
 
         var outOptions = { };
         var temp;
@@ -85,7 +106,15 @@ function rAFAnimate ( animate, options ) {
 
           }
 
-          outOptions[ key ] = !!options[ key ];
+          if ( options[ key ] === 'immediate' ) {
+
+            outOptions[ key ] = !!options[ key ];
+
+          } else {
+
+            outOptions[ key ] = !!options[ key ] && options.run;
+
+          }
 
           if ( key !== 'run' && outOptions[ key ] ) {
 
@@ -96,6 +125,8 @@ function rAFAnimate ( animate, options ) {
           if ( options[ key ] === 'immediate' ) {
 
             options[ key ] = 0;
+
+            outOptions.run = !!( options.run || 1 );
 
           }
 
@@ -120,12 +151,13 @@ function rAFAnimate ( animate, options ) {
 
         if ( options.run ) {
 
-          ID = window.requestAnimationFrame( rAFCallee );
+          id = window.requestAnimationFrame( rAFCallee );
 
         } else {
 
-          ID = null;
+          id = null;
 
+          // reset time
           startTime = -1;
 
         }
