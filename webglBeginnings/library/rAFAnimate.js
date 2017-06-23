@@ -14,9 +14,9 @@ function rAFAnimate ( animate, options ) {
   options = simpleCopy(options);
 
   // options parameter (an object) defines which options exist.  options are
-  // changed by calling the below returned function with optionsUpdates object.
-  // options will cause the outOptions argument passed to animate() to be set
-  // true to execute or false to not execute.  Timing values are also passed
+  // changed by calling the below returned function with optionsUpdates argument.
+  // options causes the outOptions object's properties passed to animate() to
+  // be set true to execute or false to not execute.  Timing values are also passed
   // to animate in outOptions.  All options can be changed, but no new options
   // added that were not initially passed in the instantiation call to rAFAnimate()
 
@@ -35,7 +35,10 @@ function rAFAnimate ( animate, options ) {
 
   // render is true or false.  It indicates whether to render the animation.
   // render can be explicity set to cause a render even if no options are active
-  // otherwise, if any option is active it will automatically be set true
+  // otherwise, if any option is non-zero except msPerTick it will automatically
+  // be set true.  If render is explicitly passed in as true, and options.run
+  // is zero, optionsUpdates.run will be set to 'immediate' to cause animate()
+  // to be called with outOptions.run === 'immediate' (1-off fire of animate())
 
   // the following three always exist
   options.msPerTick = options.msPerTick || 1.0 / 60.0;
@@ -181,7 +184,7 @@ function rAFAnimate ( animate, options ) {
           }
         });
 
-        // Only call animate() if run true or 'immediate'
+        // Only call animate() if run === true or 'immediate'
         if ( outOptions.run ) {
 
           animate( outOptions );
