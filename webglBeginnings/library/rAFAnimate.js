@@ -51,12 +51,12 @@ function rAFAnimate ( animate, options ) {
     function innerAnimateRAFed( optionsUpdates ) {
 
       // immediates stores existing values of options which have been set to
-      // 'immediate' so they can be restored and processed as if the immediate
-      // was never called.  'immediate' in optionsUpdates will just guarantee the
+      // 'immediate' so they can be restored and processed as if the 'immediate'
+      // was never passed.  'immediate' in optionsUpdates will just guarantee the
       // outOptions.optionName will be true even if options.optionName is
       // zero, and cause animate() to be called with outOptions.run set to
       // 'immediate' if run === 0, guaranteeing this call to innerAnimateRAFed
-      // will cause the immediate option to executed once and rendered
+      // will cause the immediate option to be executed once and rendered
       var immediates = { };
 
       // update any options passed in optionsUpdates
