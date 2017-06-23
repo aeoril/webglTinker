@@ -13,14 +13,23 @@ function rAFAnimate ( animate, options ) {
   // eliminate side effects and external interference
   options = simpleCopy(options);
 
-  // options parameter (an object) defines which options exist
+  // options parameter (an object) defines which options exist.  options are
+  // changed by calling the below returned function with optionsUpdates object.
+  // options will cause the outOptions argument passed to animate() to be set
+  // true to execute or false to not execute.  Timing values are also passed
+  // to animate in outOptions.  All options can be changed, but no new options
+  // added that were not initially passed in the instantiation call to rAFAnimate()
 
   // Valid values for options (except msPerTick and render) are:
   //  - 0: do not execute this option in animate
   //  - Positive integer: execute this option for [integer] ticks
   //  - Infinity - execute this option forever, until changed using optionsUpdates
-  //  - 'toggle' - toggle option between 0 and Infinity
   //  - 'immediate' - cause a 1-off execution of the option, even if run === 0
+  //    if run is 0 and any immediate options are passed, all other options will
+  //    be temporarily turned off, run set to "immediate" and animate called
+
+  // if optionsUpdates passes 'toggle' for an option, it will toggle the option
+  // between 0 and Infinity
 
   // msPerTick is a float, indicating how many milliseconds for each tick
 
@@ -41,8 +50,16 @@ function rAFAnimate ( animate, options ) {
     // the animate function via rAF, either with or without updating options
     function innerAnimateRAFed( optionsUpdates ) {
 
+      // immediates stores existing values of options which have been set to
+      // 'immediate' so they can be restored and processed as if the immediate
+      // was never called.  'immediate' in optionsUpdates will just guarantee the
+      // outOptions.optionName will be true even if options.optionName is
+      // zero, and cause animate() to be called with outOptions.run set to
+      // 'immediate' if run === 0, guaranteeing this call to innerAnimateRAFed
+      // will cause the immediate option to executed once and rendered
       var immediates = { };
 
+      // update any options passed in optionsUpdates
       if ( optionsUpdates ) {
 
         if ( optionsUpdates.render ) {
@@ -77,6 +94,7 @@ function rAFAnimate ( animate, options ) {
         });
       }
 
+      // Cancel any pending rAF call since since we are queueing up one below
       if ( id !== null ) {
 
         window.cancelAnimationFrame(id);
@@ -85,14 +103,19 @@ function rAFAnimate ( animate, options ) {
 
       }
 
+      // queue up rAF to process the options and call animate() if necessary
+      // rAFCallee is the actual callback for rAF that may get called repeatedly
+      // without another explicit call to innerAnimateRAFed() if run option > ticks
       id = window.requestAnimationFrame( function rAFCallee( timestamp ) {
 
+        // outOptions is formed by processing options is passed to animate()
         var outOptions = { };
         var temp;
 
         outOptions.render = options.render;
         options.render = false;
 
+        // reset time if startTime has been set < 0
         if ( startTime < 0 ) {
 
           startTime = timestamp;
@@ -101,6 +124,7 @@ function rAFAnimate ( animate, options ) {
 
         }
 
+        // outOptions time related options
         outOptions.startTime = startTime;
         outOptions.timestamp = timestamp;
         outOptions.deltaTime = timestamp - prevTimestamp;
@@ -111,6 +135,7 @@ function rAFAnimate ( animate, options ) {
         outOptions.ticks = Math.trunc( temp / options.msPerTick );
         ticksLeftovers = temp - outOptions.ticks * options.msPerTick;
 
+        // Process options, updating outOptions appropriately
         Object.keys( options ).forEach( function ( key ) {
 
           if ( key === 'msPerTick' || key === 'render' ) {
@@ -156,12 +181,17 @@ function rAFAnimate ( animate, options ) {
           }
         });
 
+        // Only call animate() if run true or 'immediate'
         if ( outOptions.run ) {
 
           animate( outOptions );
 
         }
 
+        // Queue up rAFCallee again (this function) if further run ticks remain
+        // if run === 0, animate() above may have been called above but since
+        // ticks were subtracted after outOptions.run was set true or 'immediate',
+        // no ticks are left for further runs, meaning no need to queue up another rAF
         if ( options.run ) {
 
           id = window.requestAnimationFrame( rAFCallee );
