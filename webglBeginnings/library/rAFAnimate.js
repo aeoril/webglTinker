@@ -189,9 +189,9 @@ function rAFAnimate ( animate, options ) {
         }
 
         // Queue up rAFCallee again (this function) if further run ticks remain
-        // if run === 0, animate() above may have been called above but since
-        // ticks were subtracted after outOptions.run was set true or 'immediate',
-        // no ticks are left for further runs, meaning no need to queue up another rAF
+        // if run === 0, animate() may have been called above but since ticks were
+        // subtracted after outOptions.run was set true or 'immediate', no ticks
+        // are left for further runs, meaning no need to queue up another rAF
         if ( options.run ) {
 
           id = window.requestAnimationFrame( rAFCallee );
