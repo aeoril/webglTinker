@@ -153,7 +153,6 @@
     gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( indices ), gl.STATIC_DRAW );
 
     return {
-
       count: indices.length / 3,
       center: { x: width * 0.3, y: height * 0.3, z: 0.0 }
 
@@ -213,9 +212,6 @@
 
   window.addEventListener( 'load', function () {
 
-    var vertexShaderSource;
-    var fragmentShaderSource;
-
     var urlObjs = [
 
       {key: 'VSSource', url: 'glsl/wglb018_vs.glsl'},
@@ -253,10 +249,6 @@
     var animateRAFed;
 
     var projectionMatrix;
-    var translationMatrix;
-    var rotationMatrix;
-    var scalingMatrix;
-    var moveOriginMatrix;
 
     var matrixUniformLocation;
 
@@ -324,8 +316,6 @@
       var primitiveType;
 
       var transformMatrix;
-
-      var ii;
 
       resized = webglUtils.resizeCanvasToDisplaySize( gl );
 
@@ -545,24 +535,24 @@
       gl.enable( gl.DEPTH_TEST );
 
       animateRAFed = rAFAnimate( animate,
-      {
+        {
 
-        run: Infinity,
-        msPerTick: msPerTick,
-        setColors: 0,
-        setSequentialColors: 0,
-        setRandomColors: 0,
-        scaleY: 0,
-        scaleX: 0,
-        scaleZ: 0,
-        translateX: 0,
-        translateY: 0,
-        translateZ: 0,
-        rotateX: 0,
-        rotateY: 0,
-        rotateZ: 0
+          run: Infinity,
+          msPerTick: msPerTick,
+          setColors: 0,
+          setSequentialColors: 0,
+          setRandomColors: 0,
+          scaleY: 0,
+          scaleX: 0,
+          scaleZ: 0,
+          translateX: 0,
+          translateY: 0,
+          translateZ: 0,
+          rotateX: 0,
+          rotateY: 0,
+          rotateZ: 0
 
-      } );
+        } );
 
       translateXElem = document.getElementById('translateX');
 
@@ -785,7 +775,7 @@
 
       var animateRotateXElem = document.getElementById( 'animateRotateX' );
 
-      animateRotateXElem.addEventListener( 'click', function () {
+      function toggleAnimateRotateX ( ) {
 
         if ( animateRAFed( { rotateX: 'toggle' } ).rotateX ) {
 
@@ -796,11 +786,13 @@
           animateRotateXElem.style.borderStyle = '';
 
         }
-      }, false );
+      }
+
+      animateRotateXElem.addEventListener( 'click', toggleAnimateRotateX, false );
 
       var animateRotateYElem = document.getElementById( 'animateRotateY' );
 
-      animateRotateYElem.addEventListener( 'click', function () {
+      function toggleAnimateRotateY( ) {
 
         if ( animateRAFed( { rotateY: 'toggle' } ).rotateY ) {
 
@@ -811,11 +803,13 @@
           animateRotateYElem.style.borderStyle = '';
 
         }
-      }, false );
+      }
+
+      animateRotateYElem.addEventListener( 'click', toggleAnimateRotateY, false );
 
       var animateRotateZElem = document.getElementById( 'animateRotateZ' );
 
-      animateRotateZElem.addEventListener( 'click', function () {
+      function toggleAnimateRotateZ( ) {
 
         if ( animateRAFed( { rotateZ: 'toggle' } ).rotateZ ) {
 
@@ -826,9 +820,11 @@
           animateRotateZElem.style.borderStyle = '';
 
         }
-      }, false );
+      }
 
-      var setSequentialColorsElem = document.getElementById( 'setSequentialColors' );
+      animateRotateZElem.addEventListener( 'click', toggleAnimateRotateZ, false );
+
+      setSequentialColorsElem = document.getElementById( 'setSequentialColors' );
 
       setSequentialColorsElem.addEventListener( 'click', function () {
 
@@ -865,7 +861,7 @@
 
       }, false);
 
-      var setRandomColorsElem = document.getElementById( 'setRandomColors' );
+      setRandomColorsElem = document.getElementById( 'setRandomColors' );
 
       setRandomColorsElem.addEventListener( 'click', function () {
 
@@ -888,7 +884,7 @@
         }
       }, false );
 
-      var resetElem = document.getElementById('reset');
+      resetElem = document.getElementById('reset');
 
       function reset () {
 
@@ -937,29 +933,33 @@
         setRandomColorsElem.style.borderStyle = '';
 
         animateRAFed(
-        {
+          {
 
-          msPerTick: msPerTick,
-          setColors: 'immediate',
-          setSequentialColors: 0,
-          setRandomColors: 0,
-          scaleX: 0,
-          scaleY: 0,
-          scaleZ: 0,
-          translateX: 0,
-          translateY: 0,
-          translateZ: 0,
-          rotateX: 0,
-          rotateY: 0,
-          rotateZ: 0
+            msPerTick: msPerTick,
+            setColors: 'immediate',
+            setSequentialColors: 0,
+            setRandomColors: 0,
+            scaleX: 0,
+            scaleY: 0,
+            scaleZ: 0,
+            translateX: 0,
+            translateY: 0,
+            translateZ: 0,
+            rotateX: 0,
+            rotateY: 0,
+            rotateZ: 0
 
-        } );
+          } );
       }
 
       resetElem.addEventListener( 'click', reset, false );
 
       reset();
 
+      toggleAnimateRotateX();
+      toggleAnimateRotateY();
+      toggleAnimateRotateZ();
+      
     }
 
     xhr.textGets( urlObjs, finish );
