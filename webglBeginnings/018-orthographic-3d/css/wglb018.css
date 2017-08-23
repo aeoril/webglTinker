@@ -4,10 +4,14 @@
  * Portions Copyright © 2012 by Gregg Tavares.  See LICENSE-webfundamentals.md
  */
 
+html,
+body {
+  background-color: rgba(0, 0, 0, 0);
+}
+
 body {
   margin: 0;
   padding: 10px 0 0 10px;
-  background: white;
   color: black;
 }
 
