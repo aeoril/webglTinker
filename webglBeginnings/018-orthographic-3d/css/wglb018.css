@@ -5,13 +5,10 @@
  */
 
 body {
-  background-color: rgba(0, 0, 0, 1);
-}
-
-body {
   margin: 0;
   padding: 10px 0 0 10px;
   color: black;
+  background-color: rgba(0, 0, 0, 1);
 }
 
 .controls * {
