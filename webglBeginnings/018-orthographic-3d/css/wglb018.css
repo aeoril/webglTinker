@@ -4,9 +4,8 @@
  * Portions Copyright © 2012 by Gregg Tavares.  See LICENSE-webfundamentals.md
  */
 
-html,
 body {
-  background-color: rgba(0, 0, 0, 0);
+  background-color: rgba(0, 0, 0, 1);
 }
 
 body {
@@ -16,7 +15,7 @@ body {
 }
 
 .controls * {
-  opacity: 0.7;
+  opacity: 0.6;
   display: inline-block;
   vertical-align: middle;
 }
@@ -33,6 +32,7 @@ canvas {
 
 label {
   width: 85px;
+  color: #fff;
 }
 
 input[type=range] {
