@@ -1,0 +1,56 @@
+<!doctype HTML>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Orthographic 3D | IC3 Dimensions</title>
+  <link rel="stylesheet" href="css/wglb018.css">
+</head>
+<body>
+  <div class="controls">
+    <label for="scaleX">ScaleX</label><input id="scaleX" type="range">
+    <input id="animateScaleX" type="button" value="Animate"><br>
+    <label for="scaleY">ScaleY</label><input id="scaleY" type="range">
+    <input id="animateScaleY" type="button" value="Animate"><br>
+    <label for="scaleZ">ScaleZ</label><input id="scaleZ" type="range">
+    <input id="animateScaleZ" type="button" value="Animate"><br>
+    <label for="translateX">TranslateX</label><input id="translateX" type="range">
+    <input id="animateTranslateX" type="button" value="Animate"><br>
+    <label for="translateY">TranslateY</label><input id="translateY" type="range">
+    <input id="animateTranslateY" type="button" value="Animate"><br>
+    <label for="translateZ">TranslateZ</label><input id="translateZ" type="range">
+    <input id="animateTranslateZ" type="button" value="Animate"><br>
+    <label for="rotateX">RotateX</label><input id="rotateX" type="range">
+    <input id="animateRotateX" type="button" value="Animate"><br>
+    <label for="rotateY">RotateY</label><input id="rotateY" type="range">
+    <input id="animateRotateY" type="button" value="Animate"><br>
+    <label for="rotateZ">RotateZ</label><input id="rotateZ" type="range">
+    <input id="animateRotateZ" type="button" value="Animate"><br>
+    <label for="speed">Speed</label><input id="speed" type="range"><br>
+    <input id="setSequentialColors" type="button" value="One Color">
+    <input id="setRandomColors" type="button" value="One Random Color">
+    <input id="reset" type="button" value="Reset">
+  </div>
+  <canvas id="canvas"></canvas>
+  <script src="https://aeoril.github.io/simpleCopy/src/simpleCopy.js"></script>
+  <script src="../library/mathExtras.js"></script>
+  <script src="../library/m4.js"></script>
+  <script src="https://aeoril.github.io/rAFAnimate/src/rAFAnimate.js"></script>
+  <script src="../library/xhr.js"></script>
+  <script src="../library/webglUtils.js"></script>
+  <script src="js/wglb018.js"></script>
+  <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-49472746-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+/**
+ * @author aeoril | https://www.ic3dimensions.com
+ * Copyright © 2017 by IC3 Dimensions.  MIT License. See LICENSE.md
+ * Portions Copyright © 2012 by Gregg Tavares.  See LICENSE-webfundamentals.md
+ */
+
+body {
+  margin: 0;
+  padding: 10px 0 0 10px;
+  color: black;
+  background-color: rgba(0, 0, 0, 1);
+}
+
+.controls * {
+  opacity: 0.6;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+canvas {
+  width: 100vw;
+  height: 100vh;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+label {
+  width: 85px;
+  color: #fff;
+}
+
+input[type=range] {
+  width: 45vw;
+}
