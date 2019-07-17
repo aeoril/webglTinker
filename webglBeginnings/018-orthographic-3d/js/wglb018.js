@@ -1,6 +1,8 @@
 /**
- * @author aeoril | https://www.ic3dimensions.com
- * Copyright © 2017 by IC3 Dimensions.  MIT License. See LICENSE.md
+ * @author greggman | https://webglfundamentals.org
+ * @author Xitalogy | https://www.xitalogy.com
+ *
+ * Copyright © 2019 by Xitalogy.  MIT License. https://opensource.org/licenses/MIT
  * Portions Copyright © 2012 by Gregg Tavares.  See LICENSE-webfundamentals.md
  */
 
@@ -959,7 +961,7 @@
       toggleAnimateRotateX();
       toggleAnimateRotateY();
       toggleAnimateRotateZ();
-      
+
     }
 
     xhr.textGets( urlObjs, finish );

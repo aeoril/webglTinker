@@ -1,6 +1,6 @@
 ### LICENSE from WebGL Fundamentals
 
-#### Aeoril's note:
+#### Xitalogy note:
 Most of the material in this repo is originally derived from Gregg Tavares' excellent tutorial at [https://webglfundamentals.org/][webfun].  I have altered most of it, and have original content of my own as well.  I have included this license file according to Mr. Tavares' requirements, and owe an incredible debt to him:
 
 Copyright 2012, Gregg Tavares. All rights reserved.
