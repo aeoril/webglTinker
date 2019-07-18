@@ -21,6 +21,8 @@ I am new to WebGL, but hopefully this repo will grow into it
 with me and be a valuable resource for anyone who wishes to
 learn, including me!
 
+![Screenshot](./screenshot.png)
+
 [orthographic-3d]:  https://xitalogy.github.io/webglTinker/webglBeginnings/018-orthographic-3d/wglb018.html
 
 [webfun]: https://webglfundamentals.org/
